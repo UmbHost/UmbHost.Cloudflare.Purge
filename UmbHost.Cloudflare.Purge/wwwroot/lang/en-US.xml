@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<language>
+	<area alias="dashboardTabs">
+		<key alias="umbhostCloudflarePurgeDashboard">Cloudflare CDN Purge</key>
+	</area>
+	<area alias="umbhostCloudflarePurge">
+		<key alias="purgecdn">Purge CDN</key>
+		<key alias="custompurge">Custom Purge</key>
+		<key alias="purgeeverything">Purge Everything</key>
+		<key alias="confirmpurgeeverythingtitle">Confirm purge everything</key>
+		<key alias="confirmpurgeeverythingcontent">Purge all cached files. Purging your cache may slow your website temporarily.</key>
+		<key alias="URLs">URLs</key>
+		<key alias="introduction">
+			<![CDATA[<p>Clear cached files to force Cloudflare to fetch a fresh version of those files from your web server. You can purge files selectively or all at once.</p>
+			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin. <br />
+			You will need to specify the full path to the file. Wildcards are not supported with single URL purge at this time. You can purge up to 30 URLs at a time.</p>
+			
+			<p>Separate URL(s) one per line.<br />
+			<strong>Example:<br />
+			https://www.domain.com <br/>
+			https://www.domain.com/cat.jpg</strong></p>]]>
+		</key>
+	</area>
+</language>

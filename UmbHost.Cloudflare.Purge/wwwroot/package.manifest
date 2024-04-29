@@ -1,5 +1,16 @@
 {
-    "id": "UmbHost.Cloudflare.Purge",
-    "name": "UmbHost.Cloudflare.Purge",
-    "allowPackageTelemetry": true
+  "id": "UmbHost.Cloudflare.Purge",
+  "name": "UmbHost.Cloudflare.Purge",
+  "allowPackageTelemetry": true,
+  "dashboards": [
+    {
+      "alias": "umbhostCloudflarePurgeDashboard",
+      "view": "/App_Plugins/UmbHost.Cloudflare.Purge/dashboard.html",
+      "sections": [ "content", "media" ],
+      "weight": 15
+    }
+  ],
+  "javascript": [
+    "/App_Plugins/UmbHost.Cloudflare.Purge/js/umbhost.cloudflare.purge.dashboard.controller.js"
+  ]
 }
