@@ -1,0 +1,5 @@
+{
+    "id": "UmbHost.Cloudflare.Purge",
+    "name": "UmbHost.Cloudflare.Purge",
+    "allowPackageTelemetry": true
+}
