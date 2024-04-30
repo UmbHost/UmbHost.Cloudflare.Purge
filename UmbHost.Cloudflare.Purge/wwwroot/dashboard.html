@@ -1,49 +1,41 @@
 ﻿<div ng-controller="UmbHost.Cloudflare.Purge.Dashboard.Controller as vm">
+    <div>
+        <umb-editor-view class="umbhostCloudflarePurgeCdnWrapper">
 
-    <umb-editor-view>
+            <umb-editor-container>
+                <umb-box>
+                    <umb-box-header title-key="umbhostCloudflarePurge_purgecdn"></umb-box-header>
+                    <umb-box-content>
+                        <p><localize key="umbhostCloudflarePurge_introduction"></localize></p>
+                        <label class="control-label" for="purgeUrls"><localize key="umbhostCloudflarePurge_URLs"></localize><strong class="umb-control-required">*</strong></label><br />
+                        <textarea class="umb-property-editor umb-textarea textstring" rows="10" id="purgeUrls" ng-model="vm.cdnurls"></textarea>
+                    </umb-box-content>
+                </umb-box>
+            </umb-editor-container>
 
-        <umb-editor-header name="'Cloudflare CDN Purge'"
-                           name-locked="true"
-                           hide-alias="true"
-                           show-back-button="false"
-                           hide-description="true"
-                           hide-icon="true">
-        </umb-editor-header>
+            <umb-editor-footer>
 
-        <umb-editor-container>
-            <umb-box>
-                <umb-box-header title-key="umbhostCloudflarePurge_purgecdn"></umb-box-header>
-                <umb-box-content>
-                    <p><localize key="umbhostCloudflarePurge_introduction"></localize></p>
-                    <label class="control-label" for="purgeUrls"><localize key="umbhostCloudflarePurge_URLs"></localize><strong class="umb-control-required">*</strong></label><br />
-                    <textarea class="umb-property-editor umb-textarea textstring" rows="10" id="purgeUrls" ng-model="vm.cdnurls"></textarea>
-                </umb-box-content>
-            </umb-box>
-        </umb-editor-container>
+                <umb-editor-footer-content-right>
+                    <umb-button action="vm.purgeEverything()"
+                                type="button"
+                                button-style="secondary"
+                                state="vm.purgeButtonState"
+                                shortcut="ctrl+c"
+                                label-key="umbhostCloudflarePurge_purgeeverything"
+                                disabled="vm.purgeButtonState === 'busy'">
+                    </umb-button>
+                    <umb-button action="vm.clickButton()"
+                                type="button"
+                                button-style="success"
+                                state="vm.buttonState"
+                                shortcut="ctrl+c"
+                                label-key="umbhostCloudflarePurge_custompurge"
+                                disabled="vm.cdnurls.length === 0">
+                    </umb-button>
+                </umb-editor-footer-content-right>
 
-        <umb-editor-footer>
+            </umb-editor-footer>
 
-            <umb-editor-footer-content-right>
-                <umb-button action="vm.purgeEverything()"
-                            type="button"
-                            button-style="secondary"
-                            state="vm.purgeButtonState"
-                            shortcut="ctrl+c"
-                            label-key="umbhostCloudflarePurge_purgeeverything"
-                            disabled="vm.purgeButtonState === 'busy'">
-                </umb-button>
-                <umb-button action="vm.clickButton()"
-                            type="button"
-                            button-style="success"
-                            state="vm.buttonState"
-                            shortcut="ctrl+c"
-                            label-key="umbhostCloudflarePurge_custompurge"
-                            disabled="vm.cdnurls.length === 0">
-                </umb-button>
-            </umb-editor-footer-content-right>
-
-        </umb-editor-footer>
-
-    </umb-editor-view>
-    <umb-confirm caption="Title" on-confirm="vm.onConfirm()" on-cancel="vm.onCancel()"></umb-confirm>
+        </umb-editor-view>
+    </div>
 </div>

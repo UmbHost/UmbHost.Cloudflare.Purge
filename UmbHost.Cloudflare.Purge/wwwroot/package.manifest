@@ -10,6 +10,9 @@
       "weight": 15
     }
   ],
+  "css": [
+    "/App_Plugins/UmbHost.Cloudflare.Purge/css/umbhost.cloudflare.purge.css"
+  ],
   "javascript": [
     "/App_Plugins/UmbHost.Cloudflare.Purge/js/umbhost.cloudflare.purge.dashboard.controller.js"
   ]
