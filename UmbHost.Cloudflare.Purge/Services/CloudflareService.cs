@@ -35,7 +35,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return true;
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.errors)}");
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
             return false;
         }
 
@@ -64,7 +64,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 }
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.errors)}");
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
             return false;
         }
 

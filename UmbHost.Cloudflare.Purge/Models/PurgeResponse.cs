@@ -1,15 +1,27 @@
-﻿namespace UmbHost.Cloudflare.Purge.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace UmbHost.Cloudflare.Purge.Models;
 
 public class PurgeResponse
 {
-    public object result { get; set; }
-    public bool success { get; set; }
-    public Error[] errors { get; set; }
-    public object[] messages { get; set; }
+    [JsonPropertyName("result")]
+    public object? Result { get; set; }
+
+    [JsonPropertyName("success")]
+    public bool Success { get; set; }
+
+    [JsonPropertyName("errors")]
+    public Error[]? Errors { get; set; }
+
+    [JsonPropertyName("messages")]
+    public object[]? Messages { get; set; }
 }
 
 public class Error
 {
-    public int code { get; set; }
-    public string message { get; set; }
+    [JsonPropertyName("code")]
+    public int Code { get; set; }
+
+    [JsonPropertyName("message")]
+    public string? Message { get; set; }
 }
