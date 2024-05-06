@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Serialization;
+using UmbHost.Cloudflare.Purge.Enums;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
 
@@ -52,8 +52,20 @@ namespace UmbHost.Cloudflare.Purge.Services
             var jsonData = JsonSerializer.Serialize(purgeRequest, JsonSerializerOptions);
 
             var httpContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            _httpClient.DefaultRequestHeaders.Add("X-Auth-Email", _configuration.EmailAddress);
-            _httpClient.DefaultRequestHeaders.Add("X-Auth-Key", _configuration.GlobalApiKey);
+
+            switch (_configuration.AuthType)
+            {
+                case AuthType.Global:
+                    _httpClient.DefaultRequestHeaders.Add("X-Auth-Email", _configuration.EmailAddress);
+                    _httpClient.DefaultRequestHeaders.Add("X-Auth-Key", _configuration.AuthKey);
+                    break;
+                case AuthType.Bearer:
+                    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_configuration.AuthKey}");
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+            
             return httpContent;
         }
     }
