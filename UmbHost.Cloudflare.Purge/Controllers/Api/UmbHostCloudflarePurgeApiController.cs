@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
+using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Web.BackOffice.Controllers;
+using Umbraco.Cms.Web.Common;
 using Umbraco.Cms.Web.Common.Attributes;
+using Umbraco.Extensions;
 
 namespace UmbHost.Cloudflare.Purge.Controllers.Api
 {
     [PluginController(Consts.PackageName)]
-    public class UmbHostCloudflarePurgeApiController(ICloudflareService cloudflareService)
+    public class UmbHostCloudflarePurgeApiController(ICloudflareService cloudflareService, UmbracoHelper umbracoHelper)
         : UmbracoAuthorizedApiController
     {
         [HttpPost]
@@ -42,11 +45,20 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult Node([FromBody] int? id)
+        public async Task<IActionResult> Node([FromBody] TreePurge? nodeDetails)
         {
-            if (id != null)
+            if (nodeDetails != null)
             {
-                return Accepted();
+                var nodeUrl = umbracoHelper.Content(nodeDetails.Id)?.Url(culture: nodeDetails.Culture, UrlMode.Absolute);
+                if (!string.IsNullOrEmpty(nodeUrl))
+                {
+                    var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = [nodeUrl] });
+
+                    if (success)
+                    {
+                        return Accepted();
+                    }
+                }
             }
 
             return BadRequest("NULL");

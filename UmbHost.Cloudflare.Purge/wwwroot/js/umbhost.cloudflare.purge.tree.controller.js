@@ -32,7 +32,7 @@
                     confirmType: 'delete',
                     submitButtonLabelKey: 'umbhostCloudflarePurge_custompurge',
                     submit: function () {
-                        UmbHostCloudflarePurgeResources.Node($scope.currentNode.id)
+                        UmbHostCloudflarePurgeResources.Node($scope.currentNode.id, $scope.currentNode.metaData.culture[0])
                             .then(function (response) {
 
                                 vm.customPurgeButtonState = "success";

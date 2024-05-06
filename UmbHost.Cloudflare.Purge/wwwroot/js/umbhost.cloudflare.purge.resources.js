@@ -18,9 +18,14 @@
                 );
         },
 
-        Node: function (id) {
+        Node: function (id, culture) {
 
-            return $http.post("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeApi/Node", id)
+            var node = {
+                "id": id,
+                "culture": culture
+            }
+
+            return $http.post("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeApi/Node", node)
                 .then(function (response) {
                     return response;
                 }
