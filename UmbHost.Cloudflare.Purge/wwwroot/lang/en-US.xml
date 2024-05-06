@@ -5,6 +5,7 @@
 	</area>
 	<area alias="umbhostCloudflarePurge">
 		<key alias="purgecdn">Purge CDN</key>
+		<key alias="purgedurl">Purged URL</key>
 		<key alias="custompurge">Custom Purge</key>
 		<key alias="purgeeverything">Purge Everything</key>
 		<key alias="confirmpurgeeverythingtitle">Confirm purge everything</key>

@@ -34,13 +34,22 @@ namespace UmbHost.Cloudflare.Purge.Services
 
         public async Task<bool> CustomPurge(PurgeFilesRequest purgeRequest)
         {
-            using var response = await _httpClient.PostAsync($"https://api.cloudflare.com/client/v4/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(purgeRequest));
-            var body = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<PurgeResponse>(body);
-
-            if (response.IsSuccessStatusCode)
+            PurgeResponse? result;
+            for (var i = 0; i < purgeRequest.Files.Length; i += 30)
             {
-                return true;
+                var pr = new PurgeFilesRequest
+                {
+                    Files = purgeRequest.Files.Skip(i).Take(30).ToArray()
+                };
+
+                using var response = await _httpClient.PostAsync($"https://api.cloudflare.com/client/v4/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(pr));
+                var body = await response.Content.ReadAsStringAsync();
+                result = JsonSerializer.Deserialize<PurgeResponse>(body);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
             }
 
             logger.LogError($"Unable to purge CDN, the following errors may help: {JsonSerializer.Serialize(result?.errors)}");
