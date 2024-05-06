@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UmbHost.Cloudflare.Purge.Models;
 
 namespace UmbHost.Cloudflare.Purge.Interfaces
 {
-    internal interface ICloudflareService
+    public interface ICloudflareService
     {
+        Task<bool> PurgeAll();
+        Task<bool> CustomPurge(PurgeFilesRequest purgeRequest);
     }
 }

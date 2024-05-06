@@ -1,26 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Umbraco.Cms.Core;
+using UmbHost.Cloudflare.Purge.Interfaces;
+using UmbHost.Cloudflare.Purge.Models;
 using Umbraco.Cms.Web.BackOffice.Controllers;
 using Umbraco.Cms.Web.Common.Attributes;
-using Umbraco.Extensions;
 
 namespace UmbHost.Cloudflare.Purge.Controllers.Api
 {
     [PluginController(Consts.PackageName)]
-    public class UmbHostCloudflarePurgeApiController : UmbracoAuthorizedApiController
+    public class UmbHostCloudflarePurgeApiController(ICloudflareService cloudflareService)
+        : UmbracoAuthorizedApiController
     {
         [HttpPost]
-        public IActionResult All()
+        public async Task<IActionResult> All()
         {
-            return Accepted();
+            var success = await cloudflareService.PurgeAll();
+
+            if (success)
+            {
+                return Accepted();
+            }
+
+            return BadRequest();
         }
 
         [HttpPost]
-        public IActionResult Custom([FromBody] string[]? urls)
+        public async Task<IActionResult> Custom([FromBody] string[]? urls)
         {
             if (urls != null && urls.Any())
             {
-                return Accepted();
+                var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = urls });
+
+                if (success)
+                {
+                    return Accepted();
+                }
+
+                return BadRequest();
             }
 
             return BadRequest("NULL");
