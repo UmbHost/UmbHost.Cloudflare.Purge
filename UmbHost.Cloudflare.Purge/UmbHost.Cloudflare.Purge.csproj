@@ -17,7 +17,7 @@
 	  <Description>Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items</Description>
 	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
 	  <FileVersion>1.0.0.0</FileVersion>
-	  <VersionPrefix>1.0.0-beta1</VersionPrefix>
+	  <VersionPrefix>1.0.0-beta2</VersionPrefix>
 	  <PackageTags>umbraco-marketplace;umbraco;cloudflare;</PackageTags>
 	  <PackageIcon>icon.png</PackageIcon>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -38,7 +38,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.3.0, 14)" />
-		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.3.0, 14)" />
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.1.1, 14)" />
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.1.1, 14)" />
 	</ItemGroup>
 </Project>
