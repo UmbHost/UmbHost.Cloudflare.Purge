@@ -17,7 +17,7 @@
 	  <Description>Purge the Cloudflare CDN on Publish, Unpublish and Delete of Content and Media items</Description>
 	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
 	  <FileVersion>1.0.0.0</FileVersion>
-	  <VersionPrefix>1.0.0</VersionPrefix>
+	  <VersionPrefix>1.0.0-beta1</VersionPrefix>
 	  <PackageTags>umbraco-marketplace;umbraco;cloudflare;</PackageTags>
 	  <PackageIcon>icon.png</PackageIcon>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
