@@ -1,3 +1,7 @@
-﻿.umbhostCloudflarePurgeCdnWrapper {
-    z-index: -1;
+﻿.umbhostCloudflarePurgeCdn .no-margin .umb-button {
+    margin: 0 !important;
+}
+
+.umbhostCloudflarePurgeCdn .buttons {
+    margin-top:7px;
 }

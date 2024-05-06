@@ -9,7 +9,18 @@
 		<key alias="purgeeverything">Purge Everything</key>
 		<key alias="confirmpurgeeverythingtitle">Confirm purge everything</key>
 		<key alias="confirmpurgeeverythingcontent">Purge all cached files. Purging your cache may slow your website temporarily.</key>
+		<key alias="confirmcustompurgetitle">Confirm custom purge</key>
+		<key alias="confirmcustompurgecontent">Purge specified cached files. Purging your cache may slow your website temporarily.</key>
 		<key alias="URLs">URLs</key>
+		<key alias="MaximumURLs">Urls (Maximum 30)</key>
+		<key alias="G30Title">Purge request issue</key>
+		<key alias="G30Value">Please submit less than 30 URLs</key>
+		<key alias="Z0Title">Purge request issue</key>
+		<key alias="Z0Value">No URLs were submitted</key>
+		<key alias="GeneralErrorTitle">Purge request issue</key>
+		<key alias="GeneralErrorValue">Unable to purge CDN</key>
+		<key alias="PurgeSuccessTitle">URLs purged</key>
+		<key alias="PurgeSuccessValue">Please allow 30 seconds to propagate globally</key>
 		<key alias="introduction">
 			<![CDATA[<p>Clear cached files to force Cloudflare to fetch a fresh version of those files from your web server. You can purge files selectively or all at once.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin. <br />
@@ -19,6 +30,10 @@
 			<strong>Example:<br />
 			https://www.domain.com <br/>
 			https://www.domain.com/cat.jpg</strong></p>]]>
+		</key>
+		<key alias="introductionTree">
+			<![CDATA[<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
+			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>]]>
 		</key>
 	</area>
 </language>

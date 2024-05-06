@@ -1,0 +1,31 @@
+﻿<div ng-controller="UmbHost.Cloudflare.Purge.Tree.Controller as vm">
+    <div class="umb-dialog-body" ng-cloak>
+        <div class="umb-pane">
+
+            <div ng-show="vm.success">
+                <div class="alert alert-success">
+                    <strong><localize key="umbhostCloudflarePurge_PurgeSuccessTitle"></localize></strong><br />
+                    <localize key="umbhostCloudflarePurge_PurgeSuccessValue"></localize>
+                </div>
+                <button class="btn btn-primary" ng-click="vm.close()">Ok</button>
+            </div>
+
+            <p class="abstract" ng-hide="vm.success">
+               <span ng-bind-html="vm.introduction"></span>
+            </p>
+        </div>
+
+
+        <div class="umb-dialog-footer btn-toolbar umb-btn-toolbar" ng-hide="vm.success">
+            <button type="button" class="btn btn-link" ng-click="vm.close()" ng-show="!vm.busy">
+                <localize key="general_cancel">Cancel</localize>
+            </button>
+            <umb-button action="vm.customPurge()"
+                        type="button"
+                        button-style="success"
+                        state="vm.customPurgeButtonState"
+                        label-key="umbhostCloudflarePurge_custompurge">
+            </umb-button>
+        </div>
+    </div>
+</div>

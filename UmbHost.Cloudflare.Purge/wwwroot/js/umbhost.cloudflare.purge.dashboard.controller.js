@@ -1,77 +1,118 @@
-﻿function UmbHostCloudflarePurgeDashboard($scope, editorService, $routeParams, notificationsService, formHelper, localizationService, overlayService) {
+﻿function UmbHostCloudflarePurgeDashboard($scope, editorService, $routeParams, notificationsService, formHelper, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
     var vm = this;
-    vm.buttonState = "init";
+    vm.customPurgeButtonState = "init";
     vm.purgeButtonState = "init";
     vm.cdnurls = '';
+    vm.cdnUrlsCount = 0;
+    vm.redClass = '';
 
-    vm.clickButton = clickButton;
+    vm.customPurge = customPurge;
     vm.purgeEverything = purgeEverything;
+    vm.updateLineCount = updateLineCount;
 
-    //vm.onConfirm = function () {
-    //    alert('Confirm clicked');
-    //};
+    function updateLineCount() {
+        var lines = vm.cdnurls.split("\n");
+        vm.cdnUrlsCount = lines.length;
 
-    //vm.onCancel = function () {
-    //    alert('Cancel clicked');
-    //}
-
+        if (vm.cdnUrlsCount > 30) {
+            vm.redClass = "red bold";
+        } else {
+            vm.redClass = '';
+        }
+    }
 
     function purgeEverything() {
 
         vm.purgeButtonState = "busy";
         localizationService.localize("umbhostCloudflarePurge_confirmpurgeeverythingtitle").then(function (confirmpurgeeverything) {
             localizationService.localize("umbhostCloudflarePurge_confirmpurgeeverythingcontent").then(function (confirmpurgeeverythingcontent) {
-            var options = {
-                title: confirmpurgeeverything,
-                content: confirmpurgeeverythingcontent,
-                disableBackdropClick: true,
-                disableEscKey: true,
-                confirmType: 'delete',
-                submitButtonLabelKey: 'umbhostCloudflarePurge_purgeeverything',
-                submit: function () {
-                    overlayService.close();
-                    vm.purgeButtonState = "success";
-                },
-                close: function () {
-                    overlayService.close();
-                    vm.purgeButtonState = "error";
-                }
-            };
+                var options = {
+                    title: confirmpurgeeverything,
+                    content: confirmpurgeeverythingcontent,
+                    disableBackdropClick: true,
+                    disableEscKey: true,
+                    confirmType: 'delete',
+                    submitButtonLabelKey: 'umbhostCloudflarePurge_purgeeverything',
+                    submit: function () {
+                        UmbHostCloudflarePurgeResources.purgeAll()
+                            .then(function (response) {
+
+                                vm.purgeButtonState = "success";
+                                localizationService.localize("umbhostCloudflarePurge_PurgeSuccessTitle").then(function (title) {
+                                    localizationService.localize("umbhostCloudflarePurge_PurgeSuccessValue").then(function (value) {
+                                        notificationsService.success(title, value);
+                                    });
+                                });
+
+                                overlayService.close();
+                            })
+                            .catch(function (response) {
+                                localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorValue").then(function (value) {
+                                        notificationsService.error(title, value);
+                                    });
+                                });
+
+                                overlayService.close();
+                                vm.purgeButtonState = "error";
+                            });
+                    },
+                    close: function () {
+                        overlayService.close();
+                        vm.purgeButtonState = "error";
+                    }
+                };
 
                 overlayService.confirm(options);
             });
         });
-        //myService.clickButton().then(function () {
-        //    vm.buttonState = "success";
-        //    overlayService.open();
-        //}, function () {
-        //    vm.buttonState = "error";
-        //});
-
     }
 
-    function clickButton() {
+    function customPurge() {
 
-        vm.buttonState = "busy";
-        var options = {
-            title: 'Simple Confirm',
-            content: 'Are you sure you want to?',
-            disableBackdropClick: true,
-            disableEscKey: true,
-            confirmType: 'delete',
-            submit: function () {
-                overlayService.close();
-            }
-        };
+        vm.customPurgeButtonState = "busy";
+        localizationService.localize("umbhostCloudflarePurge_confirmcustompurgetitle").then(function (confirmcustompurge) {
+            localizationService.localize("umbhostCloudflarePurge_confirmcustompurgecontent").then(function (confirmcustompurgecontent) {
+                var options = {
+                    title: confirmcustompurge,
+                    content: confirmcustompurgecontent,
+                    disableBackdropClick: true,
+                    disableEscKey: true,
+                    confirmType: 'delete',
+                    submitButtonLabelKey: 'umbhostCloudflarePurge_custompurge',
+                    submit: function () {
+                        UmbHostCloudflarePurgeResources.Custom(vm.cdnurls.split("\n"))
+                            .then(function (response) {
 
-        overlayService.confirm(options);
-        //myService.clickButton().then(function () {
-        //    vm.buttonState = "success";
-        //    overlayService.open();
-        //}, function () {
-        //    vm.buttonState = "error";
-        //});
+                                vm.customPurgeButtonState = "success";
+                                localizationService.localize("umbhostCloudflarePurge_PurgeSuccessTitle").then(function (title) {
+                                    localizationService.localize("umbhostCloudflarePurge_PurgeSuccessValue").then(function (value) {
+                                        notificationsService.success(title, value);
+                                    });
+                                });
 
+                                overlayService.close();
+                            })
+                            .catch(function (response) {
+                                localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
+                                    localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
+                                        notificationsService.error(title, value);
+                                    });
+                                });
+
+                                overlayService.close();
+                                vm.customPurgeButtonState = "error";
+                            });
+                    },
+                    close: function () {
+                        overlayService.close();
+                        vm.customPurgeButtonState = "error";
+                    }
+                };
+
+                overlayService.confirm(options);
+            });
+        });
     }
 }
 angular.module("umbraco").controller("UmbHost.Cloudflare.Purge.Dashboard.Controller", UmbHostCloudflarePurgeDashboard);

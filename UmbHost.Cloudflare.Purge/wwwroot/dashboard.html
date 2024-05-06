@@ -1,41 +1,32 @@
 ﻿<div ng-controller="UmbHost.Cloudflare.Purge.Dashboard.Controller as vm">
-    <div>
-        <umb-editor-view class="umbhostCloudflarePurgeCdnWrapper">
-
-            <umb-editor-container>
-                <umb-box>
-                    <umb-box-header title-key="umbhostCloudflarePurge_purgecdn"></umb-box-header>
-                    <umb-box-content>
-                        <p><localize key="umbhostCloudflarePurge_introduction"></localize></p>
-                        <label class="control-label" for="purgeUrls"><localize key="umbhostCloudflarePurge_URLs"></localize><strong class="umb-control-required">*</strong></label><br />
-                        <textarea class="umb-property-editor umb-textarea textstring" rows="10" id="purgeUrls" ng-model="vm.cdnurls"></textarea>
-                    </umb-box-content>
-                </umb-box>
-            </umb-editor-container>
-
-            <umb-editor-footer>
-
-                <umb-editor-footer-content-right>
-                    <umb-button action="vm.purgeEverything()"
-                                type="button"
-                                button-style="secondary"
-                                state="vm.purgeButtonState"
-                                shortcut="ctrl+c"
-                                label-key="umbhostCloudflarePurge_purgeeverything"
-                                disabled="vm.purgeButtonState === 'busy'">
-                    </umb-button>
-                    <umb-button action="vm.clickButton()"
-                                type="button"
-                                button-style="success"
-                                state="vm.buttonState"
-                                shortcut="ctrl+c"
-                                label-key="umbhostCloudflarePurge_custompurge"
-                                disabled="vm.cdnurls.length === 0">
-                    </umb-button>
-                </umb-editor-footer-content-right>
-
-            </umb-editor-footer>
-
-        </umb-editor-view>
+    <div class="umbhostCloudflarePurgeCdn">
+        <umb-editor-container>
+            <umb-box>
+                <umb-box-header title-key="umbhostCloudflarePurge_purgecdn"></umb-box-header>
+                <umb-box-content>
+                    <p><localize key="umbhostCloudflarePurge_introduction"></localize></p>
+                    <label class="control-label" for="purgeUrls"><localize key="umbhostCloudflarePurge_URLs"></localize><strong class="umb-control-required">*</strong></label><br />
+                    <textarea max-rows="30" class="umb-property-editor umb-textarea textstring" rows="10" id="purgeUrls" ng-model="vm.cdnurls" ng-change="vm.updateLineCount($event)"></textarea><br />
+                    <small class="{{vm.redClass}}">{{vm.cdnUrlsCount}} <localize key="umbhostCloudflarePurge_MaximumURLs"></localize></small>
+                    <div class="buttons">
+                        <umb-button action="vm.purgeEverything()"
+                                    class="no-margin"
+                                    type="button"
+                                    button-style="secondary"
+                                    state="vm.purgeButtonState"
+                                    label-key="umbhostCloudflarePurge_purgeeverything"
+                                    disabled="vm.purgeButtonState === 'busy'">
+                        </umb-button>
+                        <umb-button action="vm.customPurge()"
+                                    type="button"
+                                    button-style="success"
+                                    state="vm.customPurgeButtonState"
+                                    label-key="umbhostCloudflarePurge_custompurge"
+                                    disabled="vm.cdnurls.length === 0 || vm.cdnurls.split('\n').length === 0 || vm.cdnurls.split('\n').length > 30">
+                        </umb-button>
+                    </div>
+                </umb-box-content>
+            </umb-box>
+        </umb-editor-container>
     </div>
 </div>
