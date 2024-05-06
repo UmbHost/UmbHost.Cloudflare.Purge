@@ -5,10 +5,12 @@ using Microsoft.Extensions.Options;
 using UmbHost.Cloudflare.Purge.Enums;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
+using Umbraco.Cms.Core.Services;
+using Umbraco.Extensions;
 
 namespace UmbHost.Cloudflare.Purge.Services
 {
-    internal class CloudflareService(IHttpClientFactory httpClientFactory, IOptions<UmbHostCloudflarePurge> configuration, ILogger<CloudflareService> logger) : ICloudflareService
+    internal class CloudflareService(IHttpClientFactory httpClientFactory, IOptions<UmbHostCloudflarePurge> configuration, ILogger<CloudflareService> logger, ILocalizedTextService localizedTextService) : ICloudflareService
     {
         private readonly HttpClient _httpClient = httpClientFactory.CreateClient();
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
@@ -24,7 +26,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
-            using var response = await _httpClient.PostAsync($"https://api.cloudflare.com/client/v4/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(new PurgeAll{ PurgeEverything = true }));
+            using var response = await _httpClient.PostAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(new PurgeAll{ PurgeEverything = true }));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<PurgeResponse>(body);
 
@@ -33,7 +35,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return true;
             }
 
-            logger.LogError($"Unable to purge CDN, the following errors may help: {JsonSerializer.Serialize(result?.errors)}");
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.errors)}");
             return false;
         }
 
@@ -52,7 +54,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                     Files = purgeRequest.Files.Skip(i).Take(30).ToArray()
                 };
 
-                using var response = await _httpClient.PostAsync($"https://api.cloudflare.com/client/v4/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(pr));
+                using var response = await _httpClient.PostAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(pr));
                 var body = await response.Content.ReadAsStringAsync();
                 result = JsonSerializer.Deserialize<PurgeResponse>(body);
 
@@ -62,7 +64,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 }
             }
 
-            logger.LogError($"Unable to purge CDN, the following errors may help: {JsonSerializer.Serialize(result?.errors)}");
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.errors)}");
             return false;
         }
 
@@ -75,11 +77,11 @@ namespace UmbHost.Cloudflare.Purge.Services
             switch (_configuration.AuthType)
             {
                 case AuthType.Global:
-                    _httpClient.DefaultRequestHeaders.Add("X-Auth-Email", _configuration.EmailAddress);
-                    _httpClient.DefaultRequestHeaders.Add("X-Auth-Key", _configuration.AuthKey);
+                    _httpClient.DefaultRequestHeaders.Add(Consts.HeaderKeys.XAuthEmail, _configuration.EmailAddress);
+                    _httpClient.DefaultRequestHeaders.Add(Consts.HeaderKeys.XAuthKey, _configuration.AuthKey);
                     break;
                 case AuthType.Bearer:
-                    _httpClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {_configuration.AuthKey}");
+                    _httpClient.DefaultRequestHeaders.Add(Consts.HeaderKeys.Authorization, $"Bearer {_configuration.AuthKey}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

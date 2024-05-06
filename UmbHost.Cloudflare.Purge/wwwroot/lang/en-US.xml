@@ -23,6 +23,7 @@
 		<key alias="D1Value">Unable to purge CDN due to being disabled</key>
 		<key alias="PurgeSuccessTitle">URLs purged</key>
 		<key alias="PurgeSuccessValue">Please allow 30 seconds to propagate globally</key>
+		<key alias="PurgeCdnErrorMessage">Unable to purge CDN, the following errors may help</key>
 		<key alias="introduction">
 			<![CDATA[<p>Clear cached files to force Cloudflare to fetch a fresh version of those files from your web server. You can purge files selectively or all at once.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin. <br />
