@@ -14,7 +14,7 @@
 	  <RepositoryType>git</RepositoryType>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	  <Description>Purge the Cloudflare CDN on Publish, Unpublish and Delete of Content and Media items</Description>
+	  <Description>Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items</Description>
 	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
 	  <FileVersion>1.0.0.0</FileVersion>
 	  <VersionPrefix>1.0.0-beta1</VersionPrefix>
