@@ -2,16 +2,17 @@
 
 namespace UmbHost.Cloudflare.Purge.Models
 {
-    internal class UmbHostCloudflarePurge
+    public class UmbHostCloudflarePurge
     {
         public required string ZoneId { get; set; }
         public string? EmailAddress { get; set; }
         public required string AuthKey { get; set; }
         public AuthType AuthType { get; set; } = AuthType.Global;
         public NotificationHandlers NotificationHandlers { get; set; } = new();
+        public bool Disabled { get; set; } = false;
     }
 
-    internal class NotificationHandlers
+    public class NotificationHandlers
     {
         public bool ContentDeletedNotificationEnabled = true;
         public bool ContentPublishedNotificationEnabled = true;

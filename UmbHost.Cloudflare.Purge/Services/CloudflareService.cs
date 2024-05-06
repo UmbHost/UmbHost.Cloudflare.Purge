@@ -19,6 +19,11 @@ namespace UmbHost.Cloudflare.Purge.Services
 
         public async Task<bool> PurgeAll()
         {
+            if (_configuration.Disabled)
+            {
+                return false;
+            }
+
             using var response = await _httpClient.PostAsync($"https://api.cloudflare.com/client/v4/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(new PurgeAll{ PurgeEverything = true }));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<PurgeResponse>(body);
@@ -34,7 +39,12 @@ namespace UmbHost.Cloudflare.Purge.Services
 
         public async Task<bool> CustomPurge(PurgeFilesRequest purgeRequest)
         {
-            PurgeResponse? result;
+            if (_configuration.Disabled)
+            {
+                return false;
+            }
+
+            PurgeResponse? result = null;
             for (var i = 0; i < purgeRequest.Files.Length; i += 30)
             {
                 var pr = new PurgeFilesRequest

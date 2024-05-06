@@ -20,6 +20,7 @@
 		<key alias="Z0Value">No URLs were submitted</key>
 		<key alias="GeneralErrorTitle">Purge request issue</key>
 		<key alias="GeneralErrorValue">Unable to purge CDN</key>
+		<key alias="D1Value">Unable to purge CDN due to being disabled</key>
 		<key alias="PurgeSuccessTitle">URLs purged</key>
 		<key alias="PurgeSuccessValue">Please allow 30 seconds to propagate globally</key>
 		<key alias="introduction">

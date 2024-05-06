@@ -1,6 +1,6 @@
 ﻿namespace UmbHost.Cloudflare.Purge.Enums
 {
-    internal enum AuthType
+    public enum AuthType
     {
         Bearer,
         Global

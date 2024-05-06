@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
 using Umbraco.Cms.Core.Models.PublishedContent;
@@ -10,12 +11,18 @@ using Umbraco.Extensions;
 namespace UmbHost.Cloudflare.Purge.Controllers.Api
 {
     [PluginController(Consts.PackageName)]
-    public class UmbHostCloudflarePurgeApiController(ICloudflareService cloudflareService, UmbracoHelper umbracoHelper)
+    public class UmbHostCloudflarePurgeApiController(ICloudflareService cloudflareService, UmbracoHelper umbracoHelper, IOptions<UmbHostCloudflarePurge> configuration)
         : UmbracoAuthorizedApiController
     {
+        private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         [HttpPost]
         public async Task<IActionResult> All()
         {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
             var success = await cloudflareService.PurgeAll();
 
             if (success)
@@ -29,6 +36,11 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Custom([FromBody] string[]? urls)
         {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
             if (urls != null && urls.Any())
             {
                 var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = urls });
@@ -47,6 +59,11 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> Node([FromBody] TreePurge? nodeDetails)
         {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
             if (nodeDetails != null)
             {
                 var nodeUrl = umbracoHelper.Content(nodeDetails.Id)?.Url(culture: nodeDetails.Culture, UrlMode.Absolute);

@@ -15,7 +15,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.Content
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         public async Task HandleAsync(ContentUnpublishedNotification notification, CancellationToken cancellationToken)
         {
-            if (_configuration.NotificationHandlers.ContentUnpublishedNotificationEnabled)
+            if (_configuration is { Disabled: false, NotificationHandlers.ContentUnpublishedNotificationEnabled: true })
             {
                 var context = umbracoContextFactory.EnsureUmbracoContext().UmbracoContext;
                 var urlsToPurge = new List<string>();

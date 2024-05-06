@@ -15,7 +15,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.Content
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         public async Task HandleAsync(ContentDeletedNotification notification, CancellationToken cancellationToken)
         {
-            if (_configuration.NotificationHandlers.ContentDeletedNotificationEnabled)
+            if (_configuration is { Disabled: false, NotificationHandlers.ContentDeletedNotificationEnabled: true })
             {
                 var context = umbracoContextFactory.EnsureUmbracoContext().UmbracoContext;
                 var urlsToPurge = new List<string>();

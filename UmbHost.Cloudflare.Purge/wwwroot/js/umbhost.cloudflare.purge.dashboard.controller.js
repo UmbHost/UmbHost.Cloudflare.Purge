@@ -47,11 +47,20 @@
                                 overlayService.close();
                             })
                             .catch(function (response) {
-                                localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
-                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorValue").then(function (value) {
-                                        notificationsService.error(title, value);
+
+                                if (response.data === "D1") {
+                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_D1Value").then(function (value) {
+                                            notificationsService.error(title, value);
+                                        });
                                     });
-                                });
+                                } else {
+                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_GeneralErrorValue").then(function (value) {
+                                            notificationsService.error(title, value);
+                                        });
+                                    });
+                                }
 
                                 overlayService.close();
                                 vm.purgeButtonState = "error";
@@ -94,11 +103,20 @@
                                 overlayService.close();
                             })
                             .catch(function (response) {
-                                localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
-                                    localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
-                                        notificationsService.error(title, value);
+
+                                if (response.data === "D1") {
+                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_D1Value").then(function (value) {
+                                            notificationsService.error(title, value);
+                                        });
                                     });
-                                });
+                                } else {
+                                    localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
+                                            notificationsService.error(title, value);
+                                        });
+                                    });
+                                }
 
                                 overlayService.close();
                                 vm.customPurgeButtonState = "error";

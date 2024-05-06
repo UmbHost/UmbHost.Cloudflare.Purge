@@ -15,7 +15,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.Media
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         public async Task HandleAsync(MediaSavedNotification notification, CancellationToken cancellationToken)
         {
-            if (_configuration.NotificationHandlers.MediaSavedNotificationEnabled)
+            if (_configuration is { Disabled: false, NotificationHandlers.MediaSavedNotificationEnabled: true })
             {
                 var context = umbracoContextFactory.EnsureUmbracoContext().UmbracoContext;
                 var urlsToPurge = new List<string>();
