@@ -1,7 +1,9 @@
 name: Package up Prerelease.
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - develop
     
 jobs:
 
