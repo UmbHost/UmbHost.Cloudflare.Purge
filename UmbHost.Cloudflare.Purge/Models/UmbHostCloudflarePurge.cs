@@ -10,7 +10,7 @@ namespace UmbHost.Cloudflare.Purge.Models
         public AuthType AuthType { get; set; } = AuthType.Global;
         public NotificationHandlers NotificationHandlers { get; set; } = new();
         public bool Disabled { get; set; } = false;
-        public bool TreeMenuEnabled = true;
+        public TreeMenuItems TreeMenuItems = new();
     }
 
     public class NotificationHandlers
@@ -20,5 +20,13 @@ namespace UmbHost.Cloudflare.Purge.Models
         public bool ContentUnpublishedNotificationEnabled = true;
         public bool MediaDeletedNotificationEnabled = true;
         public bool MediaSavedNotificationEnabled = true;
+    }
+
+    public class TreeMenuItems
+    {
+        public bool TreeMenuItemsEnabled = true;
+        public bool ContentTreeMenuItemEnabled = true;
+        public bool MediaFolderTreeMenuItemEnabled = true;
+        public bool MediaItemTreeMenuItemEnabled = true;
     }
 }

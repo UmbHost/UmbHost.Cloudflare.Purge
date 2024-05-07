@@ -14,9 +14,9 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         public void Handle(MenuRenderingNotification notification)
         {
-            if (_configuration is { Disabled: false, TreeMenuEnabled: true })
+            if (_configuration is { Disabled: false, TreeMenuItems.TreeMenuItemsEnabled: true })
             {
-                if (notification.TreeAlias.Equals("content"))
+                if (_configuration.TreeMenuItems.ContentTreeMenuItemEnabled && notification.TreeAlias.Equals("content"))
                 {
                     var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
 
@@ -29,13 +29,19 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
 
                 if (notification.TreeAlias.Equals("media"))
                 {
-                    var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
+                    var node = umbracoHelper.Media(notification.NodeId);
 
-                    menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
+                    if (node is { ContentType.Alias: "Folder" } &&
+                        _configuration.TreeMenuItems.MediaFolderTreeMenuItemEnabled || node != null && node.ContentType.Alias != "Folder" && _configuration.TreeMenuItems.MediaItemTreeMenuItemEnabled)
+                    {
+                        var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
 
-                    menuItem.Icon = "cloud";
-                    notification.Menu.Items.Insert(5, menuItem);
+                        menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
 
+                        menuItem.Icon = "cloud";
+                        notification.Menu.Items.Insert(5, menuItem);
+
+                    }
                 }
             }
         }
