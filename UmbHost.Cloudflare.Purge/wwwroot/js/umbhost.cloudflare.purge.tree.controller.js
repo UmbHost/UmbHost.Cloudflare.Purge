@@ -32,38 +32,73 @@
                     confirmType: 'delete',
                     submitButtonLabelKey: 'umbhostCloudflarePurge_custompurge',
                     submit: function () {
-                        UmbHostCloudflarePurgeResources.Node($scope.currentNode.id, $scope.currentNode.metaData.culture[0])
-                            .then(function (response) {
+                        if ($scope.currentNode.metaData.contentType === "Folder") {
+                            UmbHostCloudflarePurgeResources.MediaFolder($scope.currentNode.id)
+                                .then(function (response) {
 
-                                vm.customPurgeButtonState = "success";
-                                localizationService.localize("umbhostCloudflarePurge_PurgeSuccessTitle").then(function (title) {
-                                    localizationService.localize("umbhostCloudflarePurge_PurgeSuccessValue").then(function (value) {
-                                        notificationsService.success(title, value);
+                                    vm.customPurgeButtonState = "success";
+                                    localizationService.localize("umbhostCloudflarePurge_PurgeSuccessTitle").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_PurgeSuccessValue").then(function (value) {
+                                            notificationsService.success(title, value);
+                                        });
                                     });
+
+                                    vm.success = true;
+                                    overlayService.close();
+                                })
+                                .catch(function (response) {
+                                    if (response.data === "D1") {
+                                        localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                            localizationService.localize("umbhostCloudflarePurge_D1Value").then(function (value) {
+                                                notificationsService.error(title, value);
+                                            });
+                                        });
+                                    } else {
+                                        localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
+                                            localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
+                                                notificationsService.error(title, value);
+                                            });
+                                        });
+                                    }
+
+                                    overlayService.close();
+                                    vm.customPurgeButtonState = "error";
+                                    vm.busy = false;
                                 });
+                        } else {
+                            UmbHostCloudflarePurgeResources.Node($scope.currentNode.id, $scope.currentNode.metaData.culture[0])
+                                .then(function (response) {
 
-                                vm.success = true;
-                                overlayService.close();
-                            })
-                            .catch(function (response) {
-                                if (response.data === "D1") {
-                                    localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
-                                        localizationService.localize("umbhostCloudflarePurge_D1Value").then(function (value) {
-                                            notificationsService.error(title, value);
+                                    vm.customPurgeButtonState = "success";
+                                    localizationService.localize("umbhostCloudflarePurge_PurgeSuccessTitle").then(function (title) {
+                                        localizationService.localize("umbhostCloudflarePurge_PurgeSuccessValue").then(function (value) {
+                                            notificationsService.success(title, value);
                                         });
                                     });
-                                } else {
-                                    localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
-                                        localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
-                                            notificationsService.error(title, value);
-                                        });
-                                    });
-                                }
 
-                                overlayService.close();
-                                vm.customPurgeButtonState = "error";
-                                vm.busy = false;
-                            });
+                                    vm.success = true;
+                                    overlayService.close();
+                                })
+                                .catch(function (response) {
+                                    if (response.data === "D1") {
+                                        localizationService.localize("umbhostCloudflarePurge_GeneralErrorTitle").then(function (title) {
+                                            localizationService.localize("umbhostCloudflarePurge_D1Value").then(function (value) {
+                                                notificationsService.error(title, value);
+                                            });
+                                        });
+                                    } else {
+                                        localizationService.localize("umbhostCloudflarePurge_Z0Title").then(function (title) {
+                                            localizationService.localize("umbhostCloudflarePurge_Z0Value").then(function (value) {
+                                                notificationsService.error(title, value);
+                                            });
+                                        });
+                                    }
+
+                                    overlayService.close();
+                                    vm.customPurgeButtonState = "error";
+                                    vm.busy = false;
+                                });
+                        }
                     },
                     close: function () {
                         overlayService.close();

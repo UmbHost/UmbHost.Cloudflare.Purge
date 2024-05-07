@@ -82,5 +82,33 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
 
             return BadRequest("NULL");
         }
+
+        [HttpPost]
+        public async Task<IActionResult> MediaFolder([FromBody] int? id)
+        {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
+            if (id.HasValue)
+            {
+                var node = umbracoHelper.Media(id);
+
+                if (node is { ContentType.Alias: "Folder", Children: not null } && node.Children.Any())
+                {
+                    var urls = node.Children.Select(x => x.Url(mode: UrlMode.Absolute)).ToArray();
+
+                    var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = urls });
+
+                    if (success)
+                    {
+                        return Accepted();
+                    }
+                }
+            }
+
+            return BadRequest("NULL");
+        }
     }
 }

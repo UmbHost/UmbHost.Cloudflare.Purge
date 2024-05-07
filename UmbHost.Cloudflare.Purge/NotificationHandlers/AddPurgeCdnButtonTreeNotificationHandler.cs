@@ -29,16 +29,13 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
 
                 if (notification.TreeAlias.Equals("media"))
                 {
-                    var mediaItem = umbracoHelper.Media(notification.NodeId);
-                    if (mediaItem != null && mediaItem.ContentType.Alias != "Folder")
-                    {
-                        var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
+                    var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
 
-                        menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
+                    menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
 
-                        menuItem.Icon = "cloud";
-                        notification.Menu.Items.Insert(5, menuItem);
-                    }
+                    menuItem.Icon = "cloud";
+                    notification.Menu.Items.Insert(5, menuItem);
+
                 }
             }
         }

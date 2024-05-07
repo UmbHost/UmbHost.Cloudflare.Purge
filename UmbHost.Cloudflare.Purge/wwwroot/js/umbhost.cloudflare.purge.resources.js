@@ -30,6 +30,15 @@
                     return response;
                 }
                 );
+        },
+
+        MediaFolder: function (id) {
+
+            return $http.post("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeApi/MediaFolder", id)
+                .then(function (response) {
+                    return response;
+                }
+                );
         }
     }
 });
