@@ -17,6 +17,7 @@
             public const string Area = "umbhostCloudflarePurge";
             public const string PurgeCdnAlias = "purgecdn";
             public const string PurgeCdnErrorMessage = "PurgeCdnErrorMessage";
+            public const string PurgedUrlAlias = "purgedurl";
         }
 
         internal static class HeaderKeys
