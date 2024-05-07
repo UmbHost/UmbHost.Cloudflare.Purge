@@ -10,6 +10,7 @@ namespace UmbHost.Cloudflare.Purge.Models
         public AuthType AuthType { get; set; } = AuthType.Global;
         public NotificationHandlers NotificationHandlers { get; set; } = new();
         public bool Disabled { get; set; } = false;
+        public bool TreeMenuEnabled = true;
     }
 
     public class NotificationHandlers

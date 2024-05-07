@@ -13,7 +13,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
         public void Handle(MenuRenderingNotification notification)
         {
-            if (!_configuration.Disabled)
+            if (_configuration is { Disabled: false, TreeMenuEnabled: true })
             {
                 if (notification.TreeAlias.Equals("content"))
                 {
