@@ -66,7 +66,9 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
 
             if (nodeDetails != null)
             {
-                var nodeUrl = umbracoHelper.Content(nodeDetails.Id)?.Url(culture: nodeDetails.Culture, UrlMode.Absolute);
+                var nodeUrl = umbracoHelper.Content(nodeDetails.Id)?.Url(culture: nodeDetails.Culture, UrlMode.Absolute) ??
+                              umbracoHelper.Media(nodeDetails.Id)?.Url(mode: UrlMode.Absolute);
+
                 if (!string.IsNullOrEmpty(nodeUrl))
                 {
                     var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = [nodeUrl] });
