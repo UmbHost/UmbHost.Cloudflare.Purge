@@ -1,0 +1,29 @@
+{
+    "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+      "AuthorDetails": {
+          "Description": "UmbHost is a provider of Umbraco hosting, packages and development",
+          "Url": "https://umbhost.net",
+          "ImageUrl": "https://umbhost.net/media/raln42t1/umbhost-new-logo.png"
+      },
+    "Category": "Editor Tools",
+    "Description": "Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items",
+    "DiscussionForumUrl": "https://github.com/UmbHost/UmbHost.Cloudflare.Purge/discussions",
+    "DocumentationUrl": "https://cloudflarepurgedocs.umbhost.net/",
+    "IssueTrackerUrl": "https://github.com/UmbHost/UmbHost.Cloudflare.Purge/issues",
+    "Title": "UmbHost.Cloudflare.Purge",
+    "PackageType": "Package",
+      "PackagesByAuthor": [
+          "umbcheckout",
+          "our.umbraco.forms.ucaptcha",
+          "our.umbraco.umbnav.web",
+          "our.umbraco.forms.intl_tel_input",
+          "our.umbraco.forms.mailchimpworkflow",
+          "our.umbraco.memberlogin"
+      ],
+    "LicenseTypes": ["Free"],
+      "Tags": [
+          "cloudflare",
+          "cdn",
+          "purge"
+      ]
+  }
