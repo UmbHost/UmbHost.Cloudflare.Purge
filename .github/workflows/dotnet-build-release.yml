@@ -59,7 +59,7 @@ jobs:
       run: dotnet restore ./UmbHost.Cloudflare.Purge/UmbHost.Cloudflare.Purge.csproj
 
     - name: Build UmbHost.Cloudflare.Purge
-      run: dotnet pack ./UmbHost.Cloudflare.Purge/UmbHost.Cloudflare.Purge.csproj --no-restore -c ${{env.CONFIG}} --output ${{env.OUT_FOLDER}} /p:version=${{steps.gitversion.outputs.fullSemVer}}
+      run: dotnet pack ./UmbHost.Cloudflare.Purge/UmbHost.Cloudflare.Purge.csproj --no-restore -c ${{env.CONFIG}} --output ${{env.OUT_FOLDER}} /p:version=${{steps.gitversion.outputs.majorMinorPatch}}
       
     - name: Push to UmbHost GitHub Nuget Repo
       if: ${{ github.event_name != 'pull_request' }}
