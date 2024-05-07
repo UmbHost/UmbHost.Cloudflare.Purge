@@ -60,12 +60,21 @@ namespace UmbHost.Cloudflare.Purge.Services
 
                 if (response.IsSuccessStatusCode)
                 {
+                    LogPurgeUrls(purgeRequest.Files);
                     return true;
                 }
             }
 
             logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
             return false;
+        }
+
+        private void LogPurgeUrls(string[] purgeUrls)
+        {
+            foreach (var purgeUrl in purgeUrls)
+            {
+                logger.LogInformation($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgedUrlAlias)}: {purgeUrl}");
+            }
         }
 
         private StringContent GenerateHttpContent<T>(T purgeRequest)
