@@ -1,6 +1,6 @@
 # UmbHost.Cloudflare.Purge
 
-UmbCheckout is an eCommerce solution for Umbraco which integrates with Stripe Checkout
+Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items
 
 ## Getting started
 
