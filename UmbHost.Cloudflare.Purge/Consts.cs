@@ -10,6 +10,7 @@
         internal static class Tree
         {
             public const string Alias = "umbhostPurgeCdn";
+            public const string SettingsAlias = "umbhosoup
         }
 
         internal static class Localizations
