@@ -9,8 +9,10 @@
 
         internal static class Tree
         {
-            public const string Alias = "umbhostPurgeCdn";
-            public const string SettingsAlias = "umbhosoup
+            public const string Alias = "umbhostCloudflareCdn";
+            public const string SettingsAlias = "umbhostCloudflare";
+            public const string TreeGroup = "umbhostCloudflareCdn";
+            public const string CdnSettings = "cdn";
         }
 
         internal static class Localizations
@@ -19,6 +21,7 @@
             public const string PurgeCdnAlias = "purgecdn";
             public const string PurgeCdnErrorMessage = "PurgeCdnErrorMessage";
             public const string PurgedUrlAlias = "purgedurl";
+            public const string CdnSettings = "cdnSettings";
         }
 
         internal static class HeaderKeys

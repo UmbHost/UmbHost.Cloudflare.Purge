@@ -3,8 +3,12 @@
 	<area alias="dashboardTabs">
 		<key alias="umbhostCloudflarePurgeDashboard">Cloudflare CDN Purge</key>
 	</area>
+	<area alias="treeHeaders">
+		<key alias="umbhostCloudflareCdn">Cloudflare</key>
+	</area>
 	<area alias="umbhostCloudflarePurge">
 		<key alias="purgecdn">Purge CDN</key>
+		<key alias="cdnSettings">CDN Settings</key>
 		<key alias="purgedurl">Purged URL</key>
 		<key alias="custompurge">Custom Purge</key>
 		<key alias="purgeeverything">Purge Everything</key>
