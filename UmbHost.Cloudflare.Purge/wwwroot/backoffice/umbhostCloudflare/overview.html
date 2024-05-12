@@ -1,0 +1,72 @@
+﻿<div ng-controller="UmbHost.Cloudflare.Purge.Overview.Controller as vm">
+    <div class="umbhostCloudflarePurgeCdn">
+        <umb-editor-view class="form-horizontal">
+            <umb-editor-header name="vm.overviewTitle"
+                               name-locked="true"
+                               hide-alias="true"
+                               show-back-button="false"
+                               hide-description="true"
+                               hide-icon="true">
+            </umb-editor-header>
+            <umb-editor-container>
+                <umb-box>
+                    <umb-box-content>
+                        <p><localize key="umbhostCloudflarePurge_overviewIntroduction"></localize></p>
+                    </umb-box-content>
+                </umb-box>
+                <div class="group-cards">
+                    <umb-box class="text-center">
+                        <umb-box-content>
+                            <h2><localize key="umbhostCloudflarePurge_cdnCardTitle"></localize></h2>
+                            <small>
+                                <localize key="umbhostCloudflarePurge_cdnCardDescription"></localize>
+                            </small>
+                            <div class="card-buttons">
+                                <umb-button href="#/settings/umbhostCloudflare/caching"
+                                            type="link"
+                                            button-style="primary"
+                                            state="init"
+                                            label-key="umbhostCloudflarePurge_cardButtonLabel">
+                                </umb-button>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
+                    <umb-box class="text-center">
+                        <umb-box-content>
+                            <h2><localize key="umbhostCloudflarePurge_securityCardTitle"></localize></h2>
+                            <small>
+                                <localize key="umbhostCloudflarePurge_securityCardDescription"></localize>
+                            </small>
+                            <div class="card-buttons">
+                                <umb-button action=""
+                                            type="button"
+                                            button-style="primary"
+                                            state="init"
+                                            label-key="umbhostCloudflarePurge_cardButtonSoonLabel"
+                                            disabled="true">
+                                </umb-button>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
+                    <umb-box class="text-center">
+                        <umb-box-content>
+                            <h2><localize key="umbhostCloudflarePurge_optimizationCardTitle"></localize></h2>
+                            <small>
+                                <localize key="umbhostCloudflarePurge_optimizationCardDescription"></localize>
+                            </small>
+                            <div class="card-buttons">
+                                <umb-button action=""
+                                            type="button"
+                                            button-style="primary"
+                                            state="init"
+                                            label-key="umbhostCloudflarePurge_cardButtonSoonLabel"
+                                            disabled="true">
+                                </umb-button>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
+                </div>
+            </umb-editor-container>
+        </umb-editor-view>
+    </div>
+</div>

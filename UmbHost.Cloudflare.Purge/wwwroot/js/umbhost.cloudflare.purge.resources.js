@@ -39,6 +39,60 @@
                     return response;
                 }
                 );
-        }
+        },
+
+        AllSettings: function () {
+
+            return $http.get("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/GetCacheSettings")
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleDevelopmentMode: function (developmentMode) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleDevelopmentMode", developmentMode)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleCachingLevel: function (cachingLevel) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleCachingLevel", cachingLevel)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        BrowserTtlOptions: function () {
+
+            return $http.get("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/BrowserTtlOptions")
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleBrowserCacheTtl: function (browserCacheTtl) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleBrowserCacheTtl", browserCacheTtl)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleAlwaysOnline: function (alwaysOnline) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleAlwaysOnline", alwaysOnline)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
     }
 });

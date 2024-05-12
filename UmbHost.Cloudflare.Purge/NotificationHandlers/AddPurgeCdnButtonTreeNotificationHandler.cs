@@ -20,7 +20,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
                 {
                     var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
 
-                    menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
+                    menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHostCloudflarePurge/purgecdntree.html");
 
                     menuItem.Icon = "cloud";
                     notification.Menu.Items.Insert(5, menuItem);
@@ -36,7 +36,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers
                     {
                         var menuItem = new Umbraco.Cms.Core.Models.Trees.MenuItem(Consts.Tree.Alias, localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnAlias));
 
-                        menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHost.Cloudflare.Purge/purgecdntree.html");
+                        menuItem.AdditionalData.Add("actionView", "../App_Plugins/UmbHostCloudflarePurge/purgecdntree.html");
 
                         menuItem.Icon = "cloud";
                         notification.Menu.Items.Insert(5, menuItem);
