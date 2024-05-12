@@ -1,4 +1,4 @@
-﻿function UmbHostCloudflarePurgeTree($scope, editorService, $routeParams, notificationsService, navigationService, formHelper, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
+﻿function UmbHostCloudflarePurgeTree($scope, notificationsService, navigationService, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
     var vm = this;
 
     vm.success = false;

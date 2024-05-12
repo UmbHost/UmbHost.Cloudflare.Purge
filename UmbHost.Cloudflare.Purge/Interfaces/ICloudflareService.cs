@@ -1,4 +1,5 @@
 ﻿using UmbHost.Cloudflare.Purge.Models;
+using UmbHost.Cloudflare.Purge.Models.Settings;
 
 namespace UmbHost.Cloudflare.Purge.Interfaces
 {
@@ -6,5 +7,10 @@ namespace UmbHost.Cloudflare.Purge.Interfaces
     {
         Task<bool> PurgeAll();
         Task<bool> CustomPurge(PurgeFilesRequest purgeRequest);
+        Task<AllSettings?> GetAllZoneSettings();
+        Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode);
+        Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel);
+        Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl);
+        Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline);
     }
 }

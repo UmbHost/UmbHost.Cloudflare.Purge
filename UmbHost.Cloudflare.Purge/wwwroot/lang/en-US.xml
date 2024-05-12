@@ -3,8 +3,14 @@
 	<area alias="dashboardTabs">
 		<key alias="umbhostCloudflarePurgeDashboard">Cloudflare CDN Purge</key>
 	</area>
+	<area alias="treeHeaders">
+		<key alias="umbhostCloudflareCdn">Cloudflare</key>
+	</area>
 	<area alias="umbhostCloudflarePurge">
+		<key alias="overviewtitle">Cloudflare CDN Purge</key>
+		<key alias="cdntitle">Cloudflare Caching</key>
 		<key alias="purgecdn">Purge CDN</key>
+		<key alias="cdnSettings">Caching Settings</key>
 		<key alias="purgedurl">Purged URL</key>
 		<key alias="custompurge">Custom Purge</key>
 		<key alias="purgeeverything">Purge Everything</key>
@@ -38,5 +44,35 @@
 			<![CDATA[<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>]]>
 		</key>
+		<key alias="overviewIntroduction">
+			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zone here.</p>]]>
+		</key>
+		<key alias="cdnIntroduction">
+			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zones Caching here.</p>]]>
+		</key>
+		<key alias="lastModified">Last Modified On</key>
+		<key alias="cdnCardTitle">Caching</key>
+		<key alias="cdnCardDescription">Developer Mode, Caching Level, Browser Cache TTL, Always Online™</key>
+		<key alias="securityCardTitle">Security</key>
+		<key alias="securityCardDescription">Always Use HTTPS, Automatic HTTPS Rewrites, Opportunistic Encryption, Minimum TLS Version, HTTP Strict Transport Security (HSTS), Security Level, Challenge Passage, Browser Integrity Check, Email Obfuscation, Hotlink Protection</key>
+		<key alias="optimizationCardTitle">Optimization</key>
+		<key alias="optimizationCardDescription">Auto Minify, Brotli, Early Hints, Rocket Loader™</key>
+		<key alias="cardButtonLabel">Manage</key>
+		<key alias="cardButtonSoonLabel">Coming Soon</key>
+		<key alias="cdnDeveloperModeTitle">Developer Mode</key>
+		<key alias="cdnDeveloperModeDescription">Temporarily bypass the Cloudflare cache allowing you to see changes to your origin server in realtime.</key>
+		<key alias="cdnDeveloperModeWarning"><![CDATA[<p><strong>Note:</strong> Enabling this feature can significantly increase origin server load. Development mode does not purge the cache so files will need to be purged after development mode expires.</p>]]></key>
+		<key alias="cdnCachingLevelTitle">Caching Level</key>
+		<key alias="cdnCachingLevelDescription">Determine how much of your website’s static content you want Cloudflare to cache. Increased caching can speed up page load time.</key>
+		<key alias="cdnCachingLevelBasic">No query string</key>
+		<key alias="cdnCachingLevelSimplified">Ignore query string</key>
+		<key alias="cdnCachingLevelAggressive">Standard</key>
+		<key alias="cdnBrowserTtlTitle">Browser Cache TTL</key>
+		<key alias="cdnBrowserTtlDescription">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</key>
+		<key alias="cdnAlwaysOnlineTitle">Always Online™</key>
+		<key alias="cdnAlwaysOnlineDescription">Keep your website online for visitors when your origin server is unavailable.</key>
+		<key alias="cdnAlwaysOnlineIntroduction">
+			<![CDATA[<p>Cloudflare serves limited copies of web pages available from the <a class="underline" href="https://archive.org/web/" target="_blank">Internet Archive’s Wayback Machine</a>.</p>
+		<p>Enabling this Service will share some of your website’s information with the Internet Archive in order to make this feature functional. By enabling this Service, you agree to the <a class="underline" href="https://www.cloudflare.com/supplemental-terms/#AOBeta" target="_blank">Supplemental Terms</a> for Always Online.</p>]]></key>
 	</area>
 </language>

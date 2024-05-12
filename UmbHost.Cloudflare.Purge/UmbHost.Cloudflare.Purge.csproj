@@ -3,7 +3,7 @@
 	  <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <StaticWebAssetBasePath>App_Plugins/UmbHost.Cloudflare.Purge</StaticWebAssetBasePath>
+    <StaticWebAssetBasePath>App_Plugins/UmbHostCloudflarePurge</StaticWebAssetBasePath>
 	  <PackageId>UmbHost.Cloudflare.Purge</PackageId>
 	  <Product>UmbHost.Cloudflare.Purge</Product>
 	  <Title>UmbHost.Cloudflare.Purge</Title>
