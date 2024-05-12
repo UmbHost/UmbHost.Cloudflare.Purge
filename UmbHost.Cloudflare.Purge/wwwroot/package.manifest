@@ -18,6 +18,6 @@
     "/App_Plugins/UmbHostCloudflarePurge/js/umbhost.cloudflare.purge.resources.js",
     "/App_Plugins/UmbHostCloudflarePurge/js/umbhost.cloudflare.purge.tree.controller.js",
     "/App_Plugins/UmbHostCloudflarePurge/js/umbhost.cloudflare.purge.overview.controller.js",
-    "/App_Plugins/UmbHostCloudflarePurge/js/umbhost.cloudflare.purge.cdn.controller.js"
+    "/App_Plugins/UmbHostCloudflarePurge/js/umbhost.cloudflare.purge.caching.controller.js"
   ]
 }

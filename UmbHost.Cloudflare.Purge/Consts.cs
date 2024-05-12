@@ -13,7 +13,7 @@
             public const string Alias = "umbhostCloudflareCdn";
             public const string SettingsAlias = "umbhostCloudflare";
             public const string TreeGroup = "umbhostCloudflareCdn";
-            public const string CdnSettings = "cdn";
+            public const string CachingSettings = "caching";
         }
 
         internal static class Localizations

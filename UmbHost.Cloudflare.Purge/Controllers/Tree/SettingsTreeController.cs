@@ -13,16 +13,14 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 {
     [Tree("settings", Consts.Tree.SettingsAlias, TreeTitle = Consts.Tree.TreeName, TreeGroup = Consts.Tree.TreeGroup, IsSingleNodeTree = true, SortOrder = 35)]
     [PluginController(Consts.PackageName)]
-    public class SettingsTreeController : TreeController
+    public class SettingsTreeController(
+        ILocalizedTextService localizedTextService,
+        UmbracoApiControllerTypeCollection umbracoApiControllerTypeCollection,
+        IEventAggregator eventAggregator,
+        IMenuItemCollectionFactory menuItemCollectionFactory)
+        : TreeController(localizedTextService, umbracoApiControllerTypeCollection, eventAggregator)
     {
-        private readonly IMenuItemCollectionFactory _menuItemCollectionFactory;
-        private readonly ILocalizedTextService _localizedTextService;
-
-        public SettingsTreeController(ILocalizedTextService localizedTextService, UmbracoApiControllerTypeCollection umbracoApiControllerTypeCollection, IEventAggregator eventAggregator, IMenuItemCollectionFactory menuItemCollectionFactory) : base(localizedTextService, umbracoApiControllerTypeCollection, eventAggregator)
-        {
-            _localizedTextService = localizedTextService;
-            _menuItemCollectionFactory = menuItemCollectionFactory;
-        }
+        private readonly ILocalizedTextService _localizedTextService = localizedTextService;
 
         protected override ActionResult<TreeNodeCollection> GetTreeNodes(string id, FormCollection queryStrings)
         {
@@ -30,7 +28,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 
             if (id == Constants.System.Root.ToInvariantString())
             {
-                nodes.Add(CreateTreeNode("1", "-1", queryStrings, _localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.CdnSettings, CultureInfo.CurrentUICulture), "icon-settings", false, $"{Constants.Applications.Settings}/{Consts.Tree.SettingsAlias}/{Consts.Tree.CdnSettings}"));
+                nodes.Add(CreateTreeNode("1", "-1", queryStrings, _localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.CdnSettings, CultureInfo.CurrentUICulture), "icon-settings", false, $"{Constants.Applications.Settings}/{Consts.Tree.SettingsAlias}/{Consts.Tree.CachingSettings}"));
             }
 
             return nodes;
@@ -38,7 +36,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 
         protected override ActionResult<MenuItemCollection> GetMenuForNode(string id, FormCollection queryStrings)
         {
-            var menu = _menuItemCollectionFactory.Create();
+            var menu = menuItemCollectionFactory.Create();
             return menu;
         }
 

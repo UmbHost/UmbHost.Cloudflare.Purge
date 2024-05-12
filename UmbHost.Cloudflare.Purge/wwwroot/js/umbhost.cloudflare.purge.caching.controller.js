@@ -1,4 +1,4 @@
-﻿function UmbHostCloudflarePurgeCdn(localizationService, UmbHostCloudflarePurgeResources) {
+﻿function UmbHostCloudflarePurgeCaching(localizationService, UmbHostCloudflarePurgeResources) {
     var vm = this;
     localizationService.localize("umbhostCloudflarePurge_cdntitle").then(function (cdnTitle) {
         vm.cdnTitle = cdnTitle;
@@ -211,4 +211,4 @@
         return humanReadableString;
     }
 };
-angular.module("umbraco").controller("UmbHost.Cloudflare.Purge.Cdn.Controller", UmbHostCloudflarePurgeCdn);
+angular.module("umbraco").controller("UmbHost.Cloudflare.Purge.Caching.Controller", UmbHostCloudflarePurgeCaching);
