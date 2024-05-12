@@ -67,5 +67,7 @@
 		<key alias="cdnCachingLevelBasic">No query string</key>
 		<key alias="cdnCachingLevelSimplified">Ignore query string</key>
 		<key alias="cdnCachingLevelAggressive">Standard</key>
+		<key alias="cdnBrowserTtlTitle">Browser Cache TTL</key>
+		<key alias="cdnBrowserTtlDescription">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</key>
 	</area>
 </language>

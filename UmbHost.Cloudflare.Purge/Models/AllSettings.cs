@@ -8,7 +8,7 @@ public class AllSettings
     //public AlwaysUseHttps AlwaysUseHttps { get; set; }
     //public AutomaticHttpsRewrites AutomaticHttpsRewrites { get; set; }
     //public Brotli Brotli { get; set; }
-    //public BrowserCacheTtl BrowserCacheTtl { get; set; }
+    public BrowserCacheTtl? BrowserCacheTtl { get; set; }
     //public BrowserCheck BrowserCheck { get; set; }
     public CacheLevel? CacheLevel { get; set; }
     public DevelopmentMode? DevelopmentMode { get; set; }

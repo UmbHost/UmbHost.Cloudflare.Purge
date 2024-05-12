@@ -64,6 +64,16 @@
                             </div>
                         </umb-box-content>
                     </umb-box>
+                    <umb-box>
+                        <umb-box-header title-key="umbhostCloudflarePurge_cdnBrowserTtlTitle" description-key="umbhostCloudflarePurge_cdnBrowserTtlDescription"></umb-box-header>
+                        <umb-box-content>
+                            <select ng-disabled="vm.browserCacheTtlDisabled" ng-change="vm.browserCacheTtlToggle()" ng-model="vm.browserCacheTtl" ng-options="ttl.value as ttl.name for ttl in vm.browserCacheTtls">
+                            </select>
+                            <div class="lastmodified">
+                                <small><strong><localize key="umbhostCloudflarePurge_lastModified"></localize>:</strong> {{vm.browserCacheTtlLastModified}}</small>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
                 </div>
             </umb-editor-container>
         </umb-editor-view>

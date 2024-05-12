@@ -67,5 +67,23 @@
                 }
                 );
         },
+
+        BrowserTtlOptions: function () {
+
+            return $http.get("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/BrowserTtlOptions")
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleBrowserCacheTtl: function (browserCacheTtl) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleBrowserCacheTtl", browserCacheTtl)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
     }
 });

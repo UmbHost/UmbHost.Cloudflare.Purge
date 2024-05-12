@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using UmbHost.Cloudflare.Purge.Enums;
@@ -9,6 +8,7 @@ using UmbHost.Cloudflare.Purge.Models;
 using UmbHost.Cloudflare.Purge.Models.Settings;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
+using BrowserCacheTtl = UmbHost.Cloudflare.Purge.Models.Settings.BrowserCacheTtl;
 using CacheLevel = UmbHost.Cloudflare.Purge.Models.Settings.CacheLevel;
 
 namespace UmbHost.Cloudflare.Purge.Services
@@ -114,6 +114,27 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
+        public async Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl)
+        {
+            if (_configuration.Disabled)
+            {
+                return null;
+            }
+
+            CloudflareResponseObject? result = null;
+            using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/browser_cache_ttl", GenerateHttpContent(browserCacheTtl));
+            var body = await response.Content.ReadAsStringAsync();
+            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return result.Result.Deserialize<BrowserCacheTtl>();
+            }
+
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            return null;
+        }
+
         public async Task<AllSettings?> GetAllZoneSettings()
         {
             if (_configuration.Disabled)
@@ -172,9 +193,9 @@ namespace UmbHost.Cloudflare.Purge.Services
                     //case "mirage":
                     //    allSettings.Mirage = json.ToObject<Mirage>();
                     //    break;
-                    //case "browser_cache_ttl":
-                    //    allSettings.BrowserCacheTtl = json.ToObject<BrowserCacheTtl>();
-                    //    break;
+                    case "browser_cache_ttl":
+                        allSettings.BrowserCacheTtl = json.Deserialize<BrowserCacheTtl>();
+                        break;
                     case "cache_level":
                         allSettings.CacheLevel = json.Deserialize<CacheLevel>();
                         break;

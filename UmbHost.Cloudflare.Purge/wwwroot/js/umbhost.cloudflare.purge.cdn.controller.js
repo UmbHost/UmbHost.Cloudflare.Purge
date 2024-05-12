@@ -8,21 +8,27 @@
     vm.developerMode = false;
     vm.developerModeDisabled = true;
     vm.cachingLevelDisabled = true;
+    vm.browserCacheTtlDisabled = true;
     vm.developerModeLabel = "Off";
     vm.developerModeLastModified = "";
     vm.cachingLevel = "";
+    vm.browserCacheTtl = 0;
+    vm.browserCacheTtls = [];
 
     vm.developerModeToggle = developerModeToggle;
     vm.cachingLevelToggle = cachingLevelToggle;
+    vm.browserCacheTtlToggle = browserCacheTtlToggle;
 
     UmbHostCloudflarePurgeResources.AllSettings()
         .then(function (response) {
 
             var developmentModeSetting = response.data.developmentMode;
             var cachingLevelSetting = response.data.cacheLevel;
+            var browserCacheTtlSetting = response.data.browserCacheTtl;
 
             vm.developerModeLabel = developmentModeSetting.value;
             vm.cachingLevel = cachingLevelSetting.value;
+            vm.browserCacheTtl = browserCacheTtlSetting.value;
 
             if (developmentModeSetting.modified_on) {
                 vm.developerModeLastModified = zuluToHumanReadable(developmentModeSetting.modified_on);
@@ -40,8 +46,16 @@
                 vm.cachingLevelLastModified = zuluToHumanReadable(cachingLevelSetting.modified_on);
             }
 
+            if (browserCacheTtlSetting.modified_on) {
+                vm.browserCacheTtlLastModified = zuluToHumanReadable(browserCacheTtlSetting.modified_on);
+            }
+
             if (cachingLevelSetting.editable) {
                 vm.cachingLevelDisabled = !cachingLevelSetting.editable;
+            }
+
+            if (browserCacheTtlSetting.editable) {
+                vm.browserCacheTtlDisabled = !browserCacheTtlSetting.editable;
             }
 
             switch (cachingLevelSetting.value) {
@@ -56,8 +70,14 @@
                     break;
             }
 
-            vm.loading = false;
+            UmbHostCloudflarePurgeResources.BrowserTtlOptions()
+                .then(function (response) {
+                    vm.browserCacheTtls = response.data;
+                })
         })
+        .finally(function (response) {
+            vm.loading = false;
+        });
 
     function developerModeToggle() {
         vm.loading = true;
@@ -105,6 +125,30 @@
 
                 if (setting.editable) {
                     vm.cachingLevelDisabled = !setting.editable;
+                }
+
+                vm.loading = false;
+            })
+    }
+
+    function browserCacheTtlToggle() {
+        vm.loading = true;
+
+        var browserCacheTtl = {
+            value: vm.browserCacheTtl
+        }
+        UmbHostCloudflarePurgeResources.ToggleBrowserCacheTtl(browserCacheTtl)
+            .then(function (response) {
+                var setting = response.data;
+
+                vm.browserCacheTtl = setting.value;
+
+                if (setting.modified_on) {
+                    vm.browserCacheTtlLastModified = zuluToHumanReadable(setting.modified_on);
+                }
+
+                if (setting.editable) {
+                    vm.browserCacheTtlDisabled = !setting.editable;
                 }
 
                 vm.loading = false;

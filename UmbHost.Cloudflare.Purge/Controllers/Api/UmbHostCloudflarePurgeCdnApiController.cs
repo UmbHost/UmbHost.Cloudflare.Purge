@@ -1,6 +1,7 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
 using UmbHost.Cloudflare.Purge.Models.Settings;
@@ -59,6 +60,50 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return new BadRequestResult();
             }
             return new JsonResult(text);
+        }
+
+        [HttpPatch]
+        public async Task<IActionResult> ToggleBrowserCacheTtl([FromBody] NewBrowserCacheTtl browserCacheTtl)
+        {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
+            var text = await cloudflareService.ToggleBrowserCacheTtl(browserCacheTtl);
+
+            if (text == null)
+            {
+                return new BadRequestResult();
+            }
+            return new JsonResult(text);
+        }
+
+        [HttpGet]
+        public IActionResult BrowserTtlOptions()
+        {
+            var enumDescriptions = new List<EnumDescription>();
+
+            foreach (Enums.BrowserCacheTtl enumValue in Enum.GetValues(typeof(Enums.BrowserCacheTtl)))
+            {
+                var description = GetEnumDescription(enumValue);
+                var enumDescription = new EnumDescription
+                {
+                    Value = (int)enumValue,
+                    Name = description
+                };
+                enumDescriptions.Add(enumDescription);
+            }
+
+            
+            return new JsonResult(enumDescriptions);
+        }
+
+        private static string GetEnumDescription(Enum value)
+        {
+            var field = value.GetType().GetField(value.ToString());
+            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
+            return attribute == null ? value.ToString() : attribute.Description;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace UmbHost.Cloudflare.Purge.Interfaces
         Task<AllSettings?> GetAllZoneSettings();
         Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode);
         Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel);
+        Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl);
     }
 }
