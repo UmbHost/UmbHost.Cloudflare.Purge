@@ -1,4 +1,4 @@
-﻿function UmbHostCloudflarePurgeDashboard($scope, editorService, $routeParams, notificationsService, formHelper, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
+﻿function UmbHostCloudflarePurgeDashboard(notificationsService, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
     var vm = this;
     vm.customPurgeButtonState = "init";
     vm.purgeButtonState = "init";
