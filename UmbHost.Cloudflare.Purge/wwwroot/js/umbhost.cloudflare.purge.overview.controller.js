@@ -1,4 +1,4 @@
-﻿function UmbHostCloudflarePurgeOverview($scope, editorService, $routeParams, notificationsService, formHelper, localizationService, overlayService, UmbHostCloudflarePurgeResources) {
+﻿function UmbHostCloudflarePurgeOverview(localizationService) {
     var vm = this;
     localizationService.localize("umbhostCloudflarePurge_overviewtitle").then(function (overviewTitle) {
         vm.overviewTitle = overviewTitle;

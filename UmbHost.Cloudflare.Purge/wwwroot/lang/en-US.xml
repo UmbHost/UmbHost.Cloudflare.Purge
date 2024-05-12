@@ -46,5 +46,13 @@
 		<key alias="overviewIntroduction">
 			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zone here.</p>]]>
 		</key>
+		<key alias="cdnCardTitle">Caching</key>
+		<key alias="cdnCardDescription">Developer Mode, Caching Level, Browser Cache TTL, Crawler Hints, Always Online™</key>
+		<key alias="securityCardTitle">Security</key>
+		<key alias="securityCardDescription">Always Use HTTPS, Automatic HTTPS Rewrites, Opportunistic Encryption, Minimum TLS Version, HTTP Strict Transport Security (HSTS), Security Level, Challenge Passage, Browser Integrity Check</key>
+		<key alias="optimizationCardTitle">Optimization</key>
+		<key alias="optimizationCardDescription">Auto Minify, Brotli, Early Hints, Rocket Loader™</key>
+		<key alias="cardButtonLabel">Manage</key>
+		<key alias="cardButtonSoonLabel">Coming Soon</key>
 	</area>
 </language>
