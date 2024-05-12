@@ -11,7 +11,7 @@ using Umbraco.Extensions;
 
 namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 {
-    [Tree("settings", Consts.Tree.SettingsAlias, TreeTitle = Consts.PackageName, TreeGroup = Consts.Tree.TreeGroup, IsSingleNodeTree = true, SortOrder = 35)]
+    [Tree("settings", Consts.Tree.SettingsAlias, TreeTitle = Consts.Tree.TreeName, TreeGroup = Consts.Tree.TreeGroup, IsSingleNodeTree = true, SortOrder = 35)]
     [PluginController(Consts.PackageName)]
     public class SettingsTreeController : TreeController
     {
@@ -30,7 +30,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 
             if (id == Constants.System.Root.ToInvariantString())
             {
-                nodes.Add(CreateTreeNode("1", "-1", queryStrings, _localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.CdnSettings, CultureInfo.CurrentUICulture), "icon-settings", false, $"{Constants.Applications.Settings}/{Consts.Tree.CdnSettings}/{"dashboard"}"));
+                nodes.Add(CreateTreeNode("1", "-1", queryStrings, _localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.CdnSettings, CultureInfo.CurrentUICulture), "icon-settings", false, $"{Constants.Applications.Settings}/{Consts.Tree.SettingsAlias}/{Consts.Tree.CdnSettings}"));
             }
 
             return nodes;
@@ -54,7 +54,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Tree
 
             if (root != null)
             {
-                root.RoutePath = $"{Constants.Applications.Settings}/{Consts.Tree.SettingsAlias}/dashboard";
+                root.RoutePath = $"{Constants.Applications.Settings}/{Consts.Tree.SettingsAlias}/overview";
 
                 root.Icon = "icon-cloud";
                 root.HasChildren = true;

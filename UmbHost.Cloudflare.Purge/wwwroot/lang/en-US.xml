@@ -7,6 +7,7 @@
 		<key alias="umbhostCloudflareCdn">Cloudflare</key>
 	</area>
 	<area alias="umbhostCloudflarePurge">
+		<key alias="overviewtitle">Cloudflare CDN Purge</key>
 		<key alias="purgecdn">Purge CDN</key>
 		<key alias="cdnSettings">CDN Settings</key>
 		<key alias="purgedurl">Purged URL</key>
@@ -41,6 +42,9 @@
 		<key alias="introductionTree">
 			<![CDATA[<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>]]>
+		</key>
+		<key alias="overviewIntroduction">
+			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zone here.</p>]]>
 		</key>
 	</area>
 </language>

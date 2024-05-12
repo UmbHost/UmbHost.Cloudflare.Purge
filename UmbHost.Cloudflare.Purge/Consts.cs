@@ -9,6 +9,7 @@
 
         internal static class Tree
         {
+            public const string TreeName = "Cloudflare";
             public const string Alias = "umbhostCloudflareCdn";
             public const string SettingsAlias = "umbhostCloudflare";
             public const string TreeGroup = "umbhostCloudflareCdn";
