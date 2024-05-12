@@ -10,7 +10,7 @@
 		<key alias="overviewtitle">Cloudflare CDN Purge</key>
 		<key alias="cdntitle">Cloudflare Caching</key>
 		<key alias="purgecdn">Purge CDN</key>
-		<key alias="cdnSettings">CDN Settings</key>
+		<key alias="cdnSettings">Caching Settings</key>
 		<key alias="purgedurl">Purged URL</key>
 		<key alias="custompurge">Custom Purge</key>
 		<key alias="purgeeverything">Purge Everything</key>
@@ -52,9 +52,9 @@
 		</key>
 		<key alias="lastModified">Last Modified On</key>
 		<key alias="cdnCardTitle">Caching</key>
-		<key alias="cdnCardDescription">Developer Mode, Caching Level, Browser Cache TTL, Crawler Hints, Always Online™</key>
+		<key alias="cdnCardDescription">Developer Mode, Caching Level, Browser Cache TTL, Always Online™</key>
 		<key alias="securityCardTitle">Security</key>
-		<key alias="securityCardDescription">Always Use HTTPS, Automatic HTTPS Rewrites, Opportunistic Encryption, Minimum TLS Version, HTTP Strict Transport Security (HSTS), Security Level, Challenge Passage, Browser Integrity Check</key>
+		<key alias="securityCardDescription">Always Use HTTPS, Automatic HTTPS Rewrites, Opportunistic Encryption, Minimum TLS Version, HTTP Strict Transport Security (HSTS), Security Level, Challenge Passage, Browser Integrity Check, Email Obfuscation, Hotlink Protection</key>
 		<key alias="optimizationCardTitle">Optimization</key>
 		<key alias="optimizationCardDescription">Auto Minify, Brotli, Early Hints, Rocket Loader™</key>
 		<key alias="cardButtonLabel">Manage</key>
@@ -69,5 +69,10 @@
 		<key alias="cdnCachingLevelAggressive">Standard</key>
 		<key alias="cdnBrowserTtlTitle">Browser Cache TTL</key>
 		<key alias="cdnBrowserTtlDescription">Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.</key>
+		<key alias="cdnAlwaysOnlineTitle">Always Online™</key>
+		<key alias="cdnAlwaysOnlineDescription">Keep your website online for visitors when your origin server is unavailable.</key>
+		<key alias="cdnAlwaysOnlineIntroduction">
+			<![CDATA[<p>Cloudflare serves limited copies of web pages available from the <a class="underline" href="https://archive.org/web/" target="_blank">Internet Archive’s Wayback Machine</a>.</p>
+		<p>Enabling this Service will share some of your website’s information with the Internet Archive in order to make this feature functional. By enabling this Service, you agree to the <a class="underline" href="https://www.cloudflare.com/supplemental-terms/#AOBeta" target="_blank">Supplemental Terms</a> for Always Online.</p>]]></key>
 	</area>
 </language>

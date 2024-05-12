@@ -4,7 +4,7 @@ namespace UmbHost.Cloudflare.Purge.Models;
 
 public class AllSettings
 {
-    //public AlwaysOnline AlwaysOnline { get; set; }
+    public AlwaysOnline? AlwaysOnline { get; set; }
     //public AlwaysUseHttps AlwaysUseHttps { get; set; }
     //public AutomaticHttpsRewrites AutomaticHttpsRewrites { get; set; }
     //public Brotli Brotli { get; set; }

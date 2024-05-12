@@ -114,6 +114,27 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
+        public async Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline)
+        {
+            if (_configuration.Disabled)
+            {
+                return null;
+            }
+
+            CloudflareResponseObject? result = null;
+            using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/always_online", GenerateHttpContent(alwaysOnline));
+            var body = await response.Content.ReadAsStringAsync();
+            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return result.Result.Deserialize<AlwaysOnline>();
+            }
+
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            return null;
+        }
+
         public async Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl)
         {
             if (_configuration.Disabled)
@@ -166,9 +187,9 @@ namespace UmbHost.Cloudflare.Purge.Services
 
                 switch (id)
                 {
-                    //case "always_online":
-                    //    allSettings.AlwaysOnline = json.ToObject<AlwaysOnline>();
-                    //    break;
+                    case "always_online":
+                        allSettings.AlwaysOnline = json.Deserialize<AlwaysOnline>();
+                        break;
                     //case "always_use_https":
                     //    allSettings.AlwaysUseHttps = json.ToObject<AlwaysUseHttps>();
                     //    break;

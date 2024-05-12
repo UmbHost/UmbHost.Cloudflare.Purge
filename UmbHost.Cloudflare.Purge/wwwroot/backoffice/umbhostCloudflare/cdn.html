@@ -74,6 +74,23 @@
                             </div>
                         </umb-box-content>
                     </umb-box>
+                    <umb-box>
+                        <umb-box-header title-key="umbhostCloudflarePurge_cdnAlwaysOnlineTitle" description-key="umbhostCloudflarePurge_cdnAlwaysOnlineDescription"></umb-box-header>
+                        <umb-box-content>
+                            <localize key="umbhostCloudflarePurge_cdnAlwaysOnlineIntroduction"></localize>
+                            <umb-toggle checked="vm.alwaysOnline"
+                                        disabled="vm.alwaysOnlineDisabled"
+                                        on-click="vm.alwaysOnlineToggle()"
+                                        show-labels="true"
+                                        label-on="On"
+                                        label-off="Off"
+                                        label-position="right">
+                            </umb-toggle>
+                            <div class="lastmodified">
+                                <small><strong><localize key="umbhostCloudflarePurge_lastModified"></localize>:</strong> {{vm.alwaysOnlineLastModified}}</small>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
                 </div>
             </umb-editor-container>
         </umb-editor-view>

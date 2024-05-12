@@ -79,6 +79,23 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
             return new JsonResult(text);
         }
 
+        [HttpPatch]
+        public async Task<IActionResult> ToggleAlwaysOnline([FromBody] NewAlwaysOnline alwaysOnline)
+        {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
+            var text = await cloudflareService.ToggleAlwaysOnline(alwaysOnline);
+
+            if (text == null)
+            {
+                return new BadRequestResult();
+            }
+            return new JsonResult(text);
+        }
+
         [HttpGet]
         public IActionResult BrowserTtlOptions()
         {

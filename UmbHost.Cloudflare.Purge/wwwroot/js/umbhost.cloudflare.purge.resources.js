@@ -85,5 +85,14 @@
                 }
                 );
         },
+
+        ToggleAlwaysOnline: function (alwaysOnline) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleAlwaysOnline", alwaysOnline)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
     }
 });
