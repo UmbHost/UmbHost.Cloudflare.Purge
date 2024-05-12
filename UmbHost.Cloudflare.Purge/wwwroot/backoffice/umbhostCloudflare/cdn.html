@@ -35,6 +35,35 @@
                             </div>
                         </umb-box-content>
                     </umb-box>
+                    <umb-box>
+                        <umb-box-header title-key="umbhostCloudflarePurge_cdnCachingLevelTitle" description-key="umbhostCloudflarePurge_cdnCachingLevelDescription"></umb-box-header>
+                        <umb-box-content>
+                            <umb-radiobutton name="cachingLevel"
+                                             value="Basic"
+                                             disabled="vm.cachingLevelDisabled"
+                                             model="vm.cachingLevel"
+                                             label-key="umbhostCloudflarePurge_cdnCachingLevelBasic"
+                                             on-change="vm.cachingLevelToggle('basic')">
+                            </umb-radiobutton>
+                            <umb-radiobutton name="cachingLevel"
+                                             value="Simplified"
+                                             disabled="vm.cachingLevelDisabled"
+                                             model="vm.cachingLevel"
+                                             label-key="umbhostCloudflarePurge_cdnCachingLevelSimplified"
+                                             on-change="vm.cachingLevelToggle('simplified')">
+                            </umb-radiobutton>
+                            <umb-radiobutton name="cachingLevel"
+                                             value="Aggressive"
+                                             disabled="vm.cachingLevelDisabled"
+                                             model="vm.cachingLevel"
+                                             label-key="umbhostCloudflarePurge_cdnCachingLevelAggressive"
+                                             on-change="vm.cachingLevelToggle('aggressive')">
+                            </umb-radiobutton>
+                            <div class="lastmodified">
+                                <small><strong><localize key="umbhostCloudflarePurge_lastModified"></localize>:</strong> {{vm.cachingLevelLastModified}}</small>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
                 </div>
             </umb-editor-container>
         </umb-editor-view>

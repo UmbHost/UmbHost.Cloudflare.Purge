@@ -43,5 +43,22 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
             }
             return new JsonResult(text);
         }
+
+        [HttpPatch]
+        public async Task<IActionResult> ToggleCachingLevel([FromBody] NewCacheLevel cacheLevel)
+        {
+            if (_configuration.Disabled)
+            {
+                return BadRequest("D1");
+            }
+
+            var text = await cloudflareService.ToggleCacheLevel(cacheLevel);
+
+            if (text == null)
+            {
+                return new BadRequestResult();
+            }
+            return new JsonResult(text);
+        }
     }
 }

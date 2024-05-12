@@ -9,5 +9,6 @@ namespace UmbHost.Cloudflare.Purge.Interfaces
         Task<bool> CustomPurge(PurgeFilesRequest purgeRequest);
         Task<AllSettings?> GetAllZoneSettings();
         Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode);
+        Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel);
     }
 }

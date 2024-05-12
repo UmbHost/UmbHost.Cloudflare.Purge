@@ -58,5 +58,14 @@
                 }
                 );
         },
+
+        ToggleCachingLevel: function (cachingLevel) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleCachingLevel", cachingLevel)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
     }
 });

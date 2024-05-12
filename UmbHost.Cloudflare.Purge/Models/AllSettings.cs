@@ -10,7 +10,7 @@ public class AllSettings
     //public Brotli Brotli { get; set; }
     //public BrowserCacheTtl BrowserCacheTtl { get; set; }
     //public BrowserCheck BrowserCheck { get; set; }
-    //public CacheLevel CacheLevel { get; set; }
+    public CacheLevel? CacheLevel { get; set; }
     public DevelopmentMode? DevelopmentMode { get; set; }
     //public EmailObfuscation EmailObfuscation { get; set; }
     //public HotlinkProtection HotlinkProtection { get; set; }

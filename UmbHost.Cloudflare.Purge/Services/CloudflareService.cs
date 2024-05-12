@@ -9,6 +9,7 @@ using UmbHost.Cloudflare.Purge.Models;
 using UmbHost.Cloudflare.Purge.Models.Settings;
 using Umbraco.Cms.Core.Services;
 using Umbraco.Extensions;
+using CacheLevel = UmbHost.Cloudflare.Purge.Models.Settings.CacheLevel;
 
 namespace UmbHost.Cloudflare.Purge.Services
 {
@@ -92,6 +93,27 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
+        public async Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel)
+        {
+            if (_configuration.Disabled)
+            {
+                return null;
+            }
+
+            CloudflareResponseObject? result = null;
+            using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/cache_level", GenerateHttpContent(cacheLevel));
+            var body = await response.Content.ReadAsStringAsync();
+            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return result.Result.Deserialize<CacheLevel>();
+            }
+
+            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            return null;
+        }
+
         public async Task<AllSettings?> GetAllZoneSettings()
         {
             if (_configuration.Disabled)
@@ -153,9 +175,9 @@ namespace UmbHost.Cloudflare.Purge.Services
                     //case "browser_cache_ttl":
                     //    allSettings.BrowserCacheTtl = json.ToObject<BrowserCacheTtl>();
                     //    break;
-                    //case "cache_level":
-                    //    allSettings.CacheLevel = json.ToObject<CacheLevel>();
-                    //    break;
+                    case "cache_level":
+                        allSettings.CacheLevel = json.Deserialize<CacheLevel>();
+                        break;
                     //case "polish":
                     //    allSettings.Polish = json.ToObject<Polish>();
                     //    break;
