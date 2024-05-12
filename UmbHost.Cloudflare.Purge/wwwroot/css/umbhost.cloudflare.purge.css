@@ -6,6 +6,10 @@
     margin-top:7px;
 }
 
+.umbhostCloudflarePurgeCdn .lastmodified {
+    margin-top: 7px;
+}
+
 .umbhostCloudflarePurgeCdn .group-cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));

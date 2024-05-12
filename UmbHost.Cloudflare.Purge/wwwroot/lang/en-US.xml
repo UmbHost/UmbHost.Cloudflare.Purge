@@ -8,6 +8,7 @@
 	</area>
 	<area alias="umbhostCloudflarePurge">
 		<key alias="overviewtitle">Cloudflare CDN Purge</key>
+		<key alias="cdntitle">Cloudflare Caching</key>
 		<key alias="purgecdn">Purge CDN</key>
 		<key alias="cdnSettings">CDN Settings</key>
 		<key alias="purgedurl">Purged URL</key>
@@ -46,6 +47,10 @@
 		<key alias="overviewIntroduction">
 			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zone here.</p>]]>
 		</key>
+		<key alias="cdnIntroduction">
+			<![CDATA[<p>You can manage the settings related to your Cloudflare DNS zones Caching here.</p>]]>
+		</key>
+		<key alias="lastModified">Last Modified On</key>
 		<key alias="cdnCardTitle">Caching</key>
 		<key alias="cdnCardDescription">Developer Mode, Caching Level, Browser Cache TTL, Crawler Hints, Always Online™</key>
 		<key alias="securityCardTitle">Security</key>
@@ -54,5 +59,8 @@
 		<key alias="optimizationCardDescription">Auto Minify, Brotli, Early Hints, Rocket Loader™</key>
 		<key alias="cardButtonLabel">Manage</key>
 		<key alias="cardButtonSoonLabel">Coming Soon</key>
+		<key alias="cdnDeveloperModeTitle">Developer Mode</key>
+		<key alias="cdnDeveloperModeDescription">Temporarily bypass the Cloudflare cache allowing you to see changes to your origin server in realtime.</key>
+		<key alias="cdnDeveloperModeWarning"><![CDATA[<p><strong>Note:</strong> Enabling this feature can significantly increase origin server load. Development mode does not purge the cache so files will need to be purged after development mode expires.</p>]]></key>
 	</area>
 </language>

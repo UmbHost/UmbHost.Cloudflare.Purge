@@ -1,11 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 namespace UmbHost.Cloudflare.Purge.Models;
 
-public class PurgeResponse
+public class CloudflareResponseArray
 {
     [JsonPropertyName("result")]
-    public object? Result { get; set; }
+    public JsonArray? Result { get; set; }
 
     [JsonPropertyName("success")]
     public bool Success { get; set; }
@@ -15,13 +16,4 @@ public class PurgeResponse
 
     [JsonPropertyName("messages")]
     public object[]? Messages { get; set; }
-}
-
-public class Error
-{
-    [JsonPropertyName("code")]
-    public int Code { get; set; }
-
-    [JsonPropertyName("message")]
-    public string? Message { get; set; }
 }

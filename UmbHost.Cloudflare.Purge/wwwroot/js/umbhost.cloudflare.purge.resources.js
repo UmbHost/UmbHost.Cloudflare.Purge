@@ -39,6 +39,24 @@
                     return response;
                 }
                 );
-        }
+        },
+
+        AllSettings: function () {
+
+            return $http.get("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/GetCacheSettings")
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
+
+        ToggleDevelopmentMode: function (developmentMode) {
+
+            return $http.patch("backoffice/UmbHostCloudflarePurge/UmbHostCloudflarePurgeCdnApi/ToggleDevelopmentMode", developmentMode)
+                .then(function (response) {
+                    return response;
+                }
+                );
+        },
     }
 });

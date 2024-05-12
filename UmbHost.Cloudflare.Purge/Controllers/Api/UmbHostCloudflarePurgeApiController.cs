@@ -15,6 +15,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         : UmbracoAuthorizedApiController
     {
         private readonly UmbHostCloudflarePurge _configuration = configuration.Value;
+
         [HttpPost]
         public async Task<IActionResult> All()
         {

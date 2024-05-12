@@ -1,0 +1,42 @@
+﻿<div ng-controller="UmbHost.Cloudflare.Purge.Cdn.Controller as vm">
+    <div class="umbhostCloudflarePurgeCdn">
+        <umb-editor-view class="form-horizontal">
+            <umb-editor-header name="vm.cdnTitle"
+                               name-locked="true"
+                               hide-alias="true"
+                               show-back-button="false"
+                               hide-description="true"
+                               hide-icon="true">
+            </umb-editor-header>
+            <umb-editor-container>
+                <umb-box>
+                    <umb-box-content>
+                        <p><localize key="umbhostCloudflarePurge_cdnIntroduction"></localize></p>
+                    </umb-box-content>
+                </umb-box>
+
+                <umb-load-indicator ng-if="vm.loading">
+                </umb-load-indicator>
+                <div ng-if="!vm.loading">
+                    <umb-box>
+                        <umb-box-header title-key="umbhostCloudflarePurge_cdnDeveloperModeTitle" description-key="umbhostCloudflarePurge_cdnDeveloperModeDescription"></umb-box-header>
+                        <umb-box-content>
+                            <p class="alert alert-warning"><localize key="umbhostCloudflarePurge_cdnDeveloperModeWarning"></localize></p>
+                            <umb-toggle checked="vm.developerMode"
+                                        disabled="vm.developerModeDisabled"
+                                        on-click="vm.developerModeToggle()"
+                                        show-labels="true"
+                                        label-on="On"
+                                        label-off="Off"
+                                        label-position="right">
+                            </umb-toggle>
+                            <div class="lastmodified">
+                                <small><strong><localize key="umbhostCloudflarePurge_lastModified"></localize>:</strong> {{vm.developerModeLastModified}}</small>
+                            </div>
+                        </umb-box-content>
+                    </umb-box>
+                </div>
+            </umb-editor-container>
+        </umb-editor-view>
+    </div>
+</div>
