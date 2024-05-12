@@ -79,17 +79,16 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return null;
             }
 
-            CloudflareResponseObject? result = null;
             using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/development_mode", GenerateHttpContent(developmentMode));
             var body = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+            var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
             if (response.IsSuccessStatusCode)
             {
-                return result.Result.Deserialize<DevelopmentMode>();
+                return result?.Result.Deserialize<DevelopmentMode>();
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
             return null;
         }
 
@@ -100,17 +99,16 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return null;
             }
 
-            CloudflareResponseObject? result = null;
             using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/cache_level", GenerateHttpContent(cacheLevel));
             var body = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+            var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
             if (response.IsSuccessStatusCode)
             {
-                return result.Result.Deserialize<CacheLevel>();
+                return result?.Result.Deserialize<CacheLevel>();
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
             return null;
         }
 
@@ -121,17 +119,16 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return null;
             }
 
-            CloudflareResponseObject? result = null;
             using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/always_online", GenerateHttpContent(alwaysOnline));
             var body = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+            var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
             if (response.IsSuccessStatusCode)
             {
-                return result.Result.Deserialize<AlwaysOnline>();
+                return result?.Result.Deserialize<AlwaysOnline>();
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
             return null;
         }
 
@@ -142,14 +139,13 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return null;
             }
 
-            CloudflareResponseObject? result = null;
             using var response = await _httpClient.PatchAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/browser_cache_ttl", GenerateHttpContent(browserCacheTtl));
             var body = await response.Content.ReadAsStringAsync();
-            result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+            var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
             if (response.IsSuccessStatusCode)
             {
-                return result.Result.Deserialize<BrowserCacheTtl>();
+                return result?.Result.Deserialize<BrowserCacheTtl>();
             }
 
             logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
@@ -171,87 +167,90 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
 
-            var results = result.Result;
-
+            var results = result?.Result;
             var allSettings = new AllSettings();
 
-            foreach (var json in results)
+            if (results != null)
             {
-                var idToken = json["id"];
-                if (idToken == null)
+                foreach (var json in results)
                 {
-                    throw new InvalidOperationException($"The setting does not have an id property.\n{json}");
-                }
+                    if (json == null)
+                        continue;
 
-                var id = idToken.GetValue<string>();
+                    var idToken = json["id"];
+                    if (idToken == null)
+                    {
+                        throw new InvalidOperationException($"The setting does not have an id property.\n{json}");
+                    }
 
-                switch (id)
-                {
-                    case "always_online":
-                        allSettings.AlwaysOnline = json.Deserialize<AlwaysOnline>();
-                        break;
-                    //case "always_use_https":
-                    //    allSettings.AlwaysUseHttps = json.ToObject<AlwaysUseHttps>();
-                    //    break;
-                    //case "automatic_https_rewrites":
-                    //    allSettings.AutomaticHttpsRewrites = json.ToObject<AutomaticHttpsRewrites>();
-                    //    break;
-                    //case "brotli":
-                    //    allSettings.Brotli = json.ToObject<Brotli>();
-                    //    break;
-                    //case "browser_check":
-                    //    allSettings.BrowserCheck = json.ToObject<BrowserCheck>();
-                    //    break;
-                    //case "email_obfuscation":
-                    //    allSettings.EmailObfuscation = json.ToObject<EmailObfuscation>();
-                    //    break;
-                    //case "hotlink_protection":
-                    //    allSettings.HotlinkProtection = json.ToObject<HotlinkProtection>();
-                    //    break;
-                    //case "ip_geolocation":
-                    //    allSettings.IpGeolocation = json.ToObject<IpGeolocation>();
-                    //    break;
-                    //case "mirage":
-                    //    allSettings.Mirage = json.ToObject<Mirage>();
-                    //    break;
-                    case "browser_cache_ttl":
-                        allSettings.BrowserCacheTtl = json.Deserialize<BrowserCacheTtl>();
-                        break;
-                    case "cache_level":
-                        allSettings.CacheLevel = json.Deserialize<CacheLevel>();
-                        break;
-                    //case "polish":
-                    //    allSettings.Polish = json.ToObject<Polish>();
-                    //    break;
-                    //case "rocket_loader":
-                    //    allSettings.RocketLoader = json.ToObject<RocketLoader>();
-                    //    break;
-                    case "development_mode":
-                        allSettings.DevelopmentMode = json.Deserialize<DevelopmentMode>();
-                        break;
-                    //case "minify":
-                    //    allSettings.Minify = json.ToObject<Minify>();
-                    //    break;
-                    //case "security_header":
-                    //    allSettings.SecurityHeaderHsts = json.ToObject<SecurityHeaderHsts>();
-                    //    break;
-                    //case "opportunistic_onion":
-                    //    allSettings.OpportunisticOnion = json.ToObject<OpportunisticOnion>();
-                    //    break;
-                    //case "min_tls_version":
-                    //    allSettings.MinimumTlsVersion = json.ToObject<MinimumTlsVersion>();
-                    //    break;
-                    //case "webp":
-                    //    allSettings.WebP = json.ToObject<WebP>();
-                    //    break;
-                    //case "opportunistic_encryption":
-                    //    allSettings.OpportunisticEncryption = json.ToObject<OpportunisticEncryption>();
-                    //    break;
-                    //case "early_hints":
-                    //    allSettings.EarlyHints = json.ToObject<EarlyHints>();
-                    //    break;
-                    default:
-                        break;
+                    var id = idToken.GetValue<string>();
+
+                    switch (id)
+                    {
+                        case "always_online":
+                            allSettings.AlwaysOnline = json.Deserialize<AlwaysOnline>();
+                            break;
+                        //case "always_use_https":
+                        //    allSettings.AlwaysUseHttps = json.ToObject<AlwaysUseHttps>();
+                        //    break;
+                        //case "automatic_https_rewrites":
+                        //    allSettings.AutomaticHttpsRewrites = json.ToObject<AutomaticHttpsRewrites>();
+                        //    break;
+                        //case "brotli":
+                        //    allSettings.Brotli = json.ToObject<Brotli>();
+                        //    break;
+                        //case "browser_check":
+                        //    allSettings.BrowserCheck = json.ToObject<BrowserCheck>();
+                        //    break;
+                        //case "email_obfuscation":
+                        //    allSettings.EmailObfuscation = json.ToObject<EmailObfuscation>();
+                        //    break;
+                        //case "hotlink_protection":
+                        //    allSettings.HotlinkProtection = json.ToObject<HotlinkProtection>();
+                        //    break;
+                        //case "ip_geolocation":
+                        //    allSettings.IpGeolocation = json.ToObject<IpGeolocation>();
+                        //    break;
+                        //case "mirage":
+                        //    allSettings.Mirage = json.ToObject<Mirage>();
+                        //    break;
+                        case "browser_cache_ttl":
+                            allSettings.BrowserCacheTtl = json.Deserialize<BrowserCacheTtl>();
+                            break;
+                        case "cache_level":
+                            allSettings.CacheLevel = json.Deserialize<CacheLevel>();
+                            break;
+                        //case "polish":
+                        //    allSettings.Polish = json.ToObject<Polish>();
+                        //    break;
+                        //case "rocket_loader":
+                        //    allSettings.RocketLoader = json.ToObject<RocketLoader>();
+                        //    break;
+                        case "development_mode":
+                            allSettings.DevelopmentMode = json.Deserialize<DevelopmentMode>();
+                            break;
+                        //case "minify":
+                        //    allSettings.Minify = json.ToObject<Minify>();
+                        //    break;
+                        //case "security_header":
+                        //    allSettings.SecurityHeaderHsts = json.ToObject<SecurityHeaderHsts>();
+                        //    break;
+                        //case "opportunistic_onion":
+                        //    allSettings.OpportunisticOnion = json.ToObject<OpportunisticOnion>();
+                        //    break;
+                        //case "min_tls_version":
+                        //    allSettings.MinimumTlsVersion = json.ToObject<MinimumTlsVersion>();
+                        //    break;
+                        //case "webp":
+                        //    allSettings.WebP = json.ToObject<WebP>();
+                        //    break;
+                        //case "opportunistic_encryption":
+                        //    allSettings.OpportunisticEncryption = json.ToObject<OpportunisticEncryption>();
+                        //    break;
+                        //case "early_hints":
+                        //    allSettings.EarlyHints = json.ToObject<EarlyHints>();
+                        //    break;
+                    }
                 }
             }
 
@@ -260,7 +259,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return allSettings;
             }
 
-            logger.LogError($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+            logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
             return null;
         }
 

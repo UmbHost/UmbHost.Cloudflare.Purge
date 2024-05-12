@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
 using UmbHost.Cloudflare.Purge.Models.Settings;
@@ -24,8 +23,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return BadRequest("D1");
             }
 
-            var text = await cloudflareService.GetAllZoneSettings();
-            return new JsonResult(text);
+            return new JsonResult(await cloudflareService.GetAllZoneSettings());
         }
 
         [HttpPatch]
@@ -36,13 +34,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return BadRequest("D1");
             }
 
-            var text = await cloudflareService.ToggleDevelopmentMode(developmentMode);
-
-            if (text == null)
-            {
-                return new BadRequestResult();
-            }
-            return new JsonResult(text);
+            return new JsonResult(await cloudflareService.ToggleDevelopmentMode(developmentMode));
         }
 
         [HttpPatch]
@@ -53,13 +45,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return BadRequest("D1");
             }
 
-            var text = await cloudflareService.ToggleCacheLevel(cacheLevel);
-
-            if (text == null)
-            {
-                return new BadRequestResult();
-            }
-            return new JsonResult(text);
+            return new JsonResult(await cloudflareService.ToggleCacheLevel(cacheLevel));
         }
 
         [HttpPatch]
@@ -70,13 +56,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return BadRequest("D1");
             }
 
-            var text = await cloudflareService.ToggleBrowserCacheTtl(browserCacheTtl);
-
-            if (text == null)
-            {
-                return new BadRequestResult();
-            }
-            return new JsonResult(text);
+            return new JsonResult(await cloudflareService.ToggleBrowserCacheTtl(browserCacheTtl));
         }
 
         [HttpPatch]
@@ -87,13 +67,8 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
                 return BadRequest("D1");
             }
 
-            var text = await cloudflareService.ToggleAlwaysOnline(alwaysOnline);
 
-            if (text == null)
-            {
-                return new BadRequestResult();
-            }
-            return new JsonResult(text);
+            return new JsonResult(await cloudflareService.ToggleAlwaysOnline(alwaysOnline));
         }
 
         [HttpGet]
@@ -119,8 +94,12 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         private static string GetEnumDescription(Enum value)
         {
             var field = value.GetType().GetField(value.ToString());
-            var attribute = (DescriptionAttribute)Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute));
-            return attribute == null ? value.ToString() : attribute.Description;
+            if (field != null)
+            {
+                return Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) is not DescriptionAttribute attribute ? value.ToString() : attribute.Description;
+            }
+
+            return string.Empty;
         }
     }
 }
