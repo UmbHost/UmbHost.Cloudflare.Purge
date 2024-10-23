@@ -1,43 +1,45 @@
 assembly-versioning-scheme: MajorMinorPatch
-mode: Mainline
-next-version: 1.2.1
+mode: ContinuousDeployment  # Global mode for automatic versioning
+
+next-version: 1.2.1  # Base version for the project
 branches:
-  master:
+  main:
     regex: ^main$
-    mode: ContinuousDelivery
-    tag: ''
-    increment: Patch
+    mode: ContinuousDelivery  # Stable releases on main
+    tag: ''  # No tag for stable versions
+    increment: Patch  # Increment patch version on merges
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-    source-branches: [ 'develop', 'release' ]
+    source-branches: [ 'develop', 'release' ]  # Merges from develop or release
     tracks-release-branches: false
     is-release-branch: false
     is-mainline: true
     pre-release-weight: 55000
+
   develop:
     regex: ^dev(elop)?(ment)?$
-    mode: ContinuousDelivery # Change from ContinuousDeployment to ContinuousDelivery
-    tag: beta
-    increment: Patch
+    mode: ContinuousDeployment  # Pre-releases on develop
+    tag: beta  # Append "-beta" for develop
+    increment: Patch  # Increment patch version
     prevent-increment-of-merged-branch-version: false
-    track-merge-target: true
+    track-merge-target: false
     source-branches: []
-    tracks-release-branches: true
+    tracks-release-branches: false
     is-release-branch: false
     is-mainline: false
-    pre-release-weight: 0
+
   release:
     regex: ^releases?[/-]
-    increment: Patch
-    tag: rc
-    increment: None
+    mode: ContinuousDelivery  # Stable release candidates on release branches
+    tag: rc  # Append "-rc" for release candidates
+    increment: Patch  # Increment patch version
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-    source-branches: [ 'develop', 'main', 'support', 'release' ]
+    source-branches: [ 'develop', 'main' ]  # Merges from develop or main
     tracks-release-branches: false
-    is-release-branch: true
+    is-release-branch: true  # This is the release branch
     is-mainline: false
-    pre-release-weight: 30000
+
 ignore:
   sha: []
 merge-message-formats: {}
