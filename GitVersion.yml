@@ -1,6 +1,6 @@
 assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDeployment
-next-version: 1.2.0
+next-version: 1.2.1
 branches:
   master:
     regex: ^main$
@@ -18,7 +18,7 @@ branches:
     regex: ^dev(elop)?(ment)?$
     mode: ContinuousDeployment
     tag: beta
-    increment: Minor
+    increment: Patch # Change from Minor to Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     source-branches: []
