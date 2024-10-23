@@ -16,9 +16,9 @@ branches:
     pre-release-weight: 55000
   develop:
     regex: ^dev(elop)?(ment)?$
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery # Change from ContinuousDeployment to ContinuousDelivery
     tag: beta
-    increment: Patch # Change from Minor to Patch
+    increment: Patch
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
     source-branches: []
