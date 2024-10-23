@@ -1,12 +1,12 @@
 assembly-versioning-scheme: MajorMinorPatch
-mode: ContinuousDeployment
+mode: Mainline
 next-version: 1.2.1
 branches:
   master:
     regex: ^main$
     mode: ContinuousDelivery
     tag: ''
-    increment: Mainline
+    increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
     source-branches: [ 'develop', 'release' ]
@@ -28,7 +28,7 @@ branches:
     pre-release-weight: 0
   release:
     regex: ^releases?[/-]
-    mode: ContinuousDelivery
+    increment: Patch
     tag: rc
     increment: None
     prevent-increment-of-merged-branch-version: true
