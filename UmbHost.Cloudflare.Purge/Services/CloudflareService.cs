@@ -49,7 +49,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
-            CloudflareResponseArray? result = null;
+            CloudflareResponseObject? result = null;
             for (var i = 0; i < purgeRequest.Files.Length; i += 30)
             {
                 var pr = new PurgeFilesRequest
@@ -59,11 +59,12 @@ namespace UmbHost.Cloudflare.Purge.Services
 
                 using var response = await _httpClient.PostAsync($"{Consts.CloudflareApiUrl}client/{Consts.CloudflareApiVersion}/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(pr));
                 var body = await response.Content.ReadAsStringAsync();
-                result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
+                result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    LogPurgeUrls(purgeRequest.Files);
+                    var purgeResult = result?.Result.Deserialize<PurgeResult>();
+                    LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
                     return true;
                 }
             }
@@ -263,8 +264,9 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
-        private void LogPurgeUrls(string[] purgeUrls)
+        private void LogPurgeUrls(string[] purgeUrls, string id = "")
         {
+            logger.LogInformation($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgedUrlAlias)}: {id}");
             foreach (var purgeUrl in purgeUrls)
             {
                 logger.LogInformation($"{localizedTextService.Localize(Consts.Localizations.Area, Consts.Localizations.PurgedUrlAlias)}: {purgeUrl}");
