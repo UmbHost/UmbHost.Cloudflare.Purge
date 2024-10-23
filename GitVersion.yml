@@ -28,6 +28,9 @@ branches:
     is-release-branch: false
     is-mainline: false
     pre-release-weight: 0
+    track-commit-date: false  # Disable commit count tracking for betas
+    pre-release-numbering:  # Ensure incremental pre-release numbering
+      pattern: '{t}-{n:0000}'  # Generates 0001, 0002, etc.
 
   release:
     regex: ^releases?[/-]
@@ -41,6 +44,8 @@ branches:
     is-release-branch: true  # This is the release branch
     is-mainline: false
     pre-release-weight: 30000
+    pre-release-numbering:  # Ensure incremental pre-release numbering
+      pattern: '{t}-{n:0000}'  # Generates 0001, 0002, etc.
 
 ignore:
   sha: []
