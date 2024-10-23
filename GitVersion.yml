@@ -22,7 +22,7 @@ branches:
     tag: beta  # Append "-beta" for develop
     increment: Patch  # Increment patch version
     prevent-increment-of-merged-branch-version: false
-    track-merge-target: false
+    track-merge-target: true  # Track the merge target for correct versioning
     source-branches: []
     tracks-release-branches: false
     is-release-branch: false
