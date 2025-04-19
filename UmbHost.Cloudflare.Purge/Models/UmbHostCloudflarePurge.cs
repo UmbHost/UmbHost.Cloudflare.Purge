@@ -15,18 +15,18 @@ namespace UmbHost.Cloudflare.Purge.Models
 
     public class NotificationHandlers
     {
-        public bool ContentDeletedNotificationEnabled = true;
-        public bool ContentPublishedNotificationEnabled = true;
-        public bool ContentUnpublishedNotificationEnabled = true;
-        public bool MediaDeletedNotificationEnabled = true;
-        public bool MediaSavedNotificationEnabled = true;
+        public bool ContentDeletedNotificationEnabled { get; set; } = true;
+        public bool ContentPublishedNotificationEnabled { get; set; } = true;
+        public bool ContentUnpublishedNotificationEnabled { get; set; } = true;
+        public bool MediaDeletedNotificationEnabled { get; set; } = true;
+        public bool MediaSavedNotificationEnabled { get; set; } = true;
     }
 
     public class TreeMenuItems
     {
-        public bool TreeMenuItemsEnabled = true;
-        public bool ContentTreeMenuItemEnabled = true;
-        public bool MediaFolderTreeMenuItemEnabled = true;
-        public bool MediaItemTreeMenuItemEnabled = true;
+        public bool TreeMenuItemsEnabled { get; set; } = true;
+        public bool ContentTreeMenuItemEnabled { get; set; } = true;
+        public bool MediaFolderTreeMenuItemEnabled { get; set; } = true;
+        public bool MediaItemTreeMenuItemEnabled { get; set; } = true;
     }
 }
