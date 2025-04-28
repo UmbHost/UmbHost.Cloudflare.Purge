@@ -49,6 +49,12 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
+            purgeRequest.Files = purgeRequest.Files
+                .Where(url => !string.IsNullOrWhiteSpace(url)
+                              && Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult)
+                              && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
+                .ToArray();
+
             CloudflareResponseObject? result = null;
             for (var i = 0; i < purgeRequest.Files.Length; i += 30)
             {
