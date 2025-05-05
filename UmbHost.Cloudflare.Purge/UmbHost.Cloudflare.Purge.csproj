@@ -1,45 +1,37 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
   <PropertyGroup>
-	  <TargetFramework>net8.0</TargetFramework>
-	  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <StaticWebAssetBasePath>App_Plugins/UmbHostCloudflarePurge</StaticWebAssetBasePath>
-	  <PackageId>UmbHost.Cloudflare.Purge</PackageId>
-	  <Product>UmbHost.Cloudflare.Purge</Product>
-	  <Title>UmbHost.Cloudflare.Purge</Title>
-	  <Company>UmbHost Limited</Company>
-	  <Copyright>(c) $([System.DateTime]::Now.ToString(`yyyy`)) UmbHost Limited</Copyright>
-	  <PackageProjectUrl>https://umbhost.net</PackageProjectUrl>
-	  <RepositoryUrl>https://github.com/UmbHost/UmbHost.Cloudflare.Purge</RepositoryUrl>
-	  <RepositoryType>git</RepositoryType>
-	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	  <Description>Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items</Description>
-	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
-	  <FileVersion>1.0.0.0</FileVersion>
-	  <VersionPrefix>1.0.0-beta2</VersionPrefix>
-	  <PackageTags>umbraco-marketplace;umbraco;cloudflare;</PackageTags>
-	  <PackageIcon>icon.png</PackageIcon>
-	  <PackageReadmeFile>README.md</PackageReadmeFile>
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>UmbHost.Cloudflare.Purge</PackageId>
+    <Product>UmbHost.Cloudflare.Purge</Product>
+    <Title>UmbHost.Cloudflare.Purge</Title>
+  </PropertyGroup>
+
+
   <ItemGroup>
-    <EmbeddedResource Include="..\icon.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </EmbeddedResource>
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="15.3.1" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" Version="15.3.1" />
+    <PackageReference Include="Umbraco.Cms.Api.Common" Version="15.3.1" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="15.3.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="..\README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </EmbeddedResource>
+    <ClientAssetsInputs Include="Client\**" Exclude="$(DefaultItemExcludes)" />
+
+    <!-- Dont include the client folder as part of packaging nuget build -->
+    <Content Remove="Client\**" />
+
+    <!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
+    <None Include="Client\public\umbraco-package.json" Pack="false" />
   </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.1.1, 14)" />
-		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.1.1, 14)" />
-	</ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

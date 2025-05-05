@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+	  <TargetFramework>net8.0</TargetFramework>
+	  <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StaticWebAssetBasePath>App_Plugins/UmbHostCloudflarePurge</StaticWebAssetBasePath>
+	  <PackageId>UmbHost.Cloudflare.Purge</PackageId>
+	  <Product>UmbHost.Cloudflare.Purge</Product>
+	  <Title>UmbHost.Cloudflare.Purge</Title>
+	  <Company>UmbHost Limited</Company>
+	  <Copyright>(c) $([System.DateTime]::Now.ToString(`yyyy`)) UmbHost Limited</Copyright>
+	  <PackageProjectUrl>https://umbhost.net</PackageProjectUrl>
+	  <RepositoryUrl>https://github.com/UmbHost/UmbHost.Cloudflare.Purge</RepositoryUrl>
+	  <RepositoryType>git</RepositoryType>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <Description>Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items</Description>
+	  <AssemblyVersion>1.0.0.0</AssemblyVersion>
+	  <FileVersion>1.0.0.0</FileVersion>
+	  <VersionPrefix>1.0.0-beta2</VersionPrefix>
+	  <PackageTags>umbraco-marketplace;umbraco;cloudflare;</PackageTags>
+	  <PackageIcon>icon.png</PackageIcon>
+	  <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </EmbeddedResource>
+  </ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.1.1, 14)" />
+		<PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.1.1, 14)" />
+	</ItemGroup>
+</Project>
