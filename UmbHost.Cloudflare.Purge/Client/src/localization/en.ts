@@ -11,6 +11,8 @@ export default {
 			<strong>Example:<br />
 			https://www.domain.com <br/>
 			https://www.domain.com/cat.jpg</strong></p>`,
-      urls: "URLs"
+      urls: "URLs",
+	  purgeeverything: "Purge Everything",
+	  custompurge: "Custom Purge"
   }
 } as UmbLocalizationDictionary;

@@ -9,10 +9,12 @@ const e = {
 			<strong>Example:<br />
 			https://www.domain.com <br/>
 			https://www.domain.com/cat.jpg</strong></p>`,
-    urls: "URLs"
+    urls: "URLs",
+    purgeeverything: "Purge Everything",
+    custompurge: "Custom Purge"
   }
 };
 export {
   e as default
 };
-//# sourceMappingURL=en-DvZ1SgqX.js.map
+//# sourceMappingURL=en-DIXV_rxd.js.map

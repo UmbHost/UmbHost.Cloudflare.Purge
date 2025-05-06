@@ -1,11 +1,13 @@
-import {css, html, customElement} from '@umbraco-cms/backoffice/external/lit';
-import {UmbLitElement} from '@umbraco-cms/backoffice/lit-element';
-
-@customElement('umbhost-cloudflare-purge-dashboard')
-export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
-
-    override render() {
-        return html`
+import { html as s, css as m, customElement as d } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement as b } from "@umbraco-cms/backoffice/lit-element";
+var n = Object.getOwnPropertyDescriptor, c = (u, l, a, t) => {
+  for (var e = t > 1 ? void 0 : t ? n(l, a) : l, r = u.length - 1, i; r >= 0; r--)
+    (i = u[r]) && (e = i(e) || e);
+  return e;
+};
+let o = class extends b {
+  render() {
+    return s`
         <umb-workspace-editor>
           <div slot="actions">
             <uui-button
@@ -31,10 +33,10 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
           </div>
         </umb-workspace-editor>
     `;
-    }
-
-    static override readonly styles = [
-        css`
+  }
+};
+o.styles = [
+  m`
             #main {
                 display: block;
                 flex: 1 1 0%;
@@ -42,14 +44,14 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
                 overflow-y: auto;
                 padding: var(--uui-size-layout-1);
             }
-        `,
-    ];
-}
-
-export default UmbHostCloudflarePurgeDashboardElement;
-
-declare global {
-    interface HTMLElementTagNameMap {
-        'umbhost-cloudflare-purge-cdn-dashboard': UmbHostCloudflarePurgeDashboardElement;
-    }
-}
+        `
+];
+o = c([
+  d("umbhost-cloudflare-purge-dashboard")
+], o);
+const h = o;
+export {
+  o as UmbHostCloudflarePurgeDashboardElement,
+  h as default
+};
+//# sourceMappingURL=dashboard-B4iKCYVe.js.map
