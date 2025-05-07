@@ -11,10 +11,16 @@ const e = {
 			https://www.domain.com/cat.jpg</strong></p>`,
     urls: "URLs",
     purgeeverything: "Purge Everything",
-    custompurge: "Custom Purge"
+    custompurge: "Custom Purge",
+    confirmpurgeeverythingtitle: "Confirm purge everything",
+    confirmpurgeeverythingcontent: "Purge all cached files. Purging your cache may slow your website temporarily.",
+    confirmcustompurgetitle: "Confirm custom purge",
+    confirmcustompurgecontent: "Purge specified cached files. Purging your cache may slow your website temporarily.",
+    purgesuccesstitle: "URLs purged",
+    purgesuccesscontent: "Please allow 30 seconds to propagate globally"
   }
 };
 export {
   e as default
 };
-//# sourceMappingURL=en-DIXV_rxd.js.map
+//# sourceMappingURL=en-DkZ4H8w9.js.map
