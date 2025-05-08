@@ -23,10 +23,24 @@ const e = {
     entityactionlabel: "Purge from CDN",
     confirmpurgecdnentityactiontitle: "Confirm CDN purge",
     confirmpurgecdnentityactioncontent: `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
-			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`
+			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`,
+    cloudflare: "Cloudflare",
+    settingsoverview: "Overview",
+    workspace: "Cloudflare CDN Purge Settings Overview",
+    settingsoverviewtitle: "Introduction",
+    settingsoverviewintroduction: "You can manage the settings related to your Cloudflare DNS zone here.",
+    settingsoverviewcachingtitle: "Caching",
+    settingsoverviewcachingdescription: "Developer Mode, Caching Level, Browser Cache TTL, Always Online™",
+    settingsoverviewcachingbutton: "Manage Caching",
+    settingsoverviewsecuritytitle: "Security",
+    settingsoverviewsecuritydescription: "Always Use HTTPS, Automatic HTTPS Rewrites, Opportunistic Encryption, Minimum TLS Version, HTTP Strict Transport Security (HSTS), Security Level, Challenge Passage, Browser Integrity Check, Email Obfuscation, Hotlink Protection",
+    settingsoverviewsecuritybutton: "Manage Security",
+    settingsoverviewoptimizationtitle: "Optimization",
+    settingsoverviewoptimizationdescription: "Auto Minify, Brotli, Early Hints, Rocket Loader™",
+    settingsoverviewoptimizationbutton: "Manage Optimization"
   }
 };
 export {
   e as default
 };
-//# sourceMappingURL=en-Bm2eZ3E3.js.map
+//# sourceMappingURL=en-CLtP8MwH.js.map

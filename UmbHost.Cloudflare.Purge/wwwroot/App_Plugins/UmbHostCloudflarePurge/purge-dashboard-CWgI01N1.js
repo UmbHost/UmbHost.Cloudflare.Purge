@@ -115,4 +115,4 @@ export {
   u as UmbHostCloudflarePurgeDashboardElement,
   $ as default
 };
-//# sourceMappingURL=dashboard-CWgI01N1.js.map
+//# sourceMappingURL=purge-dashboard-CWgI01N1.js.map
