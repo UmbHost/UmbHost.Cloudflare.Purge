@@ -1,5 +1,6 @@
 import { UMB_DOCUMENT_ENTITY_TYPE } from "@umbraco-cms/backoffice/document";
 import { PurdeCdnEntityAction } from "./tree-entity.action"
+import { UMB_MEDIA_ENTITY_TYPE } from "@umbraco-cms/backoffice/media";
 
 const dashboardManifest = {
   type: 'dashboard',
@@ -27,7 +28,7 @@ const purgeCdnEntityActionManifest = {
   kind: 'default',
 	weight: 50,
 	api: PurdeCdnEntityAction,
-	forEntityTypes: [ UMB_DOCUMENT_ENTITY_TYPE ],
+	forEntityTypes: [ UMB_DOCUMENT_ENTITY_TYPE, UMB_MEDIA_ENTITY_TYPE ],
 	meta: {
 		icon: 'icon-cloud',
 		label: '#umbhostCloudflarePurge_entityactionlabel'

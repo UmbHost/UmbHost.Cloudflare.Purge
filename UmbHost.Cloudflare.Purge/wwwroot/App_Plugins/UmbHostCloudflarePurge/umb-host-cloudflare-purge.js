@@ -7,8 +7,9 @@ import { UMB_DOCUMENT_ENTITY_TYPE as d } from "@umbraco-cms/backoffice/document"
 import { UmbEntityActionBase as h } from "@umbraco-cms/backoffice/entity-action";
 import { UMB_MODAL_MANAGER_CONTEXT as b, UMB_CONFIRM_MODAL as f } from "@umbraco-cms/backoffice/modal";
 import { UmbLocalizationController as p } from "@umbraco-cms/backoffice/localization-api";
+import { UMB_MEDIA_ENTITY_TYPE as C } from "@umbraco-cms/backoffice/media";
 var n, i;
-class C extends h {
+class g extends h {
   constructor(o, a) {
     super(o, a);
     r(this, n);
@@ -34,7 +35,7 @@ class C extends h {
   }
 }
 n = new WeakMap(), i = new WeakMap();
-const g = {
+const y = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
@@ -51,19 +52,19 @@ const g = {
       match: "Umb.Section.Content"
     }
   ]
-}, y = {
+}, _ = {
   type: "entityAction",
   alias: "umbhost-cloudflare-purge-cdn-entity-action",
   name: "Cloudflare CDN Purge Entity Action",
   kind: "default",
   weight: 50,
-  api: C,
-  forEntityTypes: [d],
+  api: g,
+  forEntityTypes: [d, C],
   meta: {
     icon: "icon-cloud",
     label: "#umbhostCloudflarePurge_entityactionlabel"
   }
-}, _ = {
+}, E = {
   type: "localization",
   alias: "umbhost-cloudflare-purge-localize-en",
   name: "Cloudflare CDN Purge Localization",
@@ -71,12 +72,12 @@ const g = {
     culture: "en"
   },
   js: () => import("./en-Bm2eZ3E3.js")
-}, P = [
-  g,
-  _,
-  y
+}, U = [
+  y,
+  E,
+  _
 ];
 export {
-  P as manifests
+  U as manifests
 };
 //# sourceMappingURL=umb-host-cloudflare-purge.js.map
