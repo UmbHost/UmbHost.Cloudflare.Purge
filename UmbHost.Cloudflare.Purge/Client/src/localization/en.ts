@@ -19,6 +19,8 @@ export default {
 	  confirmcustompurgetitle: "Confirm custom purge",
 	  confirmcustompurgecontent: "Purge specified cached files. Purging your cache may slow your website temporarily.",
 	  purgesuccesstitle: "URLs purged",
-	  purgesuccesscontent: "Please allow 30 seconds to propagate globally"
+	  purgesuccesscontent: "Please allow 30 seconds to propagate globally",
+	  confirmpurgeeverythingconfirm: "Purge everything",
+	  confirmcustompurgeconfirm: "Purge custom URLs",
   }
 } as UmbLocalizationDictionary;

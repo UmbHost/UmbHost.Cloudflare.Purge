@@ -17,10 +17,12 @@ const e = {
     confirmcustompurgetitle: "Confirm custom purge",
     confirmcustompurgecontent: "Purge specified cached files. Purging your cache may slow your website temporarily.",
     purgesuccesstitle: "URLs purged",
-    purgesuccesscontent: "Please allow 30 seconds to propagate globally"
+    purgesuccesscontent: "Please allow 30 seconds to propagate globally",
+    confirmpurgeeverythingconfirm: "Purge everything",
+    confirmcustompurgeconfirm: "Purge custom URLs"
   }
 };
 export {
   e as default
 };
-//# sourceMappingURL=en-DkZ4H8w9.js.map
+//# sourceMappingURL=en-sDRudU6r.js.map

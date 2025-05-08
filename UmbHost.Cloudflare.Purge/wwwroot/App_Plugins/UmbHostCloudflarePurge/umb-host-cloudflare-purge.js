@@ -2,7 +2,7 @@ const a = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
-  element: () => import("./dashboard-D32AahAo.js"),
+  element: () => import("./dashboard-CWgI01N1.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
   weight: 30,
   meta: {
@@ -22,7 +22,7 @@ const a = {
   meta: {
     culture: "en"
   },
-  js: () => import("./en-DkZ4H8w9.js")
+  js: () => import("./en-sDRudU6r.js")
 }, o = [
   a,
   e

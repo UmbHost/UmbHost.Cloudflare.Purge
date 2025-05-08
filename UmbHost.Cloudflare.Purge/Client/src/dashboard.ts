@@ -1,8 +1,8 @@
-import {css, html, customElement, ifDefined, state} from '@umbraco-cms/backoffice/external/lit';
+import { css, html, customElement, ifDefined, state } from '@umbraco-cms/backoffice/external/lit';
 import { UUIButtonState } from '@umbraco-cms/backoffice/external/uui';
-import {UmbLitElement} from '@umbraco-cms/backoffice/lit-element';
-import {UmbNotificationContext, UmbNotificationDefaultData, UMB_NOTIFICATION_CONTEXT,} from '@umbraco-cms/backoffice/notification';
-import {UmbModalManagerContext, UMB_CONFIRM_MODAL, UMB_MODAL_MANAGER_CONTEXT} from '@umbraco-cms/backoffice/modal'
+import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
+import { UmbNotificationContext, UmbNotificationDefaultData, UMB_NOTIFICATION_CONTEXT, } from '@umbraco-cms/backoffice/notification';
+import { UmbModalManagerContext, UMB_CONFIRM_MODAL, UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal'
 
 @customElement('umbhost-cloudflare-purge-dashboard')
 export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
@@ -16,59 +16,65 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
   @state()
   private customPurgeButtonState?: UUIButtonState;
 
-	constructor() {
-		super();
+  constructor() {
+    super();
 
-		this.consumeContext(UMB_NOTIFICATION_CONTEXT, (notificationContext) => {
-			this._notificationContext = notificationContext;
-		});
+    this.consumeContext(UMB_NOTIFICATION_CONTEXT, (notificationContext) => {
+      this._notificationContext = notificationContext;
+    });
 
     this.consumeContext(UMB_MODAL_MANAGER_CONTEXT, (_instance) => {
       this.#modalContext = _instance;
-  });
-	}
+    });
+  }
 
-	async #handlePurgeEverything() {
+  async #handlePurgeEverything() {
     this.purgeEverythingButtonState = 'waiting';
 
     const modalHandler = this.#modalContext?.open(this, UMB_CONFIRM_MODAL, {
       data: {
-          headline: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingtitle"),
-          content: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingcontent"),
+        headline: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingtitle"),
+        content: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingcontent"),
+        color: 'danger',
+        confirmLabel: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingconfirm"),
       }
     });
-    const result = await modalHandler?.onSubmit().then(() => {
+    await modalHandler?.onSubmit().then(() => {
       const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
       this._notificationContext?.peek('positive', { data });
-  
+
       this.purgeEverythingButtonState = 'success';
       return;
-		}).catch(() => undefined);
-
-    this.purgeEverythingButtonState = undefined;
-	}
+    }).catch(() => {
+      this.purgeEverythingButtonState = undefined;
+    });
+  }
 
   async #handleCustomPurge() {
     this.customPurgeButtonState = 'waiting';
 
     const modalHandler = this.#modalContext?.open(this, UMB_CONFIRM_MODAL, {
       data: {
-          headline: this.localize.term("umbhostCloudflarePurge_confirmcustompurgetitle"),
-          content: this.localize.term("umbhostCloudflarePurge_confirmcustompurgecontent"),
+        headline: this.localize.term("umbhostCloudflarePurge_confirmcustompurgetitle"),
+        content: this.localize.term("umbhostCloudflarePurge_confirmcustompurgecontent"),
+        color: 'danger',
+        confirmLabel: this.localize.term("umbhostCloudflarePurge_confirmcustompurgeconfirm"),
       }
     });
-    const result = await modalHandler?.onSubmit().then(() => {
+    await modalHandler?.onSubmit().then(() => {
       const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
       this._notificationContext?.peek('positive', { data });
-  
+
       this.customPurgeButtonState = 'success';
       return;
-		})
-    .catch(() => undefined);
-	}
+    })
+      .catch(() => {
+        this.customPurgeButtonState = undefined;
+      });
+  }
 
-    override render() {
-        return html`
+  override render() {
+    return html`
         <umb-workspace-editor>
           <div slot="actions">
             <uui-button
@@ -98,10 +104,10 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
           </div>
         </umb-workspace-editor>
     `;
-    }
+  }
 
-    static override readonly styles = [
-        css`
+  static override readonly styles = [
+    css`
             #main {
                 display: block;
                 flex: 1 1 0%;
@@ -110,13 +116,13 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
                 padding: var(--uui-size-layout-1);
             }
         `,
-    ];
+  ];
 }
 
 export default UmbHostCloudflarePurgeDashboardElement;
 
 declare global {
-    interface HTMLElementTagNameMap {
-        'umbhost-cloudflare-purge-cdn-dashboard': UmbHostCloudflarePurgeDashboardElement;
-    }
+  interface HTMLElementTagNameMap {
+    'umbhost-cloudflare-purge-cdn-dashboard': UmbHostCloudflarePurgeDashboardElement;
+  }
 }
