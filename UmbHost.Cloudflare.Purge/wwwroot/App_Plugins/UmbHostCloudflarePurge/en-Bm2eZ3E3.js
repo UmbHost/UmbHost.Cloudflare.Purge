@@ -19,10 +19,14 @@ const e = {
     purgesuccesstitle: "URLs purged",
     purgesuccesscontent: "Please allow 30 seconds to propagate globally",
     confirmpurgeeverythingconfirm: "Purge everything",
-    confirmcustompurgeconfirm: "Purge custom URLs"
+    confirmcustompurgeconfirm: "Purge custom URLs",
+    entityactionlabel: "Purge from CDN",
+    confirmpurgecdnentityactiontitle: "Confirm CDN purge",
+    confirmpurgecdnentityactioncontent: `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
+			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`
   }
 };
 export {
   e as default
 };
-//# sourceMappingURL=en-sDRudU6r.js.map
+//# sourceMappingURL=en-Bm2eZ3E3.js.map

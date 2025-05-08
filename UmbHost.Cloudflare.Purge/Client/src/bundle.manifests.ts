@@ -1,3 +1,6 @@
+import { UMB_DOCUMENT_ENTITY_TYPE } from "@umbraco-cms/backoffice/document";
+import { PurdeCdnEntityAction } from "./tree-entity.action"
+
 const dashboardManifest = {
   type: 'dashboard',
   alias: 'umbhost-cloudflare-purge-dashboard',
@@ -17,6 +20,20 @@ const dashboardManifest = {
   ]
 };
 
+const purgeCdnEntityActionManifest = {
+	type: 'entityAction',
+	alias: 'umbhost-cloudflare-purge-cdn-entity-action',
+	name: 'Cloudflare CDN Purge Entity Action',
+  kind: 'default',
+	weight: 50,
+	api: PurdeCdnEntityAction,
+	forEntityTypes: [ UMB_DOCUMENT_ENTITY_TYPE ],
+	meta: {
+		icon: 'icon-cloud',
+		label: '#umbhostCloudflarePurge_entityactionlabel'
+	},
+};
+
 const localization = {
     type: "localization",
     alias: "umbhost-cloudflare-purge-localize-en",
@@ -30,4 +47,5 @@ const localization = {
 export const manifests: Array<UmbExtensionManifest> = [
   dashboardManifest,
   localization,
+  purgeCdnEntityActionManifest
 ];
