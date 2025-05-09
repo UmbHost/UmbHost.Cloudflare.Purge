@@ -24,15 +24,26 @@ const settingsMenu = {
     ],
 }
 
-const settingsMenuItem = {
+const overviewMenuItem = {
     type: 'menuItem',
-    alias: 'umbhost-cloudflare-purge-settings-menu-item',
-    name: 'Cloudflare CDN Purge Settings Menu Item',
-    // element: uSyncMenuElement,
+    alias: 'umbhost-cloudflare-purge-settings-overview-menu-item',
+    name: 'Cloudflare CDN Purge Settings Overview Menu Item',
     meta: {
         label: '#umbhostCloudflarePurge_settingsoverview',
         icon: 'icon-cloud',
-        entityType: 'umbhost-cloudflare-purge/settings-root',
+        entityType: 'umbhost-cloudflare-purge/overview',
+        menus: ['umbhost-cloudflare-purge-settings-menu'],
+    },
+};
+
+const cachingMenuItem = {
+    type: 'menuItem',
+    alias: 'umbhost-cloudflare-purge-settings-caching-menu-item',
+    name: 'Cloudflare CDN Purge Settings Caching Menu Item',
+    meta: {
+        label: '#umbhostCloudflarePurge_settingscaching',
+        icon: 'icon-cloud',
+        entityType: 'umbhost-cloudflare-purge/view/caching',
         menus: ['umbhost-cloudflare-purge-settings-menu'],
     },
 };
@@ -40,5 +51,6 @@ const settingsMenuItem = {
 export const manifests = [
     menu,
     settingsMenu,
-    settingsMenuItem
+    overviewMenuItem,
+    cachingMenuItem
 ];

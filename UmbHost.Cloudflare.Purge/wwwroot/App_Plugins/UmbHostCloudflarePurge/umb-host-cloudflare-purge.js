@@ -1,30 +1,30 @@
-var r = (e) => {
+var l = (e) => {
   throw TypeError(e);
 };
-var u = (e, o, t) => o.has(e) || r("Cannot " + t);
-var i = (e, o, t) => (u(e, o, "read from private field"), t ? t.call(e) : o.get(e)), l = (e, o, t) => o.has(e) ? r("Cannot add the same private member more than once") : o instanceof WeakSet ? o.add(e) : o.set(e, t), m = (e, o, t, n) => (u(e, o, "write to private field"), n ? n.call(e, t) : o.set(e, t), t);
-import { UMB_DOCUMENT_ENTITY_TYPE as d } from "@umbraco-cms/backoffice/document";
-import { UmbEntityActionBase as g } from "@umbraco-cms/backoffice/entity-action";
-import { UMB_MODAL_MANAGER_CONTEXT as p, UMB_CONFIRM_MODAL as f } from "@umbraco-cms/backoffice/modal";
-import { UmbLocalizationController as h } from "@umbraco-cms/backoffice/localization-api";
+var r = (e, o, t) => o.has(e) || l("Cannot " + t);
+var s = (e, o, t) => (r(e, o, "read from private field"), t ? t.call(e) : o.get(e)), u = (e, o, t) => o.has(e) ? l("Cannot add the same private member more than once") : o instanceof WeakSet ? o.add(e) : o.set(e, t), c = (e, o, t, n) => (r(e, o, "write to private field"), n ? n.call(e, t) : o.set(e, t), t);
+import { UMB_DOCUMENT_ENTITY_TYPE as g } from "@umbraco-cms/backoffice/document";
+import { UmbEntityActionBase as d } from "@umbraco-cms/backoffice/entity-action";
+import { UMB_MODAL_MANAGER_CONTEXT as h, UMB_CONFIRM_MODAL as p } from "@umbraco-cms/backoffice/modal";
+import { UmbLocalizationController as f } from "@umbraco-cms/backoffice/localization-api";
 import { UMB_MEDIA_ENTITY_TYPE as b } from "@umbraco-cms/backoffice/media";
 import { UMB_SETTINGS_SECTION_ALIAS as C } from "@umbraco-cms/backoffice/settings";
-var a, s;
-class y extends g {
+var a, i;
+class y extends d {
   constructor(t, n) {
     super(t, n);
-    l(this, a);
-    l(this, s, new h(this));
-    this.consumeContext(p, (c) => {
-      m(this, a, c);
+    u(this, a);
+    u(this, i, new f(this));
+    this.consumeContext(h, (m) => {
+      c(this, a, m);
     });
   }
   async execute() {
     var n;
-    const t = (n = i(this, a)) == null ? void 0 : n.open(this, f, {
+    const t = (n = s(this, a)) == null ? void 0 : n.open(this, p, {
       data: {
-        headline: i(this, s).term("umbhostCloudflarePurge_confirmpurgecdnentityactiontitle"),
-        content: i(this, s).term("umbhostCloudflarePurge_confirmpurgecdnentityactioncontent"),
+        headline: s(this, i).term("umbhostCloudflarePurge_confirmpurgecdnentityactiontitle"),
+        content: s(this, i).term("umbhostCloudflarePurge_confirmpurgecdnentityactioncontent"),
         color: "danger"
       }
     });
@@ -35,22 +35,22 @@ class y extends g {
     }));
   }
 }
-a = new WeakMap(), s = new WeakMap();
-const _ = {
+a = new WeakMap(), i = new WeakMap();
+const w = {
   type: "entityAction",
   alias: "umbhost-cloudflare-purge-cdn-entity-action",
   name: "Cloudflare CDN Purge Entity Action",
   kind: "default",
   weight: 50,
   api: y,
-  forEntityTypes: [d, b],
+  forEntityTypes: [g, b],
   meta: {
     icon: "icon-cloud",
     label: "#umbhostCloudflarePurge_entityactionlabel"
   }
-}, M = [
-  _
-], N = {
+}, v = [
+  w
+], P = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
@@ -67,27 +67,44 @@ const _ = {
       match: "Umb.Section.Content"
     }
   ]
-}, w = [
-  N
-], P = {
+}, _ = [
+  P
+], N = {
   type: "workspace",
   kind: "default",
   alias: "umbhost-cloudflare-purge-workspace",
   name: "Cloudflare CDN Purge Settings Workspace",
   meta: {
     entityType: "umbhost-cloudflare-purge",
-    headline: "#umbhostCloudflarePurge_workspace"
+    headline: "#umbhostCloudflarePurge_workspacetitle"
   }
-}, A = {
+}, M = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-overview",
   name: "Cloudflare CDN Purge Settings Overview",
-  element: () => import("./overview-CFwlISOx.js"),
-  elementName: "my-workspaceview",
+  element: () => import("./overview-CaBDznbx.js"),
+  elementName: "umbhost-cloudflare-purge-settings-overview",
   meta: {
-    label: "My Workspace View",
-    pathname: "/settings-root",
-    icon: "icon-add"
+    label: "#umbhostCloudflarePurge_settingsoverview",
+    pathname: "overview",
+    icon: "icon-dashboard"
+  },
+  conditions: [
+    {
+      alias: "Umb.Condition.WorkspaceAlias",
+      match: "umbhost-cloudflare-purge-workspace"
+    }
+  ]
+}, A = {
+  type: "workspaceView",
+  alias: "umbhost-cloudflare-purge-settings-caching",
+  name: "Cloudflare CDN Purge Settings Caching",
+  element: () => import("./caching-5nbV8FoT.js"),
+  elementName: "umbhost-cloudflare-purge-settings-caching",
+  meta: {
+    label: "#umbhostCloudflarePurge_settingscaching",
+    pathname: "caching",
+    icon: "icon-cloud"
   },
   conditions: [
     {
@@ -96,9 +113,10 @@ const _ = {
     }
   ]
 }, D = [
-  P,
+  N,
+  M,
   A
-], E = {
+], S = {
   type: "menu",
   alias: "umbhost-cloudflare-purge-settings-menu",
   name: "Cloudflare CDN Purge Settings Menu"
@@ -118,21 +136,31 @@ const _ = {
       match: C
     }
   ]
-}, S = {
+}, E = {
   type: "menuItem",
-  alias: "umbhost-cloudflare-purge-settings-menu-item",
-  name: "Cloudflare CDN Purge Settings Menu Item",
-  // element: uSyncMenuElement,
+  alias: "umbhost-cloudflare-purge-settings-overview-menu-item",
+  name: "Cloudflare CDN Purge Settings Overview Menu Item",
   meta: {
     label: "#umbhostCloudflarePurge_settingsoverview",
     icon: "icon-cloud",
-    entityType: "umbhost-cloudflare-purge/settings-root",
+    entityType: "umbhost-cloudflare-purge/overview",
     menus: ["umbhost-cloudflare-purge-settings-menu"]
   }
-}, k = [
-  E,
+}, k = {
+  type: "menuItem",
+  alias: "umbhost-cloudflare-purge-settings-caching-menu-item",
+  name: "Cloudflare CDN Purge Settings Caching Menu Item",
+  meta: {
+    label: "#umbhostCloudflarePurge_settingscaching",
+    icon: "icon-cloud",
+    entityType: "umbhost-cloudflare-purge/view/caching",
+    menus: ["umbhost-cloudflare-purge-settings-menu"]
+  }
+}, I = [
+  S,
   T,
-  S
+  E,
+  k
 ], U = {
   type: "localization",
   alias: "umbhost-cloudflare-purge-localize-en",
@@ -140,17 +168,17 @@ const _ = {
   meta: {
     culture: "en"
   },
-  js: () => import("./en-CLtP8MwH.js")
-}, I = [
+  js: () => import("./en-DsEHWK3Y.js")
+}, O = [
   U
-], W = [
-  ...w,
+], G = [
+  ..._,
+  ...O,
+  ...v,
   ...I,
-  ...M,
-  ...k,
   ...D
 ];
 export {
-  W as manifests
+  G as manifests
 };
 //# sourceMappingURL=umb-host-cloudflare-purge.js.map

@@ -16,9 +16,8 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbElemen
                 </p>
                 <uui-button
                         look="primary"
-                        href="https://umbraco.com/training/"
-                        label=${this.localize.term('umbhostCloudflarePurge_settingsoverviewcachingbutton')}
-                        target="_blank"></uui-button>
+                        href="/umbraco/section/settings/workspace/umbhost-cloudflare-purge/view/caching"
+                        label=${this.localize.term('umbhostCloudflarePurge_settingsoverviewcachingbutton')}></uui-button>
             </uui-box>  
             <uui-box headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewsecuritytitle")}>
                 <p>
@@ -26,7 +25,8 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbElemen
                 </p>
                 <uui-button
 						look="primary"
-						href="https://umbraco.com/training/"
+						href=""
+                        disabled
 						label=${this.localize.term('umbhostCloudflarePurge_settingsoverviewsecuritybutton')}
 						target="_blank"></uui-button>
             </uui-box>  
@@ -36,7 +36,8 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbElemen
                 </p>
                 <uui-button
 						look="primary"
-						href="https://umbraco.com/training/"
+                        disabled
+						href=""
 						label=${this.localize.term('umbhostCloudflarePurge_settingsoverviewoptimizationbutton')}
 						target="_blank"></uui-button>
             </uui-box>   

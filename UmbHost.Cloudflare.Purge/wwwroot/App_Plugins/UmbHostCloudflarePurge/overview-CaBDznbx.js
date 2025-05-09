@@ -1,7 +1,7 @@
 import { LitElement as s, html as n, css as m, customElement as b } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as c } from "@umbraco-cms/backoffice/element-api";
-var g = Object.getOwnPropertyDescriptor, p = (u, o, a, r) => {
-  for (var e = r > 1 ? void 0 : r ? g(o, a) : o, t = u.length - 1, l; t >= 0; t--)
+var d = Object.getOwnPropertyDescriptor, g = (u, o, a, r) => {
+  for (var e = r > 1 ? void 0 : r ? d(o, a) : o, t = u.length - 1, l; t >= 0; t--)
     (l = u[t]) && (e = l(e) || e);
   return e;
 };
@@ -18,9 +18,8 @@ let i = class extends c(s) {
                 </p>
                 <uui-button
                         look="primary"
-                        href="https://umbraco.com/training/"
-                        label=${this.localize.term("umbhostCloudflarePurge_settingsoverviewcachingbutton")}
-                        target="_blank"></uui-button>
+                        href="/umbraco/section/settings/workspace/umbhost-cloudflare-purge/view/caching"
+                        label=${this.localize.term("umbhostCloudflarePurge_settingsoverviewcachingbutton")}></uui-button>
             </uui-box>  
             <uui-box headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewsecuritytitle")}>
                 <p>
@@ -28,7 +27,8 @@ let i = class extends c(s) {
                 </p>
                 <uui-button
 						look="primary"
-						href="https://umbraco.com/training/"
+						href=""
+                        disabled
 						label=${this.localize.term("umbhostCloudflarePurge_settingsoverviewsecuritybutton")}
 						target="_blank"></uui-button>
             </uui-box>  
@@ -38,7 +38,8 @@ let i = class extends c(s) {
                 </p>
                 <uui-button
 						look="primary"
-						href="https://umbraco.com/training/"
+                        disabled
+						href=""
 						label=${this.localize.term("umbhostCloudflarePurge_settingsoverviewoptimizationbutton")}
 						target="_blank"></uui-button>
             </uui-box>   
@@ -84,10 +85,10 @@ i.styles = m`
 				gap: var(--uui-size-space-2);
 			}
   `;
-i = p([
+i = g([
   b("umbhost-cloudflare-purge-settings-overview")
 ], i);
 export {
   i as default
 };
-//# sourceMappingURL=overview-CFwlISOx.js.map
+//# sourceMappingURL=overview-CaBDznbx.js.map

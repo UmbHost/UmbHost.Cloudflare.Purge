@@ -26,7 +26,8 @@ const e = {
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`,
     cloudflare: "Cloudflare",
     settingsoverview: "Overview",
-    workspace: "Cloudflare CDN Purge Settings Overview",
+    settingscaching: "Caching",
+    workspacetitle: "Cloudflare CDN Purge",
     settingsoverviewtitle: "Introduction",
     settingsoverviewintroduction: "You can manage the settings related to your Cloudflare DNS zone here.",
     settingsoverviewcachingtitle: "Caching",
@@ -43,4 +44,4 @@ const e = {
 export {
   e as default
 };
-//# sourceMappingURL=en-CLtP8MwH.js.map
+//# sourceMappingURL=en-DsEHWK3Y.js.map
