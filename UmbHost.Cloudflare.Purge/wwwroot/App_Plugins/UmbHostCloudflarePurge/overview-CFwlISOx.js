@@ -1,11 +1,11 @@
-import { LitElement as s, html as n, css as m, customElement as c } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as b } from "@umbraco-cms/backoffice/element-api";
-var g = Object.getOwnPropertyDescriptor, p = (o, u, a, r) => {
-  for (var e = r > 1 ? void 0 : r ? g(u, a) : u, t = o.length - 1, l; t >= 0; t--)
-    (l = o[t]) && (e = l(e) || e);
+import { LitElement as s, html as n, css as m, customElement as b } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as c } from "@umbraco-cms/backoffice/element-api";
+var g = Object.getOwnPropertyDescriptor, p = (u, o, a, r) => {
+  for (var e = r > 1 ? void 0 : r ? g(o, a) : o, t = u.length - 1, l; t >= 0; t--)
+    (l = u[t]) && (e = l(e) || e);
   return e;
 };
-let i = class extends b(s) {
+let i = class extends c(s) {
   render() {
     return n`   
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
@@ -85,9 +85,9 @@ i.styles = m`
 			}
   `;
 i = p([
-  c("my-workspaceview")
+  b("umbhost-cloudflare-purge-settings-overview")
 ], i);
 export {
   i as default
 };
-//# sourceMappingURL=overview-F1msRxiI.js.map
+//# sourceMappingURL=overview-CFwlISOx.js.map

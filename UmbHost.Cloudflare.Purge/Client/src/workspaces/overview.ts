@@ -1,8 +1,8 @@
 import { LitElement, html, customElement, css } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
 
-@customElement('my-workspaceview')
-export default class MyWorspaceViewElement extends UmbElementMixin(LitElement) {
+@customElement('umbhost-cloudflare-purge-settings-overview')
+export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbElementMixin(LitElement) {
 
     render() {
         return html`   
@@ -86,6 +86,6 @@ export default class MyWorspaceViewElement extends UmbElementMixin(LitElement) {
 
 declare global {
     interface HTMLElementTagNameMap {
-        'my-workspaceview': MyWorspaceViewElement
+        'umbhost-cloudflare-purge-settings-overview': UmbHostCloudflarePurgeOverviewViewElement
     }
 }
