@@ -2,26 +2,26 @@ var l = (e) => {
   throw TypeError(e);
 };
 var r = (e, o, t) => o.has(e) || l("Cannot " + t);
-var s = (e, o, t) => (r(e, o, "read from private field"), t ? t.call(e) : o.get(e)), u = (e, o, t) => o.has(e) ? l("Cannot add the same private member more than once") : o instanceof WeakSet ? o.add(e) : o.set(e, t), c = (e, o, t, n) => (r(e, o, "write to private field"), n ? n.call(e, t) : o.set(e, t), t);
+var s = (e, o, t) => (r(e, o, "read from private field"), t ? t.call(e) : o.get(e)), u = (e, o, t) => o.has(e) ? l("Cannot add the same private member more than once") : o instanceof WeakSet ? o.add(e) : o.set(e, t), c = (e, o, t, a) => (r(e, o, "write to private field"), a ? a.call(e, t) : o.set(e, t), t);
 import { UMB_DOCUMENT_ENTITY_TYPE as g } from "@umbraco-cms/backoffice/document";
 import { UmbEntityActionBase as d } from "@umbraco-cms/backoffice/entity-action";
 import { UMB_MODAL_MANAGER_CONTEXT as h, UMB_CONFIRM_MODAL as p } from "@umbraco-cms/backoffice/modal";
 import { UmbLocalizationController as f } from "@umbraco-cms/backoffice/localization-api";
 import { UMB_MEDIA_ENTITY_TYPE as b } from "@umbraco-cms/backoffice/media";
 import { UMB_SETTINGS_SECTION_ALIAS as C } from "@umbraco-cms/backoffice/settings";
-var a, i;
+var n, i;
 class y extends d {
-  constructor(t, n) {
-    super(t, n);
-    u(this, a);
+  constructor(t, a) {
+    super(t, a);
+    u(this, n);
     u(this, i, new f(this));
     this.consumeContext(h, (m) => {
-      c(this, a, m);
+      c(this, n, m);
     });
   }
   async execute() {
-    var n;
-    const t = (n = s(this, a)) == null ? void 0 : n.open(this, p, {
+    var a;
+    const t = (a = s(this, n)) == null ? void 0 : a.open(this, p, {
       data: {
         headline: s(this, i).term("umbhostCloudflarePurge_confirmpurgecdnentityactiontitle"),
         content: s(this, i).term("umbhostCloudflarePurge_confirmpurgecdnentityactioncontent"),
@@ -35,7 +35,7 @@ class y extends d {
     }));
   }
 }
-a = new WeakMap(), i = new WeakMap();
+n = new WeakMap(), i = new WeakMap();
 const w = {
   type: "entityAction",
   alias: "umbhost-cloudflare-purge-cdn-entity-action",
@@ -56,7 +56,7 @@ const w = {
   name: "Cloudflare CDN Purge Dashboard",
   element: () => import("./purge-dashboard-CWgI01N1.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
-  weight: 30,
+  weight: 15,
   meta: {
     label: "Cloudflare CDN Purge Dashboard",
     pathname: "umbhost-cloudflare-purge-dashboard"
@@ -142,7 +142,7 @@ const w = {
   name: "Cloudflare CDN Purge Settings Overview Menu Item",
   meta: {
     label: "#umbhostCloudflarePurge_settingsoverview",
-    icon: "icon-cloud",
+    icon: "icon-dashboard",
     entityType: "umbhost-cloudflare-purge/overview",
     menus: ["umbhost-cloudflare-purge-settings-menu"]
   }

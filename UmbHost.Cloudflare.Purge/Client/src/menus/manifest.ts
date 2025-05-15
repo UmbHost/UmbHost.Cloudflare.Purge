@@ -30,7 +30,7 @@ const overviewMenuItem = {
     name: 'Cloudflare CDN Purge Settings Overview Menu Item',
     meta: {
         label: '#umbhostCloudflarePurge_settingsoverview',
-        icon: 'icon-cloud',
+        icon: 'icon-dashboard',
         entityType: 'umbhost-cloudflare-purge/overview',
         menus: ['umbhost-cloudflare-purge-settings-menu'],
     },
