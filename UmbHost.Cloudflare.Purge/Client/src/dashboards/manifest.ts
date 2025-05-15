@@ -4,7 +4,7 @@ const dashboardManifest = {
     name: 'Cloudflare CDN Purge Dashboard',
     element: () => import('./purge-dashboard'),
     elementName: "umbhost-cloudflare-purge-dashboard",
-    weight: 30,
+    weight: 15,
     meta: {
         label: "Cloudflare CDN Purge Dashboard",
         pathname: "umbhost-cloudflare-purge-dashboard"
