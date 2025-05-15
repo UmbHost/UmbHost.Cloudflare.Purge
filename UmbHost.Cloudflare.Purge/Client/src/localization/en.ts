@@ -41,5 +41,27 @@ export default {
 		settingsoverviewoptimizationtitle: "Optimization",
 		settingsoverviewoptimizationdescription: "Auto Minify, Brotli, Early Hints, Rocket Loader™",
 		settingsoverviewoptimizationbutton: "Manage Optimization",
+		cachingtitle: "Introduction",
+		cachingintroduction: "You can manage the settings related to your Cloudflare DNS zones Caching here.",
+		developermodetitle: "Developer Mode",
+		developermodedescription: "Temporarily bypass the Cloudflare cache allowing you to see changes to your origin server in realtime.",
+		developermodetoggleon: "On",
+		developermodetoggleoff: "Off",
+		lastmodified: "Last Modified On",
+		developermodewarning: "<strong>Note:</strong> Enabling this feature can significantly increase origin server load. Development mode does not purge the cache so files will need to be purged after development mode expires.",
+		cachingleveltitle: "Caching Level",
+		cachingleveldescription: "Determine how much of your website’s static content you want Cloudflare to cache. Increased caching can speed up page load time.",
+		cachinglevelbasic: "No query string",
+		cachinglevelsimplified: "Ignore query string",
+		cachinglevelaggressive: "Standard",
+		browsercachettltitle: "Browser Cache TTL",
+		browsercachettldescription: "Determine the length of time Cloudflare instructs a visitor’s browser to cache files. During this period, the browser loads the files from its local cache, speeding up page loads.",
+		alwaysonlinetitle: "Always Online™",
+		alwaysonlinedescription: "Keep your website online for visitors when your origin server is unavailable.",
+		alwaysonlineterms: `Cloudflare serves limited copies of web pages available from the <a class="underline" href="https://archive.org/web/" target="_blank">Internet Archive’s Wayback Machine</a>.<br />
+		Enabling this Service will share some of your website’s information with the Internet Archive in order to make this feature functional. By enabling this Service, you agree to the <a class="underline" href="https://www.cloudflare.com/supplemental-terms/#AOBeta" target="_blank">Supplemental Terms</a> for Always Online.`,
+		alwaysonlinetoggleon: "On",
+		alwaysonlinetoggleoff: "Off",
+	
 	}
 } as UmbLocalizationDictionary;

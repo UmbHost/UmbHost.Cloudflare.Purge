@@ -1,29 +1,29 @@
-import { LitElement, html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-
-@customElement('umbhost-cloudflare-purge-settings-caching')
-export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElementMixin(LitElement) {
-
-	  @state()
-	  private loading?: boolean = true;
-
-	connectedCallback() {
-		super.connectedCallback();
-		setTimeout(() => {
-			this.loading = false;
-		}, 5000);
-	}
-
-    render() {
-        return html`
+import { LitElement as m, nothing as d, html as r, css as c, state as b, customElement as g } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as h } from "@umbraco-cms/backoffice/element-api";
+var p = Object.defineProperty, f = Object.getOwnPropertyDescriptor, n = (s, l, a, o) => {
+  for (var e = o > 1 ? void 0 : o ? f(l, a) : l, t = s.length - 1, u; t >= 0; t--)
+    (u = s[t]) && (e = (o ? u(l, a, e) : u(e)) || e);
+  return o && e && p(l, a, e), e;
+};
+let i = class extends h(m) {
+  constructor() {
+    super(...arguments), this.loading = !0;
+  }
+  connectedCallback() {
+    super.connectedCallback(), setTimeout(() => {
+      this.loading = !1;
+    }, 5e3);
+  }
+  render() {
+    return r`
 		<section id="umbhost-cloudflare-purdge-caching">
 <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
 			<umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize>
 		</uui-box>  
 
-		${this.loading ? html`<uui-loader-circle></uui-loader-circle>` : nothing}
+		${this.loading ? r`<uui-loader-circle></uui-loader-circle>` : d}
 
-		${this.loading ? nothing : html`
+		${this.loading ? d : r`
 		<uui-box headline=${this.localize.term("umbhostCloudflarePurge_developermodetitle")}>
 			<div class="description">
 				<umb-localize key="umbhostCloudflarePurge_developermodedescription"></umb-localize>
@@ -47,19 +47,19 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 				<umb-localize key="umbhostCloudflarePurge_cachingleveldescription"></umb-localize>
 			</div>
 			<umb-input-radio-button-list .list=${[
-  {
-	"label": this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
-	"value": "1"
-  },
-  {
-	"label": this.localize.term("umbhostCloudflarePurge_cachinglevelsimplified"),
-	"value": "2"
-  },
-  {
-	"label": this.localize.term("umbhostCloudflarePurge_cachinglevelaggressive"),
-	"value": "3",
-  }
-]} value="3"></umb-input-radio-button-list>
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
+        value: "1"
+      },
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelsimplified"),
+        value: "2"
+      },
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelaggressive"),
+        value: "3"
+      }
+    ]} value="3"></umb-input-radio-button-list>
 			<div class="lastmodified">
 				<small>
 					<strong>
@@ -75,31 +75,31 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 				<umb-localize key="umbhostCloudflarePurge_browsercachettldescription"></umb-localize>
 			</div>
 			<uui-select placeholder="Select an option" .options=${[
-  {
-    "name": "Carrot",
-    "value": "orange"
-  },
-  {
-    "name": "Cucumber",
-    "value": "green"
-  },
-  {
-    "name": "Aubergine",
-    "value": "purple"
-  },
-  {
-    "name": "Blueberry",
-    "value": "Blue"
-  },
-  {
-    "name": "Banana",
-    "value": "yellow"
-  },
-  {
-    "name": "Strawberry",
-    "value": "red"
-  }
-]} value="orange"></uui-select>
+      {
+        name: "Carrot",
+        value: "orange"
+      },
+      {
+        name: "Cucumber",
+        value: "green"
+      },
+      {
+        name: "Aubergine",
+        value: "purple"
+      },
+      {
+        name: "Blueberry",
+        value: "Blue"
+      },
+      {
+        name: "Banana",
+        value: "yellow"
+      },
+      {
+        name: "Strawberry",
+        value: "red"
+      }
+    ]} value="orange"></uui-select>
 			<div class="lastmodified">
 				<small>
 					<strong>
@@ -129,10 +129,10 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 			</div>
 		</uui-box>`}
 		</section>  
-    `
-    }
-
-	static styles = css`
+    `;
+  }
+};
+i.styles = c`
 
 	uui-loader-circle {
 		display: block;
@@ -176,11 +176,14 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 				border-color: transparent;
 				color: #fff;
 			}
-  `
-}
-
-declare global {
-    interface HTMLElementTagNameMap {
-        'umbhost-cloudflare-purge-settings-caching': UmbHostCloudflarePurgeCachingViewElement
-    }
-}
+  `;
+n([
+  b()
+], i.prototype, "loading", 2);
+i = n([
+  g("umbhost-cloudflare-purge-settings-caching")
+], i);
+export {
+  i as default
+};
+//# sourceMappingURL=caching-CxIJVZmX.js.map

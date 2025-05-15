@@ -99,7 +99,7 @@ const w = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-caching",
   name: "Cloudflare CDN Purge Settings Caching",
-  element: () => import("./caching-5nbV8FoT.js"),
+  element: () => import("./caching-CxIJVZmX.js"),
   elementName: "umbhost-cloudflare-purge-settings-caching",
   meta: {
     label: "#umbhostCloudflarePurge_settingscaching",
@@ -168,7 +168,7 @@ const w = {
   meta: {
     culture: "en"
   },
-  js: () => import("./en-DsEHWK3Y.js")
+  js: () => import("./en-BjCuqtR1.js")
 }, O = [
   U
 ], G = [
