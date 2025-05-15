@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "watch": "tsc && vite build --watch",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "generate:api": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 openapi-ts"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "^0.45.1",
     "@umbraco-cms/backoffice": "^15.3.1",
     "chalk": "^5.4.1",
     "cross-env": "^7.0.3",

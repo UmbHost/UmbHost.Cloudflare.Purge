@@ -21,29 +21,12 @@ namespace UmbHost.Cloudflare.Purge.Composers
 
             builder.Services.Configure<SwaggerGenOptions>(opt =>
             {
-                // Related documentation:
-                // https://docs.umbraco.com/umbraco-cms/tutorials/creating-a-backoffice-api
-                // https://docs.umbraco.com/umbraco-cms/tutorials/creating-a-backoffice-api/adding-a-custom-swagger-document
-                // https://docs.umbraco.com/umbraco-cms/tutorials/creating-a-backoffice-api/versioning-your-api
-                // https://docs.umbraco.com/umbraco-cms/tutorials/creating-a-backoffice-api/access-policies
-
-                // Configure the Swagger generation options
-                // Add in a new Swagger API document solely for our own package that can be browsed via Swagger UI
-                // Along with having a generated swagger JSON file that we can use to auto generate a TypeScript client
                 opt.SwaggerDoc(Constants.ApiName, new OpenApiInfo
                 {
-                    Title = "Umb Host Cloudflare Purge Backoffice API",
-                    Version = "1.0",
-                    // Contact = new OpenApiContact
-                    // {
-                    //     Name = "Some Developer",
-                    //     Email = "you@company.com",
-                    //     Url = new Uri("https://company.com")
-                    // }
+                    Title = Constants.ApiTitle,
+                    Description = Constants.ApiDescription,
+                    Version = Constants.ApiVersion,
                 });
-
-                // Enable Umbraco authentication for the "Example" Swagger document
-                // PR: https://github.com/umbraco/Umbraco-CMS/pull/15699
                 opt.OperationFilter<UmbHostCloudflarePurgeOperationSecurityFilter>();
             });
         }
