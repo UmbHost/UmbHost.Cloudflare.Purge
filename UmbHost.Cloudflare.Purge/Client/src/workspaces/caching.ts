@@ -1,6 +1,8 @@
 import { LitElement, html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-import { AllSettings, BrowserTtlOptionsResponse, V1Resource, ToggleBrowserCacheTtlData } from "../backend-api"
+import { BrowserTtlOptionsResponse, V1Resource, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData } from "../backend-api"
+import { UmbInputRadioButtonListElement, UmbInputToggleElement } from "@umbraco-cms/backoffice/components";
+import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
 
 @customElement('umbhost-cloudflare-purge-settings-caching')
 export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElementMixin(LitElement) {
@@ -12,7 +14,13 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 	private browserCacheTtlLoading?: boolean = false;
 
 	@state()
-	private cacheSettings: AllSettings | undefined;
+	private alwaysOnlineLoading?: boolean = false;
+
+	@state()
+	private developerModeLoading?: boolean = false;
+
+	@state()
+	private cachingLevelLoading?: boolean = false;
 
 	@state()
 	private browserCacheTtlOptions: BrowserTtlOptionsResponse | undefined;
@@ -23,18 +31,36 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 	@state()
 	private browserCacheTtlUpdated?: string | undefined;
 
+	@state()
+	private alwaysOnlineUpdated?: string | undefined;
+
+	@state()
+	private alwaysOnlineValue: boolean | undefined;
+
+	@state()
+	private developerModeUpdated?: string | undefined;
+
+	@state()
+	private developerModeValue: boolean | undefined;
+
+	@state()
+	private cachingLevelUpdated?: string | undefined;
+
+	@state()
+	private cachingLevelValue: string | undefined;
+
 	private cachingLevelOptions = [
 		{
 			"label": this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
-			"value": "Basic"
+			"value": "basic"
 		},
 		{
 			"label": this.localize.term("umbhostCloudflarePurge_cachinglevelsimplified"),
-			"value": "Simplified"
+			"value": "simplified"
 		},
 		{
 			"label": this.localize.term("umbhostCloudflarePurge_cachinglevelaggressive"),
-			"value": "Aggressive",
+			"value": "aggressive",
 		}
 	];
 
@@ -56,8 +82,6 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		const select = event.target as HTMLSelectElement;
 		const selectedOption = this.browserCacheTtlOptions?.find(option => option.value === Number(select.value));
 		if (selectedOption) {
-			
-
 			const ToggleBrowserCacheTtlData: ToggleBrowserCacheTtlData = {
 				requestBody: {
 					value: selectedOption.value
@@ -66,12 +90,69 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 
 			V1Resource.toggleBrowserCacheTtl(ToggleBrowserCacheTtlData).then((data) => {
 				this.browserCacheTtlValue = Number(data.value);
-				this.browserCacheTtlUpdated = data.modified_on ?? undefined;
+				this.browserCacheTtlUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
 			})
 			.finally(() => {
 				this.browserCacheTtlLoading = false;
+				this.dispatchEvent(new UmbChangeEvent());
 			});
 		}
+	}
+
+	#onAlwaysOnlineToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
+		this.alwaysOnlineLoading = true;
+		const checked = event.target.checked;
+		const ToggleAlwaysOnlineData: ToggleAlwaysOnlineData = {
+			requestBody: {
+				value: checked ? "on" : "off"
+			}
+		};
+
+		V1Resource.toggleAlwaysOnline(ToggleAlwaysOnlineData).then((data) => {
+			this.alwaysOnlineValue = data.value.toLowerCase() === "on" ? true : false;;
+			this.alwaysOnlineUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+		})
+		.finally(() => {
+			this.alwaysOnlineLoading = false;
+			this.dispatchEvent(new UmbChangeEvent());
+		});
+	}
+
+	#onDeveloperModeToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
+		this.developerModeLoading = true;
+		const checked = event.target.checked;
+		const ToggleDevelopmentModeData: ToggleDevelopmentModeData = {
+			requestBody: {
+				value: checked ? "on" : "off"
+			}
+		};
+
+		V1Resource.toggleDevelopmentMode(ToggleDevelopmentModeData).then((data) => {
+			this.developerModeValue = data.value.toLowerCase() === "on" ? true : false;
+			this.developerModeUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+		})
+		.finally(() => {
+			this.developerModeLoading = false;
+			this.dispatchEvent(new UmbChangeEvent());
+		});
+	}
+
+	#onCachingLevelToggle(event: CustomEvent & { target: UmbInputRadioButtonListElement }) {
+		this.cachingLevelLoading = true;
+		const ToggleCachingLevelData: ToggleCachingLevelData = {
+			requestBody: {
+				value: event.target.value
+			}
+		};
+
+		V1Resource.toggleCachingLevel(ToggleCachingLevelData).then((data) => {
+			this.cachingLevelValue = data?.value.toLowerCase();
+			this.cachingLevelUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+		})
+		.finally(() => {
+			this.cachingLevelLoading = false;
+			this.dispatchEvent(new UmbChangeEvent());
+		});
 	}
 
 	connectedCallback() {
@@ -91,8 +172,21 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 
 			this.browserCacheTtlOptions = ttlOptions;
 			this.browserCacheTtlValue = cacheSettings.browserCacheTtl?.value !== undefined ? Number(cacheSettings.browserCacheTtl.value) : undefined;
-			this.browserCacheTtlUpdated = cacheSettings.browserCacheTtl?.modified_on ?? undefined;
-			this.cacheSettings = cacheSettings;
+			this.browserCacheTtlUpdated = cacheSettings.browserCacheTtl?.modified_on
+				? new Date(cacheSettings.browserCacheTtl.modified_on).toLocaleString()
+				: undefined;
+			this.alwaysOnlineValue = cacheSettings.alwaysOnline?.value.toLowerCase() === "on" ? true : false;
+			this.alwaysOnlineUpdated = cacheSettings.alwaysOnline?.modified_on 
+				? new Date(cacheSettings.alwaysOnline.modified_on).toLocaleString() 
+				: undefined;
+			this.developerModeValue = cacheSettings.developmentMode?.value.toLowerCase() === "on" ? true : false;
+			this.developerModeUpdated = cacheSettings.developmentMode?.modified_on 
+				? new Date(cacheSettings.developmentMode.modified_on).toLocaleString() 
+				: undefined;
+			this.cachingLevelUpdated = cacheSettings.cacheLevel?.modified_on 
+				? new Date(cacheSettings.cacheLevel.modified_on).toLocaleString() 
+				: undefined;
+			this.cachingLevelValue = cacheSettings.cacheLevel?.value.toLowerCase();
 		} finally {
 			this.loading = false;
 		}
@@ -109,36 +203,42 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 
 			${this.loading ? nothing : html`
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_developermodetitle")}>
+				${this.developerModeLoading ? html`<uui-loader></uui-loader>` : nothing}
+				${this.developerModeLoading ? nothing : html`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_developermodedescription"></umb-localize>
 					<p class="alert alert-warning">
 						<umb-localize key="umbhostCloudflarePurge_developermodewarning"></umb-localize>
 					</p>
 				</div>
-				<umb-input-toggle showLabels ?checked=${this.cacheSettings?.developmentMode?.value.toLowerCase() === "on"} labelOn=${this.localize.term("umbhostCloudflarePurge_developermodetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_developermodetoggleoff")}></umb-input-toggle>
+				<umb-input-toggle showLabels @change=${this.#onDeveloperModeToggle} ?checked=${this.developerModeValue} labelOn=${this.localize.term("umbhostCloudflarePurge_developermodetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_developermodetoggleoff")}></umb-input-toggle>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${this.cacheSettings?.developmentMode?.modified_on ? new Date(this.cacheSettings.developmentMode.modified_on).toLocaleString() : nothing}
+						${this.developerModeUpdated ? this.developerModeUpdated : nothing}
 					</small>
 				</div>
+				`}
 			</uui-box>  
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_cachingleveltitle")}>
+				${this.cachingLevelLoading ? html`<uui-loader></uui-loader>` : nothing}
+				${this.cachingLevelLoading ? nothing : html`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_cachingleveldescription"></umb-localize>
 				</div>
-				<umb-input-radio-button-list .list=${this.cachingLevelOptions} .value=${this.cacheSettings?.cacheLevel?.value ?? ''}></umb-input-radio-button-list>
+				<umb-input-radio-button-list .list=${this.cachingLevelOptions} .value=${this.cachingLevelValue ?? ''} @change=${this.#onCachingLevelToggle} ></umb-input-radio-button-list>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${this.cacheSettings?.cacheLevel?.modified_on ? new Date(this.cacheSettings.cacheLevel.modified_on).toLocaleString() : nothing}
+						${this.cachingLevelUpdated ? this.cachingLevelUpdated : nothing}
 					</small>
 				</div>
+				`}
 			</uui-box> 
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_browsercachettltitle")}>
@@ -157,7 +257,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 							<strong>
 								<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 							</strong> 
-							${this.browserCacheTtlUpdated ? new Date(this.browserCacheTtlUpdated).toLocaleString() : nothing}
+							${this.browserCacheTtlUpdated ? this.browserCacheTtlUpdated : nothing}
 						</small>
 					</div>
 				`}
@@ -165,21 +265,24 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 
 			
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetitle")}>
+				${this.alwaysOnlineLoading ? html`<uui-loader></uui-loader>` : nothing}
+				${this.alwaysOnlineLoading ? nothing : html`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_alwaysonlinedescription"></umb-localize>
 				</div>
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_alwaysonlineterms"></umb-localize>
 				</div>
-				<umb-input-toggle ?checked=${this.cacheSettings?.alwaysOnline?.value.toLowerCase() === "on"}  showLabels labelOn=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleoff")}></umb-input-toggle>
+				<umb-input-toggle @change=${this.#onAlwaysOnlineToggle} ?checked=${this.alwaysOnlineValue}  showLabels labelOn=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleoff")}></umb-input-toggle>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${this.cacheSettings?.alwaysOnline?.modified_on ? new Date(this.cacheSettings.alwaysOnline.modified_on).toLocaleString() : nothing}
+						${this.alwaysOnlineUpdated ? this.alwaysOnlineUpdated : nothing}
 					</small>
 				</div>
+				`}
 			</uui-box>`}
 		</section>  
     `

@@ -1,12 +1,13 @@
-import { LitElement as x, nothing as m, html as g, css as E, state as p, customElement as $ } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as B } from "@umbraco-cms/backoffice/element-api";
-import { O as u } from "./entry-DVoinJLZ.js";
-class P extends Error {
-  constructor(e, r, a) {
-    super(a), this.name = "ApiError", this.url = r.url, this.status = r.status, this.statusText = r.statusText, this.body = r.body, this.request = e;
+import { LitElement as B, nothing as u, html as p, css as D, state as h, customElement as k } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as A } from "@umbraco-cms/backoffice/element-api";
+import { O as m } from "./entry-cONvjuuG.js";
+import { UmbChangeEvent as T } from "@umbraco-cms/backoffice/event";
+class R extends Error {
+  constructor(e, o, r) {
+    super(r), this.name = "ApiError", this.url = o.url, this.status = o.status, this.statusText = o.statusText, this.body = o.body, this.request = e;
   }
 }
-class L extends Error {
+class M extends Error {
   constructor(e) {
     super(e), this.name = "CancelError";
   }
@@ -14,11 +15,11 @@ class L extends Error {
     return !0;
   }
 }
-class A {
+class H {
   constructor(e) {
-    this._isResolved = !1, this._isRejected = !1, this._isCancelled = !1, this.cancelHandlers = [], this.promise = new Promise((r, a) => {
-      this._resolve = r, this._reject = a;
-      const o = (l) => {
+    this._isResolved = !1, this._isRejected = !1, this._isCancelled = !1, this.cancelHandlers = [], this.promise = new Promise((o, r) => {
+      this._resolve = o, this._reject = r;
+      const a = (l) => {
         this._isResolved || this._isRejected || this._isCancelled || (this._isResolved = !0, this._resolve && this._resolve(l));
       }, i = (l) => {
         this._isResolved || this._isRejected || this._isCancelled || (this._isRejected = !0, this._reject && this._reject(l));
@@ -31,14 +32,14 @@ class A {
         get: () => this._isRejected
       }), Object.defineProperty(s, "isCancelled", {
         get: () => this._isCancelled
-      }), e(o, i, s);
+      }), e(a, i, s);
     });
   }
   get [Symbol.toStringTag]() {
     return "Cancellable Promise";
   }
-  then(e, r) {
-    return this.promise.then(e, r);
+  then(e, o) {
+    return this.promise.then(e, o);
   }
   catch(e) {
     return this.promise.catch(e);
@@ -56,91 +57,91 @@ class A {
           console.warn("Cancellation threw an error", e);
           return;
         }
-      this.cancelHandlers.length = 0, this._reject && this._reject(new L("Request aborted"));
+      this.cancelHandlers.length = 0, this._reject && this._reject(new M("Request aborted"));
     }
   }
   get isCancelled() {
     return this._isCancelled;
   }
 }
-const f = (t) => typeof t == "string", w = (t) => f(t) && t !== "", S = (t) => t instanceof Blob, q = (t) => t instanceof FormData, k = (t) => {
+const v = (t) => typeof t == "string", _ = (t) => v(t) && t !== "", L = (t) => t instanceof Blob, P = (t) => t instanceof FormData, N = (t) => {
   try {
     return btoa(t);
   } catch {
     return Buffer.from(t).toString("base64");
   }
-}, D = (t) => {
-  const e = [], r = (o, i) => {
-    e.push(`${encodeURIComponent(o)}=${encodeURIComponent(String(i))}`);
-  }, a = (o, i) => {
-    i != null && (i instanceof Date ? r(o, i.toISOString()) : Array.isArray(i) ? i.forEach((s) => a(o, s)) : typeof i == "object" ? Object.entries(i).forEach(([s, l]) => a(`${o}[${s}]`, l)) : r(o, i));
+}, V = (t) => {
+  const e = [], o = (a, i) => {
+    e.push(`${encodeURIComponent(a)}=${encodeURIComponent(String(i))}`);
+  }, r = (a, i) => {
+    i != null && (i instanceof Date ? o(a, i.toISOString()) : Array.isArray(i) ? i.forEach((s) => r(a, s)) : typeof i == "object" ? Object.entries(i).forEach(([s, l]) => r(`${a}[${s}]`, l)) : o(a, i));
   };
-  return Object.entries(t).forEach(([o, i]) => a(o, i)), e.length ? `?${e.join("&")}` : "";
-}, H = (t, e) => {
-  const r = encodeURI, a = e.url.replace("{api-version}", t.VERSION).replace(/{(.*?)}/g, (i, s) => {
+  return Object.entries(t).forEach(([a, i]) => r(a, i)), e.length ? `?${e.join("&")}` : "";
+}, I = (t, e) => {
+  const o = encodeURI, r = e.url.replace("{api-version}", t.VERSION).replace(/{(.*?)}/g, (i, s) => {
     var l;
-    return (l = e.path) != null && l.hasOwnProperty(s) ? r(String(e.path[s])) : i;
-  }), o = t.BASE + a;
-  return e.query ? o + D(e.query) : o;
-}, N = (t) => {
+    return (l = e.path) != null && l.hasOwnProperty(s) ? o(String(e.path[s])) : i;
+  }), a = t.BASE + r;
+  return e.query ? a + V(e.query) : a;
+}, F = (t) => {
   if (t.formData) {
-    const e = new FormData(), r = (a, o) => {
-      f(o) || S(o) ? e.append(a, o) : e.append(a, JSON.stringify(o));
+    const e = new FormData(), o = (r, a) => {
+      v(a) || L(a) ? e.append(r, a) : e.append(r, JSON.stringify(a));
     };
-    return Object.entries(t.formData).filter(([, a]) => a != null).forEach(([a, o]) => {
-      Array.isArray(o) ? o.forEach((i) => r(a, i)) : r(a, o);
+    return Object.entries(t.formData).filter(([, r]) => r != null).forEach(([r, a]) => {
+      Array.isArray(a) ? a.forEach((i) => o(r, i)) : o(r, a);
     }), e;
   }
-}, C = async (t, e) => typeof e == "function" ? e(t) : e, U = async (t, e) => {
-  const [r, a, o, i] = await Promise.all([
-    C(e, t.TOKEN),
-    C(e, t.USERNAME),
-    C(e, t.PASSWORD),
-    C(e, t.HEADERS)
+}, w = async (t, e) => typeof e == "function" ? e(t) : e, G = async (t, e) => {
+  const [o, r, a, i] = await Promise.all([
+    w(e, t.TOKEN),
+    w(e, t.USERNAME),
+    w(e, t.PASSWORD),
+    w(e, t.HEADERS)
   ]), s = Object.entries({
     Accept: "application/json",
     ...i,
     ...e.headers
-  }).filter(([, l]) => l != null).reduce((l, [c, n]) => ({
+  }).filter(([, l]) => l != null).reduce((l, [g, n]) => ({
     ...l,
-    [c]: String(n)
+    [g]: String(n)
   }), {});
-  if (w(r) && (s.Authorization = `Bearer ${r}`), w(a) && w(o)) {
-    const l = k(`${a}:${o}`);
+  if (_(o) && (s.Authorization = `Bearer ${o}`), _(r) && _(a)) {
+    const l = N(`${r}:${a}`);
     s.Authorization = `Basic ${l}`;
   }
-  return e.body !== void 0 && (e.mediaType ? s["Content-Type"] = e.mediaType : S(e.body) ? s["Content-Type"] = e.body.type || "application/octet-stream" : f(e.body) ? s["Content-Type"] = "text/plain" : q(e.body) || (s["Content-Type"] = "application/json")), new Headers(s);
-}, I = (t) => {
-  var e, r;
+  return e.body !== void 0 && (e.mediaType ? s["Content-Type"] = e.mediaType : L(e.body) ? s["Content-Type"] = e.body.type || "application/octet-stream" : v(e.body) ? s["Content-Type"] = "text/plain" : P(e.body) || (s["Content-Type"] = "application/json")), new Headers(s);
+}, W = (t) => {
+  var e, o;
   if (t.body !== void 0)
-    return (e = t.mediaType) != null && e.includes("application/json") || (r = t.mediaType) != null && r.includes("+json") ? JSON.stringify(t.body) : f(t.body) || S(t.body) || q(t.body) ? t.body : JSON.stringify(t.body);
-}, F = async (t, e, r, a, o, i, s) => {
+    return (e = t.mediaType) != null && e.includes("application/json") || (o = t.mediaType) != null && o.includes("+json") ? JSON.stringify(t.body) : v(t.body) || L(t.body) || P(t.body) ? t.body : JSON.stringify(t.body);
+}, J = async (t, e, o, r, a, i, s) => {
   const l = new AbortController();
-  let c = {
+  let g = {
     headers: i,
-    body: a ?? o,
+    body: r ?? a,
     method: e.method,
     signal: l.signal
   };
-  t.WITH_CREDENTIALS && (c.credentials = t.CREDENTIALS);
+  t.WITH_CREDENTIALS && (g.credentials = t.CREDENTIALS);
   for (const n of t.interceptors.request._fns)
-    c = await n(c);
-  return s(() => l.abort()), await fetch(r, c);
-}, V = (t, e) => {
+    g = await n(g);
+  return s(() => l.abort()), await fetch(o, g);
+}, K = (t, e) => {
   if (e) {
-    const r = t.headers.get(e);
-    if (f(r))
-      return r;
+    const o = t.headers.get(e);
+    if (v(o))
+      return o;
   }
-}, M = async (t) => {
+}, Q = async (t) => {
   if (t.status !== 204)
     try {
       const e = t.headers.get("Content-Type");
       if (e) {
-        const r = ["application/octet-stream", "application/pdf", "application/zip", "audio/", "image/", "video/"];
+        const o = ["application/octet-stream", "application/pdf", "application/zip", "audio/", "image/", "video/"];
         if (e.includes("application/json") || e.includes("+json"))
           return await t.json();
-        if (r.some((a) => e.includes(a)))
+        if (o.some((r) => e.includes(r)))
           return await t.blob();
         if (e.includes("multipart/form-data"))
           return await t.formData();
@@ -150,8 +151,8 @@ const f = (t) => typeof t == "string", w = (t) => f(t) && t !== "", S = (t) => t
     } catch (e) {
       console.error(e);
     }
-}, G = (t, e) => {
-  const a = {
+}, X = (t, e) => {
+  const r = {
     400: "Bad Request",
     401: "Unauthorized",
     402: "Payment Required",
@@ -194,49 +195,49 @@ const f = (t) => typeof t == "string", w = (t) => f(t) && t !== "", S = (t) => t
     511: "Network Authentication Required",
     ...t.errors
   }[e.status];
-  if (a)
-    throw new P(t, e, a);
+  if (r)
+    throw new R(t, e, r);
   if (!e.ok) {
-    const o = e.status ?? "unknown", i = e.statusText ?? "unknown", s = (() => {
+    const a = e.status ?? "unknown", i = e.statusText ?? "unknown", s = (() => {
       try {
         return JSON.stringify(e.body, null, 2);
       } catch {
         return;
       }
     })();
-    throw new P(
+    throw new R(
       t,
       e,
-      `Generic Error: status: ${o}; status text: ${i}; body: ${s}`
+      `Generic Error: status: ${a}; status text: ${i}; body: ${s}`
     );
   }
-}, d = (t, e) => new A(async (r, a, o) => {
+}, f = (t, e) => new H(async (o, r, a) => {
   try {
-    const i = H(t, e), s = N(e), l = I(e), c = await U(t, e);
-    if (!o.isCancelled) {
-      let n = await F(t, e, i, l, s, c, o);
-      for (const j of t.interceptors.response._fns)
-        n = await j(n);
-      const y = await M(n), v = V(n, e.responseHeader), R = {
+    const i = I(t, e), s = F(e), l = W(e), g = await G(t, e);
+    if (!a.isCancelled) {
+      let n = await J(t, e, i, l, s, g, a);
+      for (const x of t.interceptors.response._fns)
+        n = await x(n);
+      const U = await Q(n), j = K(n, e.responseHeader), O = {
         url: i,
         ok: n.ok,
         status: n.status,
         statusText: n.statusText,
-        body: v ?? y
+        body: j ?? U
       };
-      G(e, R), r(R.body);
+      X(e, O), o(O.body);
     }
   } catch (i) {
-    a(i);
+    r(i);
   }
 });
-class T {
+class y {
   /**
    * @returns unknown OK
    * @throws ApiError
    */
   static browserTtlOptions() {
-    return d(u, {
+    return f(m, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions",
       errors: {
@@ -249,7 +250,7 @@ class T {
    * @throws ApiError
    */
   static getCacheSettings() {
-    return d(u, {
+    return f(m, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings",
       errors: {
@@ -265,7 +266,7 @@ class T {
    * @throws ApiError
    */
   static toggleAlwaysOnline(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline",
       body: e.requestBody,
@@ -283,7 +284,7 @@ class T {
    * @throws ApiError
    */
   static toggleBrowserCacheTtl(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl",
       body: e.requestBody,
@@ -301,7 +302,7 @@ class T {
    * @throws ApiError
    */
   static toggleCachingLevel(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel",
       body: e.requestBody,
@@ -319,7 +320,7 @@ class T {
    * @throws ApiError
    */
   static toggleDevelopmentMode(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode",
       body: e.requestBody,
@@ -335,7 +336,7 @@ class T {
    * @throws ApiError
    */
   static all() {
-    return d(u, {
+    return f(m, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/all",
       responseHeader: "Umb-Notifications",
@@ -352,7 +353,7 @@ class T {
    * @throws ApiError
    */
   static custom(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/custom",
       body: e.requestBody,
@@ -371,7 +372,7 @@ class T {
    * @throws ApiError
    */
   static mediaFolder(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/mediafolder",
       body: e.requestBody,
@@ -390,7 +391,7 @@ class T {
    * @throws ApiError
    */
   static node(e = {}) {
-    return d(u, {
+    return f(m, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/node",
       body: e.requestBody,
@@ -403,36 +404,36 @@ class T {
     });
   }
 }
-var W = Object.defineProperty, J = Object.getOwnPropertyDescriptor, O = (t) => {
+var Y = Object.defineProperty, Z = Object.getOwnPropertyDescriptor, q = (t) => {
   throw TypeError(t);
-}, b = (t, e, r, a) => {
-  for (var o = a > 1 ? void 0 : a ? J(e, r) : e, i = t.length - 1, s; i >= 0; i--)
-    (s = t[i]) && (o = (a ? s(e, r, o) : s(o)) || o);
-  return a && o && W(e, r, o), o;
-}, K = (t, e, r) => e.has(t) || O("Cannot " + r), Q = (t, e, r) => e.has(t) ? O("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, r), X = (t, e, r) => (K(t, e, "access private method"), r), _, z;
-let h = class extends B(x) {
+}, d = (t, e, o, r) => {
+  for (var a = r > 1 ? void 0 : r ? Z(e, o) : e, i = t.length - 1, s; i >= 0; i--)
+    (s = t[i]) && (a = (r ? s(e, o, a) : s(a)) || a);
+  return r && a && Y(e, o, a), a;
+}, ee = (t, e, o) => e.has(t) || q("Cannot " + o), te = (t, e, o) => e.has(t) ? q("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, o), C = (t, e, o) => (ee(t, e, "access private method"), o), b, S, z, $, E;
+let c = class extends A(B) {
   constructor() {
-    super(...arguments), Q(this, _), this.loading = !0, this.browserCacheTtlLoading = !1, this.cachingLevelOptions = [
+    super(...arguments), te(this, b), this.loading = !0, this.browserCacheTtlLoading = !1, this.alwaysOnlineLoading = !1, this.developerModeLoading = !1, this.cachingLevelLoading = !1, this.cachingLevelOptions = [
       {
         label: this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
-        value: "Basic"
+        value: "basic"
       },
       {
         label: this.localize.term("umbhostCloudflarePurge_cachinglevelsimplified"),
-        value: "Simplified"
+        value: "simplified"
       },
       {
         label: this.localize.term("umbhostCloudflarePurge_cachinglevelaggressive"),
-        value: "Aggressive"
+        value: "aggressive"
       }
     ];
   }
   updated(t) {
     if (super.updated(t), t.has("browserCacheTtlValue") && this.browserCacheTtlOptions) {
       const e = this.browserCacheTtlValue;
-      this.browserCacheTtlOptions = this.browserCacheTtlOptions.map((r) => ({
-        ...r,
-        selected: r.value === e
+      this.browserCacheTtlOptions = this.browserCacheTtlOptions.map((o) => ({
+        ...o,
+        selected: o.value === e
       }));
     }
   }
@@ -440,79 +441,84 @@ let h = class extends B(x) {
     super.connectedCallback(), this.loadData();
   }
   async loadData() {
-    var t, e;
+    var t, e, o, r, a, i, s, l;
     this.loading = !0;
     try {
-      const [r, a] = await Promise.all([
-        T.browserTtlOptions(),
-        T.getCacheSettings()
+      const [g, n] = await Promise.all([
+        y.browserTtlOptions(),
+        y.getCacheSettings()
       ]);
-      this.browserCacheTtlOptions = r, this.browserCacheTtlValue = ((t = a.browserCacheTtl) == null ? void 0 : t.value) !== void 0 ? Number(a.browserCacheTtl.value) : void 0, this.browserCacheTtlUpdated = ((e = a.browserCacheTtl) == null ? void 0 : e.modified_on) ?? void 0, this.cacheSettings = a;
+      this.browserCacheTtlOptions = g, this.browserCacheTtlValue = ((t = n.browserCacheTtl) == null ? void 0 : t.value) !== void 0 ? Number(n.browserCacheTtl.value) : void 0, this.browserCacheTtlUpdated = (e = n.browserCacheTtl) != null && e.modified_on ? new Date(n.browserCacheTtl.modified_on).toLocaleString() : void 0, this.alwaysOnlineValue = ((o = n.alwaysOnline) == null ? void 0 : o.value.toLowerCase()) === "on", this.alwaysOnlineUpdated = (r = n.alwaysOnline) != null && r.modified_on ? new Date(n.alwaysOnline.modified_on).toLocaleString() : void 0, this.developerModeValue = ((a = n.developmentMode) == null ? void 0 : a.value.toLowerCase()) === "on", this.developerModeUpdated = (i = n.developmentMode) != null && i.modified_on ? new Date(n.developmentMode.modified_on).toLocaleString() : void 0, this.cachingLevelUpdated = (s = n.cacheLevel) != null && s.modified_on ? new Date(n.cacheLevel.modified_on).toLocaleString() : void 0, this.cachingLevelValue = (l = n.cacheLevel) == null ? void 0 : l.value.toLowerCase();
     } finally {
       this.loading = !1;
     }
   }
   render() {
-    var t, e, r, a, o, i, s, l, c, n, y, v;
-    return g`
+    return p`
 		<section id="umbhost-cloudflare-purdge-caching">
 			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
 				<umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize>
 			</uui-box>  
 
-			${this.loading ? g`<uui-loader-circle></uui-loader-circle>` : m}
+			${this.loading ? p`<uui-loader-circle></uui-loader-circle>` : u}
 
-			${this.loading ? m : g`
+			${this.loading ? u : p`
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_developermodetitle")}>
+				${this.developerModeLoading ? p`<uui-loader></uui-loader>` : u}
+				${this.developerModeLoading ? u : p`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_developermodedescription"></umb-localize>
 					<p class="alert alert-warning">
 						<umb-localize key="umbhostCloudflarePurge_developermodewarning"></umb-localize>
 					</p>
 				</div>
-				<umb-input-toggle showLabels ?checked=${((e = (t = this.cacheSettings) == null ? void 0 : t.developmentMode) == null ? void 0 : e.value.toLowerCase()) === "on"} labelOn=${this.localize.term("umbhostCloudflarePurge_developermodetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_developermodetoggleoff")}></umb-input-toggle>
+				<umb-input-toggle showLabels @change=${C(this, b, $)} ?checked=${this.developerModeValue} labelOn=${this.localize.term("umbhostCloudflarePurge_developermodetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_developermodetoggleoff")}></umb-input-toggle>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${(a = (r = this.cacheSettings) == null ? void 0 : r.developmentMode) != null && a.modified_on ? new Date(this.cacheSettings.developmentMode.modified_on).toLocaleString() : m}
+						${this.developerModeUpdated ? this.developerModeUpdated : u}
 					</small>
 				</div>
+				`}
 			</uui-box>  
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_cachingleveltitle")}>
+				${this.cachingLevelLoading ? p`<uui-loader></uui-loader>` : u}
+				${this.cachingLevelLoading ? u : p`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_cachingleveldescription"></umb-localize>
 				</div>
-				<umb-input-radio-button-list .list=${this.cachingLevelOptions} .value=${((i = (o = this.cacheSettings) == null ? void 0 : o.cacheLevel) == null ? void 0 : i.value) ?? ""}></umb-input-radio-button-list>
+				<umb-input-radio-button-list .list=${this.cachingLevelOptions} .value=${this.cachingLevelValue ?? ""} @change=${C(this, b, E)} ></umb-input-radio-button-list>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${(l = (s = this.cacheSettings) == null ? void 0 : s.cacheLevel) != null && l.modified_on ? new Date(this.cacheSettings.cacheLevel.modified_on).toLocaleString() : m}
+						${this.cachingLevelUpdated ? this.cachingLevelUpdated : u}
 					</small>
 				</div>
+				`}
 			</uui-box> 
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_browsercachettltitle")}>
-				${this.browserCacheTtlLoading ? g`<uui-loader></uui-loader>` : m}
-				${this.browserCacheTtlLoading ? m : g`
+				${this.browserCacheTtlLoading ? p`<uui-loader></uui-loader>` : u}
+				${this.browserCacheTtlLoading ? u : p`
 					<div class="description">
 						<umb-localize key="umbhostCloudflarePurge_browsercachettldescription"></umb-localize>
 					</div>
 					<uui-select id="browserCacheTtl" 
 						placeholder="Select an option" 
 						.options=${this.browserCacheTtlOptions ?? []}
-						@change=${X(this, _, z)} >
+						@change=${C(this, b, S)} >
 					</uui-select>
 					<div class="lastmodified">
 						<small>
 							<strong>
 								<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 							</strong> 
-							${this.browserCacheTtlUpdated ? new Date(this.browserCacheTtlUpdated).toLocaleString() : m}
+							${this.browserCacheTtlUpdated ? this.browserCacheTtlUpdated : u}
 						</small>
 					</div>
 				`}
@@ -520,45 +526,87 @@ let h = class extends B(x) {
 
 			
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetitle")}>
+				${this.alwaysOnlineLoading ? p`<uui-loader></uui-loader>` : u}
+				${this.alwaysOnlineLoading ? u : p`
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_alwaysonlinedescription"></umb-localize>
 				</div>
 				<div class="description">
 					<umb-localize key="umbhostCloudflarePurge_alwaysonlineterms"></umb-localize>
 				</div>
-				<umb-input-toggle ?checked=${((n = (c = this.cacheSettings) == null ? void 0 : c.alwaysOnline) == null ? void 0 : n.value.toLowerCase()) === "on"}  showLabels labelOn=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleoff")}></umb-input-toggle>
+				<umb-input-toggle @change=${C(this, b, z)} ?checked=${this.alwaysOnlineValue}  showLabels labelOn=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleoff")}></umb-input-toggle>
 				<div class="lastmodified">
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
 						</strong> 
-						${(v = (y = this.cacheSettings) == null ? void 0 : y.alwaysOnline) != null && v.modified_on ? new Date(this.cacheSettings.alwaysOnline.modified_on).toLocaleString() : m}
+						${this.alwaysOnlineUpdated ? this.alwaysOnlineUpdated : u}
 					</small>
 				</div>
+				`}
 			</uui-box>`}
 		</section>  
     `;
   }
 };
-_ = /* @__PURE__ */ new WeakSet();
-z = function(t) {
-  var a;
+b = /* @__PURE__ */ new WeakSet();
+S = function(t) {
+  var r;
   this.browserCacheTtlLoading = !0;
-  const e = t.target, r = (a = this.browserCacheTtlOptions) == null ? void 0 : a.find((o) => o.value === Number(e.value));
-  if (r) {
-    const o = {
+  const e = t.target, o = (r = this.browserCacheTtlOptions) == null ? void 0 : r.find((a) => a.value === Number(e.value));
+  if (o) {
+    const a = {
       requestBody: {
-        value: r.value
+        value: o.value
       }
     };
-    T.toggleBrowserCacheTtl(o).then((i) => {
-      this.browserCacheTtlValue = Number(i.value), this.browserCacheTtlUpdated = i.modified_on ?? void 0;
+    y.toggleBrowserCacheTtl(a).then((i) => {
+      this.browserCacheTtlValue = Number(i.value), this.browserCacheTtlUpdated = i.modified_on ? new Date(i.modified_on).toLocaleString() : void 0;
     }).finally(() => {
-      this.browserCacheTtlLoading = !1;
+      this.browserCacheTtlLoading = !1, this.dispatchEvent(new T());
     });
   }
 };
-h.styles = E`
+z = function(t) {
+  this.alwaysOnlineLoading = !0;
+  const o = {
+    requestBody: {
+      value: t.target.checked ? "on" : "off"
+    }
+  };
+  y.toggleAlwaysOnline(o).then((r) => {
+    this.alwaysOnlineValue = r.value.toLowerCase() === "on", this.alwaysOnlineUpdated = r.modified_on ? new Date(r.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.alwaysOnlineLoading = !1, this.dispatchEvent(new T());
+  });
+};
+$ = function(t) {
+  this.developerModeLoading = !0;
+  const o = {
+    requestBody: {
+      value: t.target.checked ? "on" : "off"
+    }
+  };
+  y.toggleDevelopmentMode(o).then((r) => {
+    this.developerModeValue = r.value.toLowerCase() === "on", this.developerModeUpdated = r.modified_on ? new Date(r.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.developerModeLoading = !1, this.dispatchEvent(new T());
+  });
+};
+E = function(t) {
+  this.cachingLevelLoading = !0;
+  const e = {
+    requestBody: {
+      value: t.target.value
+    }
+  };
+  y.toggleCachingLevel(e).then((o) => {
+    this.cachingLevelValue = o == null ? void 0 : o.value.toLowerCase(), this.cachingLevelUpdated = o.modified_on ? new Date(o.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.cachingLevelLoading = !1, this.dispatchEvent(new T());
+  });
+};
+c.styles = D`
 
 	uui-loader-circle {
 		display: block;
@@ -603,28 +651,52 @@ h.styles = E`
 				color: #fff;
 			}
   `;
-b([
-  p()
-], h.prototype, "loading", 2);
-b([
-  p()
-], h.prototype, "browserCacheTtlLoading", 2);
-b([
-  p()
-], h.prototype, "cacheSettings", 2);
-b([
-  p()
-], h.prototype, "browserCacheTtlOptions", 2);
-b([
-  p()
-], h.prototype, "browserCacheTtlValue", 2);
-b([
-  p()
-], h.prototype, "browserCacheTtlUpdated", 2);
-h = b([
-  $("umbhost-cloudflare-purge-settings-caching")
-], h);
+d([
+  h()
+], c.prototype, "loading", 2);
+d([
+  h()
+], c.prototype, "browserCacheTtlLoading", 2);
+d([
+  h()
+], c.prototype, "alwaysOnlineLoading", 2);
+d([
+  h()
+], c.prototype, "developerModeLoading", 2);
+d([
+  h()
+], c.prototype, "cachingLevelLoading", 2);
+d([
+  h()
+], c.prototype, "browserCacheTtlOptions", 2);
+d([
+  h()
+], c.prototype, "browserCacheTtlValue", 2);
+d([
+  h()
+], c.prototype, "browserCacheTtlUpdated", 2);
+d([
+  h()
+], c.prototype, "alwaysOnlineUpdated", 2);
+d([
+  h()
+], c.prototype, "alwaysOnlineValue", 2);
+d([
+  h()
+], c.prototype, "developerModeUpdated", 2);
+d([
+  h()
+], c.prototype, "developerModeValue", 2);
+d([
+  h()
+], c.prototype, "cachingLevelUpdated", 2);
+d([
+  h()
+], c.prototype, "cachingLevelValue", 2);
+c = d([
+  k("umbhost-cloudflare-purge-settings-caching")
+], c);
 export {
-  h as default
+  c as default
 };
-//# sourceMappingURL=caching-WZYhbn9g.js.map
+//# sourceMappingURL=caching-BNoVNgGv.js.map
