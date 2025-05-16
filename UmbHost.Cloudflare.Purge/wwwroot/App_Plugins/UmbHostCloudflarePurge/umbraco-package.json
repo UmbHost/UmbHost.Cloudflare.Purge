@@ -1,13 +1,13 @@
 {
   "id": "UmbHost.Cloudflare.Purge",
   "name": "UmbHost.Cloudflare.Purge",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "allowTelemetry": true,
   "extensions": [
     {
-      "name": "Umb Host Cloudflare Purge Bundle",
-      "alias": "UmbHost.Cloudflare.Purge.Bundle",
-      "type": "bundle",
+      "name": "Umb Host Cloudflare Purge Entry Point",
+      "alias": "UmbHost.Cloudflare.Purge.EntryPoint",
+      "type": "backofficeEntryPoint",
       "js": "/App_Plugins/UmbHostCloudflarePurge/umb-host-cloudflare-purge.js"
     }
   ]

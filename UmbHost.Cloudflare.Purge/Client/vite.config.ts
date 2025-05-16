@@ -3,7 +3,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   build: {
     lib: {
-      entry: "src/bundle.manifests.ts", // Bundle registers one or more manifests
+      entry: "src/entry.ts", // Bundle registers one or more manifests
       formats: ["es"],
       fileName: "umb-host-cloudflare-purge",
     },

@@ -3,9 +3,23 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { GetCacheSettingsResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
+import type { BrowserTtlOptionsResponse, GetCacheSettingsResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
 
 export class V1Resource {
+    /**
+     * @returns unknown OK
+     * @throws ApiError
+     */
+    public static browserTtlOptions(): CancelablePromise<BrowserTtlOptionsResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions',
+            errors: {
+                401: 'The resource is protected and requires an authentication token'
+            }
+        });
+    }
+    
     /**
      * @returns unknown OK
      * @throws ApiError

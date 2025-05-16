@@ -40,6 +40,11 @@ export type DevelopmentMode = {
     editable: boolean;
 };
 
+export type EnumDescription = {
+    value: number;
+    name: string;
+};
+
 export type EventMessageTypeModel = 'Default' | 'Info' | 'Error' | 'Success' | 'Warning';
 
 export type NewAlwaysOnline = {
@@ -70,6 +75,8 @@ export type TreePurge = {
     id: number;
     culture?: string | null;
 };
+
+export type BrowserTtlOptionsResponse = Array<(EnumDescription)>;
 
 export type GetCacheSettingsResponse = AllSettings;
 
@@ -118,6 +125,20 @@ export type NodeData = {
 export type NodeResponse = string;
 
 export type $OpenApiTs = {
+    '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions': {
+        get: {
+            res: {
+                /**
+                 * OK
+                 */
+                200: Array<(EnumDescription)>;
+                /**
+                 * The resource is protected and requires an authentication token
+                 */
+                401: unknown;
+            };
+        };
+    };
     '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings': {
         get: {
             res: {
