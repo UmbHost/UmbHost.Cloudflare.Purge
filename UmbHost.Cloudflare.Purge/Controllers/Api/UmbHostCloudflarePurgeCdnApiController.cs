@@ -8,7 +8,6 @@ using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
 using UmbHost.Cloudflare.Purge.Models.Settings;
 using Umbraco.Cms.Api.Common.Attributes;
-using Umbraco.Cms.Api.Management.Routing;
 using Umbraco.Cms.Web.Common.Attributes;
 using Umbraco.Cms.Web.Common.Authorization;
 using Umbraco.Cms.Web.Common.Routing;
@@ -102,7 +101,7 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
         [HttpGet("browserttloptions")]
         [MapToApiVersion("1.0")]
         [ProducesResponseType<List<EnumDescription>>(StatusCodes.Status200OK)]
-        public static IActionResult BrowserTtlOptions()
+        public IActionResult BrowserTtlOptions()
         {
             var enumDescriptions = new List<EnumDescription>();
 
