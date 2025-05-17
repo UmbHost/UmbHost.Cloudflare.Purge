@@ -14,6 +14,12 @@ const purgeCdnEntityActionManifest = {
         icon: 'icon-cloud',
         label: '#umbhostCloudflarePurge_entityactionlabel'
     },
+    conditions: [
+			{
+				alias: 'Umb.Condition.UserPermission.Document',
+				allOf: ['UmbHostCloudflarePurgeMedia']
+			}
+		]
 };
 
 export const manifests = [

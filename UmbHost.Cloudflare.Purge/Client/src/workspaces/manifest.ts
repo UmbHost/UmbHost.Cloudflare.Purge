@@ -7,6 +7,12 @@ const settingsWorkspace = {
         entityType: "umbhost-cloudflare-purge",
         headline: '#umbhostCloudflarePurge_workspacetitle',
     },
+    conditions: [
+        {
+            alias: "Umb.Condition.SectionAlias",
+            match: "Umb.Section.Settings"
+        }
+    ]
 }
 
 const settingsOverview = {
