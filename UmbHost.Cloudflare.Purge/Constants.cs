@@ -1,3 +1,5 @@
+using Umbraco.Cms.Core.Notifications;
+
 namespace UmbHost.Cloudflare.Purge
 {
     public class Constants
@@ -15,10 +17,8 @@ namespace UmbHost.Cloudflare.Purge
         internal static class Localizations
         {
             public const string Area = "umbhostCloudflarePurge";
-            public const string PurgeCdnAlias = "purgecdn";
             public const string PurgeCdnErrorMessage = "PurgeCdnErrorMessage";
             public const string PurgedUrlAlias = "purgedurl";
-            public const string CdnSettings = "cdnSettings";
         }
 
         internal static class HeaderKeys
@@ -26,6 +26,13 @@ namespace UmbHost.Cloudflare.Purge
             public const string XAuthEmail = "X-Auth-Email";
             public const string XAuthKey = "X-Auth-Key";
             public const string Authorization = "Authorization";
+        }
+
+        internal static class UserGroups
+        {
+            public const string CloudflareGroupAlias = "umbHostCloudflarePurgeGroup";
+            public const string CloudflareGroupName = "Cloudflare Purge";
+            public static readonly Guid CloudflareGroupKey = new("74faa29d-d43d-44bf-b3df-e02e8b38e08f");
         }
     }
 }
