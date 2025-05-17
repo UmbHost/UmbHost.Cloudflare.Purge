@@ -1,5 +1,5 @@
 import "@umbraco-cms/backoffice/auth";
-import { o as i } from "./entry-cONvjuuG.js";
+import { o as i } from "./entry-Db9g9TCR.js";
 export {
   i as onInit
 };

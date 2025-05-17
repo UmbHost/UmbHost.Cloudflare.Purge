@@ -1,4 +1,4 @@
-const e = {
+const t = {
   umbhostCloudflarePurge: {
     headline: "Cloudflare CDN Purge",
     introduction: `<p>Clear cached files to force Cloudflare to fetch a fresh version of those files from your web server. You can purge files selectively or all at once.</p>
@@ -22,7 +22,7 @@ const e = {
     confirmcustompurgeconfirm: "Purge custom URLs",
     entityactionlabel: "Purge from CDN",
     confirmpurgecdnentityactiontitle: "Confirm CDN purge",
-    confirmpurgecdnentityactioncontent: `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
+    confirmpurgecdnentityactioncontent: (e) => `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>${e}</strong> from your web server.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`,
     cloudflare: "Cloudflare",
     settingsoverview: "Overview",
@@ -59,10 +59,16 @@ const e = {
     alwaysonlineterms: `Cloudflare serves limited copies of web pages available from the <a class="underline" href="https://archive.org/web/" target="_blank">Internet Archive’s Wayback Machine</a>.<br />
 		Enabling this Service will share some of your website’s information with the Internet Archive in order to make this feature functional. By enabling this Service, you agree to the <a class="underline" href="https://www.cloudflare.com/supplemental-terms/#AOBeta" target="_blank">Supplemental Terms</a> for Always Online.`,
     alwaysonlinetoggleon: "On",
-    alwaysonlinetoggleoff: "Off"
+    alwaysonlinetoggleoff: "Off",
+    usermediapermissionslabel: "Purge Media Items from Cloudflare CDN",
+    usermediapermissionsdescription: "Allow user to purge Cloudflare CDN cache for media items.",
+    usercontentpermissionslabel: "Purge Content Items from Cloudflare CDN",
+    usercontentpermissionsdescription: "Allow user to purge Cloudflare CDN cache for content items.",
+    purgeitemsuccesstitle: (e) => `${e} purged successfully`,
+    purgeitemsuccesscontent: "Please allow 30 seconds to propagate globally"
   }
 };
 export {
-  e as default
+  t as default
 };
-//# sourceMappingURL=en-BjCuqtR1.js.map
+//# sourceMappingURL=en-D5troFkA.js.map

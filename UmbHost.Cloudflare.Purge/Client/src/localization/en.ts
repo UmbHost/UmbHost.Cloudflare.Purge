@@ -24,7 +24,7 @@ export default {
 		confirmcustompurgeconfirm: "Purge custom URLs",
 		entityactionlabel: "Purge from CDN",
 		confirmpurgecdnentityactiontitle: "Confirm CDN purge",
-		confirmpurgecdnentityactioncontent: `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>[[PAGENAME]]</strong> from your web server.</p>
+		confirmpurgecdnentityactioncontent: (name: string) => `<p>Clear the cache to force Cloudflare to fetch a fresh version of <strong>${name}</strong> from your web server.</p>
 			<p><strong>Note:</strong> Purging the cache may temporarily degrade performance for your website and increase load on your origin.</p>`,
 		cloudflare: "Cloudflare",
 		settingsoverview: "Overview",
