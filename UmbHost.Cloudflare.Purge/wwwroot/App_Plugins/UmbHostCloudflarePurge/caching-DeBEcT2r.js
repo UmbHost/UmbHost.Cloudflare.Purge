@@ -1,17 +1,17 @@
 import { LitElement as P, nothing as n, html as u, css as U, state as s, customElement as M } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as x } from "@umbraco-cms/backoffice/element-api";
-import { V as g } from "./services.gen-D1nWWM7g.js";
+import { V as g } from "./services.gen-CYcucE-H.js";
 import { UmbChangeEvent as v } from "@umbraco-cms/backoffice/event";
-var k = Object.defineProperty, V = Object.getOwnPropertyDescriptor, y = (e) => {
+var V = Object.defineProperty, D = Object.getOwnPropertyDescriptor, y = (e) => {
   throw TypeError(e);
-}, a = (e, l, o, i) => {
-  for (var r = i > 1 ? void 0 : i ? V(l, o) : l, c = e.length - 1, p; c >= 0; c--)
-    (p = e[c]) && (r = (i ? p(l, o, r) : p(r)) || r);
-  return i && r && k(l, o, r), r;
-}, D = (e, l, o) => l.has(e) || y("Cannot " + o), S = (e, l, o) => l.has(e) ? y("Cannot add the same private member more than once") : l instanceof WeakSet ? l.add(e) : l.set(e, o), m = (e, l, o) => (D(e, l, "access private method"), o), h, L, _, z, O, T;
+}, a = (e, o, l, i) => {
+  for (var r = i > 1 ? void 0 : i ? D(o, l) : o, c = e.length - 1, p; c >= 0; c--)
+    (p = e[c]) && (r = (i ? p(o, l, r) : p(r)) || r);
+  return i && r && V(o, l, r), r;
+}, k = (e, o, l) => o.has(e) || y("Cannot " + l), S = (e, o, l) => o.has(e) ? y("Cannot add the same private member more than once") : o instanceof WeakSet ? o.add(e) : o.set(e, l), m = (e, o, l) => (k(e, o, "access private method"), l), h, L, _, z, O, T;
 let t = class extends x(P) {
   constructor() {
-    super(...arguments), S(this, h), this.firstLoad = !0, this.loading = !1, this.zones = [], this.browserCacheTtlLoading = !1, this.alwaysOnlineLoading = !1, this.developerModeLoading = !1, this.cachingLevelLoading = !1, this.cachingLevelOptions = [
+    super(...arguments), S(this, h), this.firstLoad = !0, this.loading = !1, this.zones = [], this.zoneId = void 0, this.browserCacheTtlLoading = !1, this.alwaysOnlineLoading = !1, this.developerModeLoading = !1, this.cachingLevelLoading = !1, this.cachingLevelOptions = [
       {
         label: this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
         value: "basic"
@@ -28,10 +28,10 @@ let t = class extends x(P) {
   }
   updated(e) {
     if (super.updated(e), e.has("browserCacheTtlValue") && this.browserCacheTtlOptions) {
-      const l = this.browserCacheTtlValue;
-      this.browserCacheTtlOptions = this.browserCacheTtlOptions.map((o) => ({
-        ...o,
-        selected: o.value === l
+      const o = this.browserCacheTtlValue;
+      this.browserCacheTtlOptions = this.browserCacheTtlOptions.map((l) => ({
+        ...l,
+        selected: l.value === o
       }));
     }
   }
@@ -40,9 +40,9 @@ let t = class extends x(P) {
   }
   async loadData() {
     const e = await g.getZones();
-    this.zones = e == null ? void 0 : e.map((l) => ({
-      name: l.domain,
-      value: l.zoneId
+    this.zones = e == null ? void 0 : e.map((o) => ({
+      name: o.domain,
+      value: o.zoneId
     }));
   }
   render() {
@@ -156,11 +156,12 @@ h = /* @__PURE__ */ new WeakSet();
 L = function(e) {
   var i;
   this.browserCacheTtlLoading = !0;
-  const l = e.target, o = (i = this.browserCacheTtlOptions) == null ? void 0 : i.find((r) => r.value === Number(l.value));
-  if (o) {
+  const o = e.target, l = (i = this.browserCacheTtlOptions) == null ? void 0 : i.find((r) => r.value === Number(o.value));
+  if (l) {
     const r = {
+      zoneId: this.zoneId,
       requestBody: {
-        value: o.value
+        value: l.value
       }
     };
     g.toggleBrowserCacheTtl(r).then((c) => {
@@ -172,12 +173,13 @@ L = function(e) {
 };
 _ = function(e) {
   this.alwaysOnlineLoading = !0;
-  const o = {
+  const o = e.target.checked, l = {
+    zoneId: this.zoneId,
     requestBody: {
-      value: e.target.checked ? "on" : "off"
+      value: o ? "on" : "off"
     }
   };
-  g.toggleAlwaysOnline(o).then((i) => {
+  g.toggleAlwaysOnline(l).then((i) => {
     this.alwaysOnlineValue = i.value.toLowerCase() === "on", this.alwaysOnlineUpdated = i.modified_on ? new Date(i.modified_on).toLocaleString() : void 0;
   }).finally(() => {
     this.alwaysOnlineLoading = !1, this.dispatchEvent(new v());
@@ -185,12 +187,13 @@ _ = function(e) {
 };
 z = function(e) {
   this.developerModeLoading = !0;
-  const o = {
+  const o = e.target.checked, l = {
+    zoneId: this.zoneId,
     requestBody: {
-      value: e.target.checked ? "on" : "off"
+      value: o ? "on" : "off"
     }
   };
-  g.toggleDevelopmentMode(o).then((i) => {
+  g.toggleDevelopmentMode(l).then((i) => {
     this.developerModeValue = i.value.toLowerCase() === "on", this.developerModeUpdated = i.modified_on ? new Date(i.modified_on).toLocaleString() : void 0;
   }).finally(() => {
     this.developerModeLoading = !1, this.dispatchEvent(new v());
@@ -198,31 +201,32 @@ z = function(e) {
 };
 O = function(e) {
   this.cachingLevelLoading = !0;
-  const l = {
+  const o = {
+    zoneId: this.zoneId,
     requestBody: {
       value: e.target.value
     }
   };
-  g.toggleCachingLevel(l).then((o) => {
-    this.cachingLevelValue = o == null ? void 0 : o.value.toLowerCase(), this.cachingLevelUpdated = o.modified_on ? new Date(o.modified_on).toLocaleString() : void 0;
+  g.toggleCachingLevel(o).then((l) => {
+    this.cachingLevelValue = l == null ? void 0 : l.value.toLowerCase(), this.cachingLevelUpdated = l.modified_on ? new Date(l.modified_on).toLocaleString() : void 0;
   }).finally(() => {
     this.cachingLevelLoading = !1, this.dispatchEvent(new v());
   });
 };
 T = async function(e) {
-  var o, i, r, c, p, b, f, w;
+  var l, i, r, c, p, f, w, C;
   try {
-    const C = e.target;
-    if (C.value) {
-      this.firstLoad = !1, this.loading = !0;
-      var l = {
-        zoneId: C.value
+    const b = e.target;
+    if (b.value) {
+      this.firstLoad = !1, this.loading = !0, this.zoneId = b.value;
+      var o = {
+        zoneId: b.value
       };
       const [$, d] = await Promise.all([
         g.browserTtlOptions(),
-        g.getCacheSettings(l)
+        g.getCacheSettings(o)
       ]);
-      this.browserCacheTtlOptions = $, this.browserCacheTtlValue = ((o = d.browserCacheTtl) == null ? void 0 : o.value) !== void 0 ? Number(d.browserCacheTtl.value) : void 0, this.browserCacheTtlUpdated = (i = d.browserCacheTtl) != null && i.modified_on ? new Date(d.browserCacheTtl.modified_on).toLocaleString() : void 0, this.alwaysOnlineValue = ((r = d.alwaysOnline) == null ? void 0 : r.value.toLowerCase()) === "on", this.alwaysOnlineUpdated = (c = d.alwaysOnline) != null && c.modified_on ? new Date(d.alwaysOnline.modified_on).toLocaleString() : void 0, this.developerModeValue = ((p = d.developmentMode) == null ? void 0 : p.value.toLowerCase()) === "on", this.developerModeUpdated = (b = d.developmentMode) != null && b.modified_on ? new Date(d.developmentMode.modified_on).toLocaleString() : void 0, this.cachingLevelUpdated = (f = d.cacheLevel) != null && f.modified_on ? new Date(d.cacheLevel.modified_on).toLocaleString() : void 0, this.cachingLevelValue = (w = d.cacheLevel) == null ? void 0 : w.value.toLowerCase();
+      this.browserCacheTtlOptions = $, this.browserCacheTtlValue = ((l = d.browserCacheTtl) == null ? void 0 : l.value) !== void 0 ? Number(d.browserCacheTtl.value) : void 0, this.browserCacheTtlUpdated = (i = d.browserCacheTtl) != null && i.modified_on ? new Date(d.browserCacheTtl.modified_on).toLocaleString() : void 0, this.alwaysOnlineValue = ((r = d.alwaysOnline) == null ? void 0 : r.value.toLowerCase()) === "on", this.alwaysOnlineUpdated = (c = d.alwaysOnline) != null && c.modified_on ? new Date(d.alwaysOnline.modified_on).toLocaleString() : void 0, this.developerModeValue = ((p = d.developmentMode) == null ? void 0 : p.value.toLowerCase()) === "on", this.developerModeUpdated = (f = d.developmentMode) != null && f.modified_on ? new Date(d.developmentMode.modified_on).toLocaleString() : void 0, this.cachingLevelUpdated = (w = d.cacheLevel) != null && w.modified_on ? new Date(d.cacheLevel.modified_on).toLocaleString() : void 0, this.cachingLevelValue = (C = d.cacheLevel) == null ? void 0 : C.value.toLowerCase();
     }
   } finally {
     this.loading = !1;
@@ -284,6 +288,9 @@ a([
 ], t.prototype, "zones", 2);
 a([
   s()
+], t.prototype, "zoneId", 2);
+a([
+  s()
 ], t.prototype, "browserCacheTtlLoading", 2);
 a([
   s()
@@ -327,4 +334,4 @@ t = a([
 export {
   t as default
 };
-//# sourceMappingURL=caching-r-aqwp5x.js.map
+//# sourceMappingURL=caching-DeBEcT2r.js.map

@@ -17,6 +17,9 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 	private zones?: any[] = [];
 
 	@state()
+	private zoneId?: string = undefined;
+
+	@state()
 	private browserCacheTtlLoading?: boolean = false;
 
 	@state()
@@ -89,6 +92,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		const selectedOption = this.browserCacheTtlOptions?.find(option => option.value === Number(select.value));
 		if (selectedOption) {
 			const ToggleBrowserCacheTtlData: ToggleBrowserCacheTtlData = {
+				zoneId: this.zoneId,
 				requestBody: {
 					value: selectedOption.value
 				}
@@ -109,6 +113,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		this.alwaysOnlineLoading = true;
 		const checked = event.target.checked;
 		const ToggleAlwaysOnlineData: ToggleAlwaysOnlineData = {
+			zoneId: this.zoneId,
 			requestBody: {
 				value: checked ? "on" : "off"
 			}
@@ -128,6 +133,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		this.developerModeLoading = true;
 		const checked = event.target.checked;
 		const ToggleDevelopmentModeData: ToggleDevelopmentModeData = {
+			zoneId: this.zoneId,
 			requestBody: {
 				value: checked ? "on" : "off"
 			}
@@ -146,6 +152,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 	#onCachingLevelToggle(event: CustomEvent & { target: UmbInputRadioButtonListElement }) {
 		this.cachingLevelLoading = true;
 		const ToggleCachingLevelData: ToggleCachingLevelData = {
+			zoneId: this.zoneId,
 			requestBody: {
 				value: event.target.value
 			}
@@ -167,6 +174,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 			if (select.value) {
 			this.firstLoad = false;
 			this.loading = true;
+			this.zoneId = select.value;
 			var data : GetCacheSettingsData = {
 				zoneId: select.value
 			}

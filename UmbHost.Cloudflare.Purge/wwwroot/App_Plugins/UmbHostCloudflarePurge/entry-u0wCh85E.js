@@ -8,7 +8,7 @@ const m = {
   name: "Cloudflare CDN Purge Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-content-tree-entity.action-CdSexDzZ.js"),
+  api: () => import("./purge-content-tree-entity.action-BJcaTGWN.js"),
   forEntityTypes: [i],
   meta: {
     icon: "icon-cloud",
@@ -45,7 +45,7 @@ const m = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
-  element: () => import("./purge-dashboard-BgsBNT6J.js"),
+  element: () => import("./purge-dashboard-BFI2c64i.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
   forEntityTypes: [i],
   weight: 15,
@@ -101,7 +101,7 @@ const m = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-caching",
   name: "Cloudflare CDN Purge Settings Caching",
-  element: () => import("./caching-r-aqwp5x.js"),
+  element: () => import("./caching-DeBEcT2r.js"),
   elementName: "umbhost-cloudflare-purge-settings-caching",
   meta: {
     label: "#umbhostCloudflarePurge_settingscaching",
@@ -245,4 +245,4 @@ export {
   s as O,
   k as o
 };
-//# sourceMappingURL=entry-CN_QVRCi.js.map
+//# sourceMappingURL=entry-u0wCh85E.js.map
