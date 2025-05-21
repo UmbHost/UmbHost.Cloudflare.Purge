@@ -44,6 +44,12 @@ namespace UmbHost.Cloudflare.Purge.Services
             return !anyErrors;
         }
 
+        // Pseudocode:
+        // 1. Filter purgeRequest.Files for valid absolute HTTP/HTTPS URLs.
+        // 2. For each URL, find the matching zone from _configuration.Zones where the URL's hostname contains the zone's domain (case-insensitive).
+        // 3. Group the URLs by the matched zone.
+        // 4. For each group (zone), send the purge request with the correct zoneId and up to 30 URLs per request.
+
         public async Task<bool> CustomPurge(PurgeFilesRequest purgeRequest)
         {
             if (_configuration.Disabled)
@@ -51,27 +57,42 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
-            Uri? uriResult = null;
-            purgeRequest.Files = purgeRequest.Files
+            // Step 1: Filter valid URLs and parse them
+            var validUrls = purgeRequest.Files
                 .Where(url => !string.IsNullOrWhiteSpace(url)
-                              && Uri.TryCreate(url, UriKind.Absolute, out uriResult)
+                              && Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
                               && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
-                .ToArray();
+                .Select(url => new { Url = url, Uri = new Uri(url) })
+                .ToList();
 
+            // Step 2: Group URLs by zone
+            var zoneGroups = validUrls
+                .SelectMany(item =>
+                    _configuration.Zones
+                        .Where(zone => item.Uri.Host.Contains(zone.Domain, StringComparison.InvariantCultureIgnoreCase))
+                        .Select(zone => new { Zone = zone, Url = item.Url })
+                )
+                .GroupBy(x => x.Zone)
+                .ToList();
+
+            bool anyErrors = validUrls.Count == 0;
             CloudflareResponseObject? result = null;
-            for (var i = 0; i < purgeRequest.Files.Length; i += 30)
+
+            // Step 3: Iterate over each zone group and send requests in batches of 30
+            foreach (var group in zoneGroups)
             {
-                var pr = new PurgeFilesRequest
-                {
-                    Files = purgeRequest.Files.Skip(i).Take(30).ToArray()
-                };
+                var zone = group.Key;
+                var urls = group.Select(x => x.Url).ToArray();
 
-                var zone = _configuration.Zones.FirstOrDefault(x =>
-                    uriResult != null && uriResult.Host.Contains(x.Domain, StringComparison.InvariantCultureIgnoreCase));
-
-                if (zone != null && !string.IsNullOrWhiteSpace(zone.ZoneId))
+                for (var i = 0; i < urls.Length; i += 30)
                 {
-                    using var response = await _httpClient.PostAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zone.ZoneId}/purge_cache", GenerateHttpContent(pr));
+                    var batch = urls.Skip(i).Take(30).ToArray();
+                    var pr = new PurgeFilesRequest { Files = batch };
+
+                    using var response = await _httpClient.PostAsync(
+                        $"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zone.ZoneId}/purge_cache",
+                        GenerateHttpContent(pr)
+                    );
                     var body = await response.Content.ReadAsStringAsync();
                     result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
@@ -79,14 +100,17 @@ namespace UmbHost.Cloudflare.Purge.Services
                     {
                         var purgeResult = result.Result.Deserialize<PurgeResult>();
                         if (purgeResult != null)
-                            LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
-                        return true;
+                            LogPurgeUrls(batch, purgeResult.Id);
+                    }
+                    else
+                    {
+                        anyErrors = true;
+                        logger.LogError($"{localizedTextService.Localize(Constants.Localizations.Area, Constants.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
                     }
                 }
             }
 
-            logger.LogError($"{localizedTextService.Localize(Constants.Localizations.Area, Constants.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
-            return false;
+            return !anyErrors;
         }
 
         public async Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode, string zoneId)

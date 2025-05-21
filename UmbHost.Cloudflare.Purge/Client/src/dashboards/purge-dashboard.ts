@@ -78,20 +78,22 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
       }
     });
     await modalHandler?.onSubmit().then(() => {
-      const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
-      this._notificationContext?.peek('positive', { data });
       var customPurge : CustomData = {
         requestBody: this.purgeUrls
       }
 
       V1Resource.custom(customPurge).then(() => {
+        const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
+        this._notificationContext?.peek('positive', { data });
         this.purgeEverythingButtonState = 'success';
-      return;
+      return true;
       }).catch(() => {
+        const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+        this._notificationContext?.peek('danger', { data });
         this.purgeEverythingButtonState = 'failed';
       return;
       });
-      this.customPurgeButtonState = 'success';
+      this.customPurgeButtonState = 'failed';
       return;
     })
       .catch(() => {
