@@ -1,4 +1,4 @@
-﻿using UmbHost.Cloudflare.Purge.Enums;
+using UmbHost.Cloudflare.Purge.Enums;
 
 namespace UmbHost.Cloudflare.Purge.Models
 {
@@ -10,7 +10,6 @@ namespace UmbHost.Cloudflare.Purge.Models
         public AuthTypeEnum AuthType { get; set; } = AuthTypeEnum.Global;
         public NotificationHandlers NotificationHandlers { get; set; } = new();
         public bool Disabled { get; set; } = false;
-        public TreeMenuItems TreeMenuItems = new();
     }
 
     public class NotificationHandlers
@@ -22,11 +21,9 @@ namespace UmbHost.Cloudflare.Purge.Models
         public bool MediaSavedNotificationEnabled { get; set; } = true;
     }
 
-    public class TreeMenuItems
+    public class UmbHostCloudflarePurgeZone
     {
-        public bool TreeMenuItemsEnabled { get; set; } = true;
-        public bool ContentTreeMenuItemEnabled { get; set; } = true;
-        public bool MediaFolderTreeMenuItemEnabled { get; set; } = true;
-        public bool MediaItemTreeMenuItemEnabled { get; set; } = true;
+        public required string Domain { get; set; }
+        public required string ZoneId { get; set; }
     }
 }
