@@ -20,6 +20,8 @@ export default {
 		confirmcustompurgecontent: "Purge specified cached files. Purging your cache may slow your website temporarily.",
 		purgesuccesstitle: "URLs purged",
 		purgesuccesscontent: "Please allow 30 seconds to propagate globally",
+		purgeitemfailedtitle: "URLs did not purge",
+		purgeitemfailedcontent: "The URLs did not purge. Please try again.",
 		confirmpurgeeverythingconfirm: "Purge everything",
 		confirmcustompurgeconfirm: "Purge custom URLs",
 		entityactionlabel: "Purge from CDN",

@@ -43,17 +43,22 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
         });
 
         await modalHandler?.onSubmit().then(() => {
-            this.#handPurge(item)
-
-            const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
-                  this._notificationContext?.peek('positive', { data });
+            this.#handPurge(item).then((result) => {
+                if (result) {
+                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
+                        this._notificationContext?.peek('positive', { data });
+                }else{
+                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemfailedtitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+                        this._notificationContext?.peek('danger', { data });
+                }
+            });
 
                   this.#notify();
         }).catch(() => {
         });
     }
 
-    async #handPurge(item: UmbDocumentItemModel) {
+    async #handPurge(item: UmbDocumentItemModel) : Promise<boolean> {
 
         let cultureName = undefined;
         if (this._languageContext) {
@@ -67,11 +72,13 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
 				}
 			};
 
-            V1Resource.node(nodeData).then((response) => {
-                console.log('Purge response:', response);
-            }).catch((error) => {
-                console.error('Error during purge:', error);
+            V1Resource.node(nodeData).then(() => {
+                return true;
+            }).catch(() => {
+                return false;
             });
+
+        return false;
     }
 
     async #getDocument() {

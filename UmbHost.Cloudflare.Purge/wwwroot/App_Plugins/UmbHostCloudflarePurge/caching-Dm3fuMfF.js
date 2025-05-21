@@ -1,6 +1,6 @@
 import { LitElement as P, nothing as n, html as u, css as U, state as s, customElement as M } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin as x } from "@umbraco-cms/backoffice/element-api";
-import { V as g } from "./services.gen-CYcucE-H.js";
+import { V as g } from "./services.gen-DB8iTMsS.js";
 import { UmbChangeEvent as v } from "@umbraco-cms/backoffice/event";
 var V = Object.defineProperty, D = Object.getOwnPropertyDescriptor, y = (e) => {
   throw TypeError(e);
@@ -334,4 +334,4 @@ t = a([
 export {
   t as default
 };
-//# sourceMappingURL=caching-DeBEcT2r.js.map
+//# sourceMappingURL=caching-Dm3fuMfF.js.map
