@@ -119,9 +119,9 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
             {
                 var node = umbracoHelper.Media(id);
 
-                if (node is { ContentType.Alias: "Folder", Children: not null } && node.Children.Any())
+                if (node is { ContentType.Alias: "Folder" } && node.Children().Any())
                 {
-                    var urls = node.Children.Select(x => x.Url(mode: UrlMode.Absolute)).ToArray();
+                    var urls = node.Children().Select(x => x.Url(mode: UrlMode.Absolute)).ToArray();
 
                     var success = await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = urls });
 

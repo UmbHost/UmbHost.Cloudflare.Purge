@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { BrowserTtlOptionsResponse, GetCacheSettingsResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
+import type { BrowserTtlOptionsResponse, GetCacheSettingsData, GetCacheSettingsResponse, GetZonesResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
 
 export class V1Resource {
     /**
@@ -21,13 +21,18 @@ export class V1Resource {
     }
     
     /**
+     * @param data The data for the request.
+     * @param data.zoneId
      * @returns unknown OK
      * @throws ApiError
      */
-    public static getCacheSettings(): CancelablePromise<GetCacheSettingsResponse> {
+    public static getCacheSettings(data: GetCacheSettingsData = {}): CancelablePromise<GetCacheSettingsResponse> {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings',
+            query: {
+                zoneId: data.zoneId
+            },
             errors: {
                 400: 'Bad Request',
                 401: 'The resource is protected and requires an authentication token'
@@ -36,7 +41,22 @@ export class V1Resource {
     }
     
     /**
+     * @returns unknown OK
+     * @throws ApiError
+     */
+    public static getZones(): CancelablePromise<GetZonesResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getzones',
+            errors: {
+                401: 'The resource is protected and requires an authentication token'
+            }
+        });
+    }
+    
+    /**
      * @param data The data for the request.
+     * @param data.zoneId
      * @param data.requestBody
      * @returns unknown OK
      * @throws ApiError
@@ -45,6 +65,9 @@ export class V1Resource {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline',
+            query: {
+                zoneId: data.zoneId
+            },
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -56,6 +79,7 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
+     * @param data.zoneId
      * @param data.requestBody
      * @returns unknown OK
      * @throws ApiError
@@ -64,6 +88,9 @@ export class V1Resource {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl',
+            query: {
+                zoneId: data.zoneId
+            },
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -75,6 +102,7 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
+     * @param data.zoneId
      * @param data.requestBody
      * @returns unknown OK
      * @throws ApiError
@@ -83,6 +111,9 @@ export class V1Resource {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel',
+            query: {
+                zoneId: data.zoneId
+            },
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {
@@ -94,6 +125,7 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
+     * @param data.zoneId
      * @param data.requestBody
      * @returns unknown OK
      * @throws ApiError
@@ -102,6 +134,9 @@ export class V1Resource {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode',
+            query: {
+                zoneId: data.zoneId
+            },
             body: data.requestBody,
             mediaType: 'application/json',
             errors: {

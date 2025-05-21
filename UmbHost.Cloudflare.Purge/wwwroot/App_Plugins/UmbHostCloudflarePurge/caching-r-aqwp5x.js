@@ -1,0 +1,330 @@
+import { LitElement as P, nothing as n, html as u, css as U, state as s, customElement as M } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as x } from "@umbraco-cms/backoffice/element-api";
+import { V as g } from "./services.gen-D1nWWM7g.js";
+import { UmbChangeEvent as v } from "@umbraco-cms/backoffice/event";
+var k = Object.defineProperty, V = Object.getOwnPropertyDescriptor, y = (e) => {
+  throw TypeError(e);
+}, a = (e, l, o, i) => {
+  for (var r = i > 1 ? void 0 : i ? V(l, o) : l, c = e.length - 1, p; c >= 0; c--)
+    (p = e[c]) && (r = (i ? p(l, o, r) : p(r)) || r);
+  return i && r && k(l, o, r), r;
+}, D = (e, l, o) => l.has(e) || y("Cannot " + o), S = (e, l, o) => l.has(e) ? y("Cannot add the same private member more than once") : l instanceof WeakSet ? l.add(e) : l.set(e, o), m = (e, l, o) => (D(e, l, "access private method"), o), h, L, _, z, O, T;
+let t = class extends x(P) {
+  constructor() {
+    super(...arguments), S(this, h), this.firstLoad = !0, this.loading = !1, this.zones = [], this.browserCacheTtlLoading = !1, this.alwaysOnlineLoading = !1, this.developerModeLoading = !1, this.cachingLevelLoading = !1, this.cachingLevelOptions = [
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelbasic"),
+        value: "basic"
+      },
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelsimplified"),
+        value: "simplified"
+      },
+      {
+        label: this.localize.term("umbhostCloudflarePurge_cachinglevelaggressive"),
+        value: "aggressive"
+      }
+    ];
+  }
+  updated(e) {
+    if (super.updated(e), e.has("browserCacheTtlValue") && this.browserCacheTtlOptions) {
+      const l = this.browserCacheTtlValue;
+      this.browserCacheTtlOptions = this.browserCacheTtlOptions.map((o) => ({
+        ...o,
+        selected: o.value === l
+      }));
+    }
+  }
+  connectedCallback() {
+    super.connectedCallback(), this.loadData();
+  }
+  async loadData() {
+    const e = await g.getZones();
+    this.zones = e == null ? void 0 : e.map((l) => ({
+      name: l.domain,
+      value: l.zoneId
+    }));
+  }
+  render() {
+    return u`
+		<section id="umbhost-cloudflare-purdge-caching">
+			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
+				<p><umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize></p>
+				
+					<uui-label for="zone">Select Domain: </uui-label>
+					<uui-select id="zone"
+					required="" 
+						placeholder="Select an option"
+						.options=${this.zones ?? []}
+						@change=${m(this, h, T)}
+						>
+					</uui-select>
+			</uui-box>  
+
+		${this.firstLoad ? n : u`
+			${this.loading ? u`<uui-loader-circle></uui-loader-circle>` : n}
+
+			${this.loading ? n : u`
+			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_developermodetitle")}>
+				${this.developerModeLoading ? u`<uui-loader></uui-loader>` : n}
+				${this.developerModeLoading ? n : u`
+				<div class="description">
+					<umb-localize key="umbhostCloudflarePurge_developermodedescription"></umb-localize>
+					<p class="alert alert-warning">
+						<umb-localize key="umbhostCloudflarePurge_developermodewarning"></umb-localize>
+					</p>
+				</div>
+				<umb-input-toggle showLabels @change=${m(this, h, z)} ?checked=${this.developerModeValue} labelOn=${this.localize.term("umbhostCloudflarePurge_developermodetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_developermodetoggleoff")}></umb-input-toggle>
+				<div class="lastmodified">
+					<small>
+						<strong>
+							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
+						</strong> 
+						${this.developerModeUpdated ? this.developerModeUpdated : n}
+					</small>
+				</div>
+				`}
+			</uui-box>  
+
+			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_cachingleveltitle")}>
+				${this.cachingLevelLoading ? u`<uui-loader></uui-loader>` : n}
+				${this.cachingLevelLoading ? n : u`
+				<div class="description">
+					<umb-localize key="umbhostCloudflarePurge_cachingleveldescription"></umb-localize>
+				</div>
+				<umb-input-radio-button-list .list=${this.cachingLevelOptions} .value=${this.cachingLevelValue ?? ""} @change=${m(this, h, O)} ></umb-input-radio-button-list>
+				<div class="lastmodified">
+					<small>
+						<strong>
+							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
+						</strong> 
+						${this.cachingLevelUpdated ? this.cachingLevelUpdated : n}
+					</small>
+				</div>
+				`}
+			</uui-box> 
+
+			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_browsercachettltitle")}>
+				${this.browserCacheTtlLoading ? u`<uui-loader></uui-loader>` : n}
+				${this.browserCacheTtlLoading ? n : u`
+					<div class="description">
+						<umb-localize key="umbhostCloudflarePurge_browsercachettldescription"></umb-localize>
+					</div>
+					<uui-select id="browserCacheTtl" 
+						placeholder="Select an option" 
+						.options=${this.browserCacheTtlOptions ?? []}
+						@change=${m(this, h, L)} >
+					</uui-select>
+					<div class="lastmodified">
+						<small>
+							<strong>
+								<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
+							</strong> 
+							${this.browserCacheTtlUpdated ? this.browserCacheTtlUpdated : n}
+						</small>
+					</div>
+				`}
+			</uui-box>  
+
+			
+			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetitle")}>
+				${this.alwaysOnlineLoading ? u`<uui-loader></uui-loader>` : n}
+				${this.alwaysOnlineLoading ? n : u`
+				<div class="description">
+					<umb-localize key="umbhostCloudflarePurge_alwaysonlinedescription"></umb-localize>
+				</div>
+				<div class="description">
+					<umb-localize key="umbhostCloudflarePurge_alwaysonlineterms"></umb-localize>
+				</div>
+				<umb-input-toggle @change=${m(this, h, _)} ?checked=${this.alwaysOnlineValue}  showLabels labelOn=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleon")} labelOff=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetoggleoff")}></umb-input-toggle>
+				<div class="lastmodified">
+					<small>
+						<strong>
+							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
+						</strong> 
+						${this.alwaysOnlineUpdated ? this.alwaysOnlineUpdated : n}
+					</small>
+				</div>
+				`}
+			</uui-box>`}
+		`}
+		</section>  
+    `;
+  }
+};
+h = /* @__PURE__ */ new WeakSet();
+L = function(e) {
+  var i;
+  this.browserCacheTtlLoading = !0;
+  const l = e.target, o = (i = this.browserCacheTtlOptions) == null ? void 0 : i.find((r) => r.value === Number(l.value));
+  if (o) {
+    const r = {
+      requestBody: {
+        value: o.value
+      }
+    };
+    g.toggleBrowserCacheTtl(r).then((c) => {
+      this.browserCacheTtlValue = Number(c.value), this.browserCacheTtlUpdated = c.modified_on ? new Date(c.modified_on).toLocaleString() : void 0;
+    }).finally(() => {
+      this.browserCacheTtlLoading = !1, this.dispatchEvent(new v());
+    });
+  }
+};
+_ = function(e) {
+  this.alwaysOnlineLoading = !0;
+  const o = {
+    requestBody: {
+      value: e.target.checked ? "on" : "off"
+    }
+  };
+  g.toggleAlwaysOnline(o).then((i) => {
+    this.alwaysOnlineValue = i.value.toLowerCase() === "on", this.alwaysOnlineUpdated = i.modified_on ? new Date(i.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.alwaysOnlineLoading = !1, this.dispatchEvent(new v());
+  });
+};
+z = function(e) {
+  this.developerModeLoading = !0;
+  const o = {
+    requestBody: {
+      value: e.target.checked ? "on" : "off"
+    }
+  };
+  g.toggleDevelopmentMode(o).then((i) => {
+    this.developerModeValue = i.value.toLowerCase() === "on", this.developerModeUpdated = i.modified_on ? new Date(i.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.developerModeLoading = !1, this.dispatchEvent(new v());
+  });
+};
+O = function(e) {
+  this.cachingLevelLoading = !0;
+  const l = {
+    requestBody: {
+      value: e.target.value
+    }
+  };
+  g.toggleCachingLevel(l).then((o) => {
+    this.cachingLevelValue = o == null ? void 0 : o.value.toLowerCase(), this.cachingLevelUpdated = o.modified_on ? new Date(o.modified_on).toLocaleString() : void 0;
+  }).finally(() => {
+    this.cachingLevelLoading = !1, this.dispatchEvent(new v());
+  });
+};
+T = async function(e) {
+  var o, i, r, c, p, b, f, w;
+  try {
+    const C = e.target;
+    if (C.value) {
+      this.firstLoad = !1, this.loading = !0;
+      var l = {
+        zoneId: C.value
+      };
+      const [$, d] = await Promise.all([
+        g.browserTtlOptions(),
+        g.getCacheSettings(l)
+      ]);
+      this.browserCacheTtlOptions = $, this.browserCacheTtlValue = ((o = d.browserCacheTtl) == null ? void 0 : o.value) !== void 0 ? Number(d.browserCacheTtl.value) : void 0, this.browserCacheTtlUpdated = (i = d.browserCacheTtl) != null && i.modified_on ? new Date(d.browserCacheTtl.modified_on).toLocaleString() : void 0, this.alwaysOnlineValue = ((r = d.alwaysOnline) == null ? void 0 : r.value.toLowerCase()) === "on", this.alwaysOnlineUpdated = (c = d.alwaysOnline) != null && c.modified_on ? new Date(d.alwaysOnline.modified_on).toLocaleString() : void 0, this.developerModeValue = ((p = d.developmentMode) == null ? void 0 : p.value.toLowerCase()) === "on", this.developerModeUpdated = (b = d.developmentMode) != null && b.modified_on ? new Date(d.developmentMode.modified_on).toLocaleString() : void 0, this.cachingLevelUpdated = (f = d.cacheLevel) != null && f.modified_on ? new Date(d.cacheLevel.modified_on).toLocaleString() : void 0, this.cachingLevelValue = (w = d.cacheLevel) == null ? void 0 : w.value.toLowerCase();
+    }
+  } finally {
+    this.loading = !1;
+  }
+};
+t.styles = U`
+
+	uui-loader-circle {
+		display: block;
+		text-align: center;
+		margin: 0 auto;
+		padding-top: var(--uui-size-10);
+		font-size: 2em;
+	}
+
+			uui-box {
+				p:first-child {
+					margin-top: 0;
+				}
+			}
+
+			#umbhost-cloudflare-purdge-caching {
+				padding: var(--uui-size-layout-1);
+			}
+
+			uui-box:not(:last-of-type) {
+				margin-bottom: var(--uui-size-layout-1);
+			}
+
+			.description:not(:has(.alert)) {
+				padding-bottom: var(--uui-size-6);
+			}
+
+			.lastmodified {
+				padding-top: var(--uui-size-3);
+			}
+
+			.alert {
+				border: 1px solid transparent;
+				border-radius: 0;
+				margin-bottom: 20px;
+				padding: 8px 35px 8px 14px;
+				position: relative;
+			}
+			.alert-warning {
+				background-color: #f0ac00;
+				border-color: transparent;
+				color: #fff;
+			}
+  `;
+a([
+  s()
+], t.prototype, "firstLoad", 2);
+a([
+  s()
+], t.prototype, "loading", 2);
+a([
+  s()
+], t.prototype, "zones", 2);
+a([
+  s()
+], t.prototype, "browserCacheTtlLoading", 2);
+a([
+  s()
+], t.prototype, "alwaysOnlineLoading", 2);
+a([
+  s()
+], t.prototype, "developerModeLoading", 2);
+a([
+  s()
+], t.prototype, "cachingLevelLoading", 2);
+a([
+  s()
+], t.prototype, "browserCacheTtlOptions", 2);
+a([
+  s()
+], t.prototype, "browserCacheTtlValue", 2);
+a([
+  s()
+], t.prototype, "browserCacheTtlUpdated", 2);
+a([
+  s()
+], t.prototype, "alwaysOnlineUpdated", 2);
+a([
+  s()
+], t.prototype, "alwaysOnlineValue", 2);
+a([
+  s()
+], t.prototype, "developerModeUpdated", 2);
+a([
+  s()
+], t.prototype, "developerModeValue", 2);
+a([
+  s()
+], t.prototype, "cachingLevelUpdated", 2);
+a([
+  s()
+], t.prototype, "cachingLevelValue", 2);
+t = a([
+  M("umbhost-cloudflare-purge-settings-caching")
+], t);
+export {
+  t as default
+};
+//# sourceMappingURL=caching-r-aqwp5x.js.map

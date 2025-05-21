@@ -1,10 +1,10 @@
-using UmbHost.Cloudflare.Purge.Enums;
+﻿using UmbHost.Cloudflare.Purge.Enums;
 
 namespace UmbHost.Cloudflare.Purge.Models
 {
     public class UmbHostCloudflarePurge
     {
-        public required string ZoneId { get; set; }
+        public required UmbHostCloudflarePurgeZone[] Zones { get; set; } = [];
         public string? EmailAddress { get; set; }
         public required string AuthKey { get; set; }
         public AuthTypeEnum AuthType { get; set; } = AuthTypeEnum.Global;

@@ -76,30 +76,45 @@ export type TreePurge = {
     culture?: string | null;
 };
 
+export type UmbHostCloudflarePurgeZone = {
+    domain: string;
+    zoneId: string;
+};
+
 export type BrowserTtlOptionsResponse = Array<(EnumDescription)>;
+
+export type GetCacheSettingsData = {
+    zoneId?: string;
+};
 
 export type GetCacheSettingsResponse = AllSettings;
 
+export type GetZonesResponse = Array<(UmbHostCloudflarePurgeZone)>;
+
 export type ToggleAlwaysOnlineData = {
     requestBody?: NewAlwaysOnline;
+    zoneId?: string;
 };
 
 export type ToggleAlwaysOnlineResponse = AlwaysOnline;
 
 export type ToggleBrowserCacheTtlData = {
     requestBody?: NewBrowserCacheTtl;
+    zoneId?: string;
 };
 
 export type ToggleBrowserCacheTtlResponse = BrowserCacheTtl;
 
 export type ToggleCachingLevelData = {
     requestBody?: NewCacheLevel;
+    zoneId?: string;
 };
 
 export type ToggleCachingLevelResponse = CacheLevel;
 
 export type ToggleDevelopmentModeData = {
     requestBody?: NewDevelopmentMode;
+    zoneId?: string;
 };
 
 export type ToggleDevelopmentModeResponse = DevelopmentMode;
@@ -141,6 +156,7 @@ export type $OpenApiTs = {
     };
     '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings': {
         get: {
+            req: GetCacheSettingsData;
             res: {
                 /**
                  * OK
@@ -150,6 +166,20 @@ export type $OpenApiTs = {
                  * Bad Request
                  */
                 400: string;
+                /**
+                 * The resource is protected and requires an authentication token
+                 */
+                401: unknown;
+            };
+        };
+    };
+    '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getzones': {
+        get: {
+            res: {
+                /**
+                 * OK
+                 */
+                200: Array<(UmbHostCloudflarePurgeZone)>;
                 /**
                  * The resource is protected and requires an authentication token
                  */

@@ -7,10 +7,10 @@ namespace UmbHost.Cloudflare.Purge.Interfaces
     {
         Task<bool> PurgeAll();
         Task<bool> CustomPurge(PurgeFilesRequest purgeRequest);
-        Task<AllSettings?> GetAllZoneSettings();
-        Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode);
-        Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel);
-        Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl);
-        Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline);
+        Task<AllSettings?> GetAllZoneSettings(string zoneId);
+        Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode, string zoneId);
+        Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel, string zoneId);
+        Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl, string zoneId);
+        Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline, string zoneId);
     }
 }

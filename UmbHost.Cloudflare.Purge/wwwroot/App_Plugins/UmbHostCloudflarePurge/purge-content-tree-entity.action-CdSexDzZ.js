@@ -9,7 +9,7 @@ import { UmbLocalizationController as T } from "@umbraco-cms/backoffice/localiza
 import { UmbDocumentItemRepository as A } from "@umbraco-cms/backoffice/document";
 import { UMB_ACTION_EVENT_CONTEXT as N } from "@umbraco-cms/backoffice/action";
 import { UMB_NOTIFICATION_CONTEXT as q } from "@umbraco-cms/backoffice/notification";
-import { V as O } from "./services.gen-Bl82s6UX.js";
+import { V as O } from "./services.gen-D1nWWM7g.js";
 import { UMB_APP_LANGUAGE_CONTEXT as U } from "@umbraco-cms/backoffice/language";
 var c, s, r, f, d, _;
 class X extends E {
@@ -79,4 +79,4 @@ export {
   X as PurgeCdnContentEntityAction,
   X as api
 };
-//# sourceMappingURL=purge-content-tree-entity.action-DuOWzD1-.js.map
+//# sourceMappingURL=purge-content-tree-entity.action-CdSexDzZ.js.map

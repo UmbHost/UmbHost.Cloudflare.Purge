@@ -1,4 +1,4 @@
-import { O as d } from "./entry-CYaQnFnR.js";
+import { O as d } from "./entry-CN_QVRCi.js";
 class b extends Error {
   constructor(e, r, o) {
     super(o), this.name = "ApiError", this.url = r.url, this.status = r.status, this.statusText = r.statusText, this.body = r.body, this.request = e;
@@ -61,7 +61,7 @@ class w {
     return this._isCancelled;
   }
 }
-const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t instanceof Blob, g = (t) => t instanceof FormData, C = (t) => {
+const h = (t) => typeof t == "string", y = (t) => h(t) && t !== "", f = (t) => t instanceof Blob, g = (t) => t instanceof FormData, C = (t) => {
   try {
     return btoa(t);
   } catch {
@@ -83,7 +83,7 @@ const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t
 }, E = (t) => {
   if (t.formData) {
     const e = new FormData(), r = (o, s) => {
-      h(s) || y(s) ? e.append(o, s) : e.append(o, JSON.stringify(s));
+      h(s) || f(s) ? e.append(o, s) : e.append(o, JSON.stringify(s));
     };
     return Object.entries(t.formData).filter(([, o]) => o != null).forEach(([o, s]) => {
       Array.isArray(s) ? s.forEach((n) => r(o, n)) : r(o, s);
@@ -103,15 +103,15 @@ const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t
     ...i,
     [l]: String(c)
   }), {});
-  if (f(r) && (a.Authorization = `Bearer ${r}`), f(o) && f(s)) {
+  if (y(r) && (a.Authorization = `Bearer ${r}`), y(o) && y(s)) {
     const i = C(`${o}:${s}`);
     a.Authorization = `Basic ${i}`;
   }
-  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : y(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : h(e.body) ? a["Content-Type"] = "text/plain" : g(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
+  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : f(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : h(e.body) ? a["Content-Type"] = "text/plain" : g(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
 }, A = (t) => {
   var e, r;
   if (t.body !== void 0)
-    return (e = t.mediaType) != null && e.includes("application/json") || (r = t.mediaType) != null && r.includes("+json") ? JSON.stringify(t.body) : h(t.body) || y(t.body) || g(t.body) ? t.body : JSON.stringify(t.body);
+    return (e = t.mediaType) != null && e.includes("application/json") || (r = t.mediaType) != null && r.includes("+json") ? JSON.stringify(t.body) : h(t.body) || f(t.body) || g(t.body) ? t.body : JSON.stringify(t.body);
 }, v = async (t, e, r, o, s, n, a) => {
   const i = new AbortController();
   let l = {
@@ -130,7 +130,7 @@ const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t
     if (h(r))
       return r;
   }
-}, O = async (t) => {
+}, I = async (t) => {
   if (t.status !== 204)
     try {
       const e = t.headers.get("Content-Type");
@@ -148,7 +148,7 @@ const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t
     } catch (e) {
       console.error(e);
     }
-}, H = (t, e) => {
+}, O = (t, e) => {
   const o = {
     400: "Bad Request",
     401: "Unauthorized",
@@ -215,20 +215,20 @@ const h = (t) => typeof t == "string", f = (t) => h(t) && t !== "", y = (t) => t
       let c = await v(t, e, n, i, a, l, s);
       for (const q of t.interceptors.response._fns)
         c = await q(c);
-      const T = await O(c), R = P(c, e.responseHeader), m = {
+      const T = await I(c), R = P(c, e.responseHeader), m = {
         url: n,
         ok: c.ok,
         status: c.status,
         statusText: c.statusText,
         body: R ?? T
       };
-      H(e, m), r(m.body);
+      O(e, m), r(m.body);
     }
   } catch (n) {
     o(n);
   }
 });
-class D {
+class N {
   /**
    * @returns unknown OK
    * @throws ApiError
@@ -243,13 +243,18 @@ class D {
     });
   }
   /**
+   * @param data The data for the request.
+   * @param data.zoneId
    * @returns unknown OK
    * @throws ApiError
    */
-  static getCacheSettings() {
+  static getCacheSettings(e = {}) {
     return u(d, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings",
+      query: {
+        zoneId: e.zoneId
+      },
       errors: {
         400: "Bad Request",
         401: "The resource is protected and requires an authentication token"
@@ -257,7 +262,21 @@ class D {
     });
   }
   /**
+   * @returns unknown OK
+   * @throws ApiError
+   */
+  static getZones() {
+    return u(d, {
+      method: "GET",
+      url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getzones",
+      errors: {
+        401: "The resource is protected and requires an authentication token"
+      }
+    });
+  }
+  /**
    * @param data The data for the request.
+   * @param data.zoneId
    * @param data.requestBody
    * @returns unknown OK
    * @throws ApiError
@@ -266,6 +285,9 @@ class D {
     return u(d, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline",
+      query: {
+        zoneId: e.zoneId
+      },
       body: e.requestBody,
       mediaType: "application/json",
       errors: {
@@ -276,6 +298,7 @@ class D {
   }
   /**
    * @param data The data for the request.
+   * @param data.zoneId
    * @param data.requestBody
    * @returns unknown OK
    * @throws ApiError
@@ -284,6 +307,9 @@ class D {
     return u(d, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl",
+      query: {
+        zoneId: e.zoneId
+      },
       body: e.requestBody,
       mediaType: "application/json",
       errors: {
@@ -294,6 +320,7 @@ class D {
   }
   /**
    * @param data The data for the request.
+   * @param data.zoneId
    * @param data.requestBody
    * @returns unknown OK
    * @throws ApiError
@@ -302,6 +329,9 @@ class D {
     return u(d, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel",
+      query: {
+        zoneId: e.zoneId
+      },
       body: e.requestBody,
       mediaType: "application/json",
       errors: {
@@ -312,6 +342,7 @@ class D {
   }
   /**
    * @param data The data for the request.
+   * @param data.zoneId
    * @param data.requestBody
    * @returns unknown OK
    * @throws ApiError
@@ -320,6 +351,9 @@ class D {
     return u(d, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode",
+      query: {
+        zoneId: e.zoneId
+      },
       body: e.requestBody,
       mediaType: "application/json",
       errors: {
@@ -402,6 +436,6 @@ class D {
   }
 }
 export {
-  D as V
+  N as V
 };
-//# sourceMappingURL=services.gen-Bl82s6UX.js.map
+//# sourceMappingURL=services.gen-D1nWWM7g.js.map

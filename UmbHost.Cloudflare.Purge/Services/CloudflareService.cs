@@ -1,7 +1,7 @@
-﻿using System.Text;
-using System.Text.Json;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Json;
 using UmbHost.Cloudflare.Purge.Enums;
 using UmbHost.Cloudflare.Purge.Interfaces;
 using UmbHost.Cloudflare.Purge.Models;
@@ -29,17 +29,19 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
-            using var response = await _httpClient.PostAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(new PurgeAll{ PurgeEverything = true }));
-            var body = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
-
-            if (response.IsSuccessStatusCode && result is { Success: true })
+            var anyErrors = false;
+            foreach (var zone in _configuration.Zones)
             {
-                return true;
+                using var response = await _httpClient.PostAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zone.ZoneId}/purge_cache", GenerateHttpContent(new PurgeAll { PurgeEverything = true }));
+                var body = await response.Content.ReadAsStringAsync();
+                var result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
+                if (!response.IsSuccessStatusCode || result is { Success: false })
+                {
+                    anyErrors = true;
+                    logger.LogError($"{localizedTextService.Localize(Constants.Localizations.Area, Constants.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
+                }
             }
-
-            logger.LogError($"{localizedTextService.Localize(Constants.Localizations.Area, Constants.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
-            return false;
+            return !anyErrors;
         }
 
         public async Task<bool> CustomPurge(PurgeFilesRequest purgeRequest)
@@ -49,9 +51,10 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
+            Uri? uriResult = null;
             purgeRequest.Files = purgeRequest.Files
                 .Where(url => !string.IsNullOrWhiteSpace(url)
-                              && Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult)
+                              && Uri.TryCreate(url, UriKind.Absolute, out uriResult)
                               && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps))
                 .ToArray();
 
@@ -63,16 +66,22 @@ namespace UmbHost.Cloudflare.Purge.Services
                     Files = purgeRequest.Files.Skip(i).Take(30).ToArray()
                 };
 
-                using var response = await _httpClient.PostAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/purge_cache", GenerateHttpContent(pr));
-                var body = await response.Content.ReadAsStringAsync();
-                result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+                var zone = _configuration.Zones.FirstOrDefault(x =>
+                    uriResult != null && uriResult.Host.Contains(x.Domain, StringComparison.InvariantCultureIgnoreCase));
 
-                if (response.IsSuccessStatusCode && result is { Success: true })
+                if (zone != null && !string.IsNullOrWhiteSpace(zone.ZoneId))
                 {
-                    var purgeResult = result.Result.Deserialize<PurgeResult>();
-                    if (purgeResult != null) 
-                        LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
-                    return true;
+                    using var response = await _httpClient.PostAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zone.ZoneId}/purge_cache", GenerateHttpContent(pr));
+                    var body = await response.Content.ReadAsStringAsync();
+                    result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+
+                    if (response.IsSuccessStatusCode && result is { Success: true })
+                    {
+                        var purgeResult = result.Result.Deserialize<PurgeResult>();
+                        if (purgeResult != null)
+                            LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
+                        return true;
+                    }
                 }
             }
 
@@ -80,14 +89,14 @@ namespace UmbHost.Cloudflare.Purge.Services
             return false;
         }
 
-        public async Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode)
+        public async Task<DevelopmentMode?> ToggleDevelopmentMode(NewDevelopmentMode developmentMode, string zoneId)
         {
             if (_configuration.Disabled)
             {
                 return null;
             }
 
-            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/development_mode", GenerateHttpContent(developmentMode));
+            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zoneId}/settings/development_mode", GenerateHttpContent(developmentMode));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
@@ -100,14 +109,14 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
-        public async Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel)
+        public async Task<CacheLevel?> ToggleCacheLevel(NewCacheLevel cacheLevel, string zoneId)
         {
             if (_configuration.Disabled)
             {
                 return null;
             }
 
-            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/cache_level", GenerateHttpContent(cacheLevel));
+            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zoneId}/settings/cache_level", GenerateHttpContent(cacheLevel));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
@@ -120,14 +129,14 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
-        public async Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline)
+        public async Task<AlwaysOnline?> ToggleAlwaysOnline(NewAlwaysOnline alwaysOnline, string zoneId)
         {
             if (_configuration.Disabled)
             {
                 return null;
             }
 
-            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/always_online", GenerateHttpContent(alwaysOnline));
+            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zoneId}/settings/always_online", GenerateHttpContent(alwaysOnline));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
@@ -140,14 +149,14 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
-        public async Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl)
+        public async Task<BrowserCacheTtl?> ToggleBrowserCacheTtl(NewBrowserCacheTtl browserCacheTtl, string zoneId)
         {
             if (_configuration.Disabled)
             {
                 return null;
             }
 
-            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings/browser_cache_ttl", GenerateHttpContent(browserCacheTtl));
+            using var response = await _httpClient.PatchAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zoneId}/settings/browser_cache_ttl", GenerateHttpContent(browserCacheTtl));
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
@@ -160,7 +169,7 @@ namespace UmbHost.Cloudflare.Purge.Services
             return null;
         }
 
-        public async Task<AllSettings?> GetAllZoneSettings()
+        public async Task<AllSettings?> GetAllZoneSettings(string zoneId)
         {
             if (_configuration.Disabled)
             {
@@ -171,7 +180,7 @@ namespace UmbHost.Cloudflare.Purge.Services
 
             GenerateRequestHeaders();
 
-            using var response = await _httpClient.GetAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{_configuration.ZoneId}/settings");
+            using var response = await _httpClient.GetAsync($"{Constants.CloudflareApiUrl}client/{Constants.CloudflareApiVersion}/zones/{zoneId}/settings");
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
 

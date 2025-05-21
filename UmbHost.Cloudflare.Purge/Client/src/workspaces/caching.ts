@@ -1,6 +1,6 @@
 import { LitElement, html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-import { BrowserTtlOptionsResponse, V1Resource, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData } from "../backend-api"
+import { BrowserTtlOptionsResponse, V1Resource, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData, GetZonesResponse, GetCacheSettingsData } from "../backend-api"
 import { UmbInputRadioButtonListElement, UmbInputToggleElement } from "@umbraco-cms/backoffice/components";
 import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
 
@@ -8,7 +8,13 @@ import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
 export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElementMixin(LitElement) {
 
 	@state()
-	private loading?: boolean = true;
+	private firstLoad?: boolean = true;
+
+	@state()
+	private loading?: boolean = false;
+
+	@state()
+	private zones?: any[] = [];
 
 	@state()
 	private browserCacheTtlLoading?: boolean = false;
@@ -155,19 +161,18 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		});
 	}
 
-	connectedCallback() {
-		super.connectedCallback();
-
-		this.loadData();
-	}
-
-	private async loadData() {
-	this.loading = true;
-
-	try {
+	async #getZoneSettings(event: Event) {
+			try {
+				const select = event.target as HTMLSelectElement;
+			if (select.value) {
+			this.firstLoad = false;
+			this.loading = true;
+			var data : GetCacheSettingsData = {
+				zoneId: select.value
+			}
 			const [ttlOptions, cacheSettings] = await Promise.all([
 			V1Resource.browserTtlOptions(),
-			V1Resource.getCacheSettings()
+			V1Resource.getCacheSettings(data)
 			]);
 
 			this.browserCacheTtlOptions = ttlOptions;
@@ -187,18 +192,44 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 				? new Date(cacheSettings.cacheLevel.modified_on).toLocaleString() 
 				: undefined;
 			this.cachingLevelValue = cacheSettings.cacheLevel?.value.toLowerCase();
+		}
 		} finally {
 			this.loading = false;
 		}
+	}
+
+	connectedCallback() {
+		super.connectedCallback();
+
+		this.loadData();
+	}
+
+	private async loadData() {
+
+	const zones = await V1Resource.getZones();
+			this.zones = zones?.map((zone: any) => ({
+				name: zone.domain,
+				value: zone.zoneId
+			}));
 	}
 
     render() {
         return html`
 		<section id="umbhost-cloudflare-purdge-caching">
 			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
-				<umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize>
+				<p><umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize></p>
+				
+					<uui-label for="zone">Select Domain: </uui-label>
+					<uui-select id="zone"
+					required="" 
+						placeholder="Select an option"
+						.options=${(this.zones ?? []) as any}
+						@change=${this.#getZoneSettings}
+						>
+					</uui-select>
 			</uui-box>  
 
+		${this.firstLoad ? nothing : html`
 			${this.loading ? html`<uui-loader-circle></uui-loader-circle>` : nothing}
 
 			${this.loading ? nothing : html`
@@ -284,6 +315,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 				</div>
 				`}
 			</uui-box>`}
+		`}
 		</section>  
     `
     }
