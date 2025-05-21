@@ -1,8 +1,9 @@
-import { css, html, customElement, ifDefined, state } from '@umbraco-cms/backoffice/external/lit';
+import { css, html, customElement, ifDefined, state, property } from '@umbraco-cms/backoffice/external/lit';
 import { UUIButtonState } from '@umbraco-cms/backoffice/external/uui';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbNotificationContext, UmbNotificationDefaultData, UMB_NOTIFICATION_CONTEXT, } from '@umbraco-cms/backoffice/notification';
 import { UmbModalManagerContext, UMB_CONFIRM_MODAL, UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal'
+import { CustomData, V1Resource } from '../backend-api';
 
 @customElement('umbhost-cloudflare-purge-dashboard')
 export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
@@ -15,6 +16,16 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
 
   @state()
   private customPurgeButtonState?: UUIButtonState;
+ 
+  private get purgeUrls(): string[] {
+  return this.purgeUrlsInput
+    .split(/\r\n|\r|\n/)
+    .map(line => line.trim())
+    .filter(line => line.length > 0);
+  }
+
+  @property({ type: String }) 
+  private purgeUrlsInput: string = '';
 
   constructor() {
     super();
@@ -43,8 +54,13 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
       const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
       this._notificationContext?.peek('positive', { data });
 
-      this.purgeEverythingButtonState = 'success';
+      V1Resource.all().then(() => {
+        this.purgeEverythingButtonState = 'success';
       return;
+      }).catch(() => {
+        this.purgeEverythingButtonState = 'failed';
+      return;
+      });
     }).catch(() => {
       this.purgeEverythingButtonState = undefined;
     });
@@ -64,13 +80,28 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
     await modalHandler?.onSubmit().then(() => {
       const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
       this._notificationContext?.peek('positive', { data });
+      var customPurge : CustomData = {
+        requestBody: this.purgeUrls
+      }
 
+      V1Resource.custom(customPurge).then(() => {
+        this.purgeEverythingButtonState = 'success';
+      return;
+      }).catch(() => {
+        this.purgeEverythingButtonState = 'failed';
+      return;
+      });
       this.customPurgeButtonState = 'success';
       return;
     })
       .catch(() => {
         this.customPurgeButtonState = undefined;
       });
+  }
+
+  private handleTextareaInput(e: Event) {
+  const target = e.target as HTMLTextAreaElement;
+  this.purgeUrlsInput = target.value;
   }
 
   override render() {
@@ -99,7 +130,7 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
                 <umb-localize key="umbhostCloudflarePurge_introduction">Welcome</umb-localize>
                 <uui-label for="purgeUrls" required="">
                   <umb-localize key="umbhostCloudflarePurge_urls"></umb-localize></uui-label>
-                <uui-textarea id="purgeUrls" rows="10" required=""></uui-textarea>
+                <uui-textarea id="purgeUrls" rows="10" required="" .value=${this.purgeUrlsInput} @input=${this.handleTextareaInput}></uui-textarea>
             </uui-box>
           </div>
         </umb-workspace-editor>

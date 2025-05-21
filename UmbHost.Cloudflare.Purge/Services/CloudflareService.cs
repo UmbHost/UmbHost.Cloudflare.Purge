@@ -33,7 +33,7 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseArray>(body);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
                 return true;
             }
@@ -67,10 +67,11 @@ namespace UmbHost.Cloudflare.Purge.Services
                 var body = await response.Content.ReadAsStringAsync();
                 result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
-                if (response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode && result is { Success: true })
                 {
-                    var purgeResult = result?.Result.Deserialize<PurgeResult>();
-                    LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
+                    var purgeResult = result.Result.Deserialize<PurgeResult>();
+                    if (purgeResult != null) 
+                        LogPurgeUrls(purgeRequest.Files, purgeResult.Id);
                     return true;
                 }
             }
@@ -90,9 +91,9 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
-                return result?.Result.Deserialize<DevelopmentMode>();
+                return result.Result.Deserialize<DevelopmentMode>();
             }
 
             logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
@@ -110,9 +111,9 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
-                return result?.Result.Deserialize<CacheLevel>();
+                return result.Result.Deserialize<CacheLevel>();
             }
 
             logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
@@ -130,9 +131,9 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
-                return result?.Result.Deserialize<AlwaysOnline>();
+                return result.Result.Deserialize<AlwaysOnline>();
             }
 
             logger.LogError($"{JsonSerializer.Serialize(result?.Errors)}");
@@ -150,9 +151,9 @@ namespace UmbHost.Cloudflare.Purge.Services
             var body = await response.Content.ReadAsStringAsync();
             var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
-                return result?.Result.Deserialize<BrowserCacheTtl>();
+                return result.Result.Deserialize<BrowserCacheTtl>();
             }
 
             logger.LogError($"{localizedTextService.Localize(Constants.Localizations.Area, Constants.Localizations.PurgeCdnErrorMessage)}: {JsonSerializer.Serialize(result?.Errors)}");
@@ -261,7 +262,7 @@ namespace UmbHost.Cloudflare.Purge.Services
                 }
             }
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode && result is { Success: true })
             {
                 return allSettings;
             }

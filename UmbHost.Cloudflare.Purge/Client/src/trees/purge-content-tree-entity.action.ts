@@ -2,17 +2,24 @@ import { UmbEntityActionArgs, UmbEntityActionBase, UmbRequestReloadStructureForE
 import { UmbModalManagerContext, UMB_MODAL_MANAGER_CONTEXT, UMB_CONFIRM_MODAL } from '@umbraco-cms/backoffice/modal'
 import { UmbControllerHost } from '@umbraco-cms/backoffice/controller-api';
 import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-api';
-import { UmbDocumentItemRepository } from '@umbraco-cms/backoffice/document';
+import { UmbDocumentItemModel, UmbDocumentItemRepository } from '@umbraco-cms/backoffice/document';
 import { UMB_ACTION_EVENT_CONTEXT } from '@umbraco-cms/backoffice/action';
 import { UMB_NOTIFICATION_CONTEXT, UmbNotificationContext, UmbNotificationDefaultData } from '@umbraco-cms/backoffice/notification';
+import { NodeData, V1Resource } from '../backend-api';
+import { UMB_APP_LANGUAGE_CONTEXT, UmbAppLanguageContext } from '@umbraco-cms/backoffice/language';
 
 export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
     private _notificationContext?: UmbNotificationContext;
     #modalContext?: UmbModalManagerContext;
     #localize = new UmbLocalizationController(this);
+    private _languageContext?: UmbAppLanguageContext;
 
     constructor(host: UmbControllerHost, args: UmbEntityActionArgs<never>) {
         super(host, args);
+
+        this.consumeContext(UMB_APP_LANGUAGE_CONTEXT, (languageConext) => {
+            this._languageContext = languageConext;
+        });
 
         this.consumeContext(UMB_NOTIFICATION_CONTEXT, (notificationContext) => {
               this._notificationContext = notificationContext;
@@ -36,12 +43,35 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
         });
 
         await modalHandler?.onSubmit().then(() => {
+            this.#handPurge(item)
+
             const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
                   this._notificationContext?.peek('positive', { data });
 
                   this.#notify();
         }).catch(() => {
         });
+    }
+
+    async #handPurge(item: UmbDocumentItemModel) {
+
+        let cultureName = undefined;
+        if (this._languageContext) {
+            cultureName = this._languageContext.getAppCulture();
+        }
+
+        const nodeData: NodeData = {
+				requestBody: {
+                    unique: item.unique,
+                    culture: cultureName
+				}
+			};
+
+            V1Resource.node(nodeData).then((response) => {
+                console.log('Purge response:', response);
+            }).catch((error) => {
+                console.error('Error during purge:', error);
+            });
     }
 
     async #getDocument() {

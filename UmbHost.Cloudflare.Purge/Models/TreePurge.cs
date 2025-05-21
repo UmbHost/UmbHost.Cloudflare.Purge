@@ -2,6 +2,6 @@
 
 public class TreePurge
 {
-    public required int Id { get; set; }
+    public required Guid Unique { get; set; }
     public string? Culture { get; set; } = null;
 }

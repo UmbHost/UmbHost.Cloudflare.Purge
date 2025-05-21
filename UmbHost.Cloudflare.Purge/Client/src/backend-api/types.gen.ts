@@ -72,7 +72,7 @@ export type NotificationHeaderModel = {
 export type SettingsValueEnum = 'on' | 'off' | 'lossless' | 'lossy';
 
 export type TreePurge = {
-    id: number;
+    unique: string;
     culture?: string | null;
 };
 
