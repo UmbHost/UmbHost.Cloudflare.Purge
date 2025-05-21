@@ -1,21 +1,21 @@
-import { ifDefined as m, html as y, css as z, state as d, property as E, customElement as S } from "@umbraco-cms/backoffice/external/lit";
-import { UmbLitElement as x } from "@umbraco-cms/backoffice/lit-element";
+import { ifDefined as m, html as y, css as z, state as d, property as S, customElement as x } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement as E } from "@umbraco-cms/backoffice/lit-element";
 import { UMB_NOTIFICATION_CONTEXT as B } from "@umbraco-cms/backoffice/notification";
 import { UMB_MODAL_MANAGER_CONTEXT as U, UMB_CONFIRM_MODAL as f } from "@umbraco-cms/backoffice/modal";
-import { V as _ } from "./services.gen-Dn3r4cXe.js";
+import { V as _ } from "./services.gen-Ce7SQPJn.js";
 var w = Object.defineProperty, k = Object.getOwnPropertyDescriptor, v = (t) => {
   throw TypeError(t);
-}, n = (t, e, r, i) => {
-  for (var o = i > 1 ? void 0 : i ? k(e, r) : e, l = t.length - 1, c; l >= 0; l--)
-    (c = t[l]) && (o = (i ? c(e, r, o) : c(o)) || o);
+}, l = (t, e, r, i) => {
+  for (var o = i > 1 ? void 0 : i ? k(e, r) : e, n = t.length - 1, c; n >= 0; n--)
+    (c = t[n]) && (o = (i ? c(e, r, o) : c(o)) || o);
   return i && o && w(e, r, o), o;
-}, h = (t, e, r) => e.has(t) || v("Cannot " + r), b = (t, e, r) => (h(t, e, "read from private field"), e.get(t)), p = (t, e, r) => e.has(t) ? v("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, r), I = (t, e, r, i) => (h(t, e, "write to private field"), e.set(t, r), r), g = (t, e, r) => (h(t, e, "access private method"), r), a, s, C, P;
-let u = class extends x {
+}, h = (t, e, r) => e.has(t) || v("Cannot " + r), b = (t, e, r) => (h(t, e, "read from private field"), e.get(t)), p = (t, e, r) => e.has(t) ? v("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, r), I = (t, e, r, i) => (h(t, e, "write to private field"), e.set(t, r), r), g = (t, e, r) => (h(t, e, "access private method"), r), s, a, C, P;
+let u = class extends E {
   constructor() {
-    super(), p(this, s), p(this, a), this.purgeUrlsInput = "", this.consumeContext(B, (t) => {
+    super(), p(this, a), p(this, s), this.purgeUrlsInput = "", this.consumeContext(B, (t) => {
       this._notificationContext = t;
     }), this.consumeContext(U, (t) => {
-      I(this, a, t);
+      I(this, s, t);
     });
   }
   get purgeUrls() {
@@ -32,7 +32,7 @@ let u = class extends x {
             <uui-button
             pristine=""
             label=${this.localize.term("umbhostCloudflarePurge_purgeeverything")}
-            @click="${() => g(this, s, C).call(this)}"
+            @click="${() => g(this, a, C).call(this)}"
             state=${m(this.purgeEverythingButtonState)}
             look="secondary"
             color="positive"
@@ -40,7 +40,7 @@ let u = class extends x {
             <uui-button
             pristine=""
             label=${this.localize.term("umbhostCloudflarePurge_custompurge")}
-            @click="${() => g(this, s, P).call(this)}"
+            @click="${() => g(this, a, P).call(this)}"
             state=${m(this.customPurgeButtonState)}
             look="primary"
             color="positive"
@@ -58,12 +58,12 @@ let u = class extends x {
     `;
   }
 };
-a = /* @__PURE__ */ new WeakMap();
-s = /* @__PURE__ */ new WeakSet();
+s = /* @__PURE__ */ new WeakMap();
+a = /* @__PURE__ */ new WeakSet();
 C = async function() {
   var e;
   this.purgeEverythingButtonState = "waiting";
-  const t = (e = b(this, a)) == null ? void 0 : e.open(this, f, {
+  const t = (e = b(this, s)) == null ? void 0 : e.open(this, f, {
     data: {
       headline: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingtitle"),
       content: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingcontent"),
@@ -86,7 +86,7 @@ C = async function() {
 P = async function() {
   var e;
   this.customPurgeButtonState = "waiting";
-  const t = (e = b(this, a)) == null ? void 0 : e.open(this, f, {
+  const t = (e = b(this, s)) == null ? void 0 : e.open(this, f, {
     data: {
       headline: this.localize.term("umbhostCloudflarePurge_confirmcustompurgetitle"),
       content: this.localize.term("umbhostCloudflarePurge_confirmcustompurgecontent"),
@@ -101,12 +101,12 @@ P = async function() {
     _.custom(r).then(() => {
       var o;
       const i = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
-      return (o = this._notificationContext) == null || o.peek("positive", { data: i }), this.purgeEverythingButtonState = "success", !0;
+      return (o = this._notificationContext) == null || o.peek("positive", { data: i }), this.customPurgeButtonState = "success", !0;
     }).catch(() => {
       var o;
       const i = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
-      (o = this._notificationContext) == null || o.peek("danger", { data: i }), this.purgeEverythingButtonState = "failed";
-    }), this.customPurgeButtonState = "failed";
+      (o = this._notificationContext) == null || o.peek("danger", { data: i }), this.customPurgeButtonState = "failed";
+    });
   }).catch(() => {
     this.customPurgeButtonState = void 0;
   }));
@@ -122,21 +122,21 @@ u.styles = [
             }
         `
 ];
-n([
+l([
   d()
 ], u.prototype, "purgeEverythingButtonState", 2);
-n([
+l([
   d()
 ], u.prototype, "customPurgeButtonState", 2);
-n([
-  E({ type: String })
+l([
+  S({ type: String })
 ], u.prototype, "purgeUrlsInput", 2);
-u = n([
-  S("umbhost-cloudflare-purge-dashboard")
+u = l([
+  x("umbhost-cloudflare-purge-dashboard")
 ], u);
 const A = u;
 export {
   u as UmbHostCloudflarePurgeDashboardElement,
   A as default
 };
-//# sourceMappingURL=purge-dashboard-6JUbx9bx.js.map
+//# sourceMappingURL=purge-dashboard-D_WXQ8-r.js.map

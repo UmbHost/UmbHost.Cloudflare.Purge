@@ -85,16 +85,14 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
       V1Resource.custom(customPurge).then(() => {
         const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
         this._notificationContext?.peek('positive', { data });
-        this.purgeEverythingButtonState = 'success';
+        this.customPurgeButtonState = 'success';
       return true;
       }).catch(() => {
         const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
         this._notificationContext?.peek('danger', { data });
-        this.purgeEverythingButtonState = 'failed';
+        this.customPurgeButtonState = 'failed';
       return;
       });
-      this.customPurgeButtonState = 'failed';
-      return;
     })
       .catch(() => {
         this.customPurgeButtonState = undefined;

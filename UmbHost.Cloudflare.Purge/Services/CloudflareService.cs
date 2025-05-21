@@ -44,12 +44,6 @@ namespace UmbHost.Cloudflare.Purge.Services
             return !anyErrors;
         }
 
-        // Pseudocode:
-        // 1. Filter purgeRequest.Files for valid absolute HTTP/HTTPS URLs.
-        // 2. For each URL, find the matching zone from _configuration.Zones where the URL's hostname contains the zone's domain (case-insensitive).
-        // 3. Group the URLs by the matched zone.
-        // 4. For each group (zone), send the purge request with the correct zoneId and up to 30 URLs per request.
-
         public async Task<bool> CustomPurge(PurgeFilesRequest purgeRequest)
         {
             if (_configuration.Disabled)
@@ -57,7 +51,6 @@ namespace UmbHost.Cloudflare.Purge.Services
                 return false;
             }
 
-            // Step 1: Filter valid URLs and parse them
             var validUrls = purgeRequest.Files
                 .Where(url => !string.IsNullOrWhiteSpace(url)
                               && Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
@@ -65,20 +58,17 @@ namespace UmbHost.Cloudflare.Purge.Services
                 .Select(url => new { Url = url, Uri = new Uri(url) })
                 .ToList();
 
-            // Step 2: Group URLs by zone
             var zoneGroups = validUrls
                 .SelectMany(item =>
                     _configuration.Zones
                         .Where(zone => item.Uri.Host.Contains(zone.Domain, StringComparison.InvariantCultureIgnoreCase))
-                        .Select(zone => new { Zone = zone, Url = item.Url })
+                        .Select(zone => new { Zone = zone, item.Url })
                 )
                 .GroupBy(x => x.Zone)
                 .ToList();
 
-            bool anyErrors = validUrls.Count == 0;
-            CloudflareResponseObject? result = null;
+            var anyErrors = validUrls.Count == 0 || zoneGroups.Count == 0;
 
-            // Step 3: Iterate over each zone group and send requests in batches of 30
             foreach (var group in zoneGroups)
             {
                 var zone = group.Key;
@@ -94,10 +84,10 @@ namespace UmbHost.Cloudflare.Purge.Services
                         GenerateHttpContent(pr)
                     );
                     var body = await response.Content.ReadAsStringAsync();
-                    result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
+                    var result = JsonSerializer.Deserialize<CloudflareResponseObject>(body);
 
                     if (response.IsSuccessStatusCode && result is { Success: true })
-                    {
+                    {  
                         var purgeResult = result.Result.Deserialize<PurgeResult>();
                         if (purgeResult != null)
                             LogPurgeUrls(batch, purgeResult.Id);
@@ -323,17 +313,24 @@ namespace UmbHost.Cloudflare.Purge.Services
             
             return httpContent;
         }
-
+        
         private void GenerateRequestHeaders()
         {
+            _httpClient.DefaultRequestHeaders.Remove(Constants.HeaderKeys.XAuthEmail);
+            _httpClient.DefaultRequestHeaders.Remove(Constants.HeaderKeys.XAuthKey);
+            _httpClient.DefaultRequestHeaders.Remove(Constants.HeaderKeys.Authorization);
+
             switch (_configuration.AuthType)
             {
                 case AuthTypeEnum.Global:
-                    _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.XAuthEmail, _configuration.EmailAddress);
-                    _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.XAuthKey, _configuration.AuthKey);
+                    if (!_httpClient.DefaultRequestHeaders.Contains(Constants.HeaderKeys.XAuthEmail))
+                        _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.XAuthEmail, _configuration.EmailAddress);
+                    if (!_httpClient.DefaultRequestHeaders.Contains(Constants.HeaderKeys.XAuthKey))
+                        _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.XAuthKey, _configuration.AuthKey);
                     break;
                 case AuthTypeEnum.Bearer:
-                    _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.Authorization, $"Bearer {_configuration.AuthKey}");
+                    if (!_httpClient.DefaultRequestHeaders.Contains(Constants.HeaderKeys.Authorization))
+                        _httpClient.DefaultRequestHeaders.Add(Constants.HeaderKeys.Authorization, $"Bearer {_configuration.AuthKey}");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
