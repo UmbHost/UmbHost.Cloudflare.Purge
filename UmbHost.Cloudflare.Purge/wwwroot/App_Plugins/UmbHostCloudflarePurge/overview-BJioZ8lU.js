@@ -1,13 +1,13 @@
-import { LitElement as s, html as n, css as m, customElement as b } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as c } from "@umbraco-cms/backoffice/element-api";
-var d = Object.getOwnPropertyDescriptor, g = (u, o, a, r) => {
-  for (var e = r > 1 ? void 0 : r ? d(o, a) : o, t = u.length - 1, l; t >= 0; t--)
+import { html as s, css as n, customElement as m } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement as b } from "@umbraco-cms/backoffice/lit-element";
+var c = Object.getOwnPropertyDescriptor, d = (u, o, a, r) => {
+  for (var e = r > 1 ? void 0 : r ? c(o, a) : o, t = u.length - 1, l; t >= 0; t--)
     (l = u[t]) && (e = l(e) || e);
   return e;
 };
-let i = class extends c(s) {
+let i = class extends b {
   render() {
-    return n`   
+    return s`   
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
             <umb-localize key="umbhostCloudflarePurge_settingsoverviewintroduction"></umb-localize>
         </uui-box>  
@@ -47,7 +47,7 @@ let i = class extends c(s) {
     `;
   }
 };
-i.styles = m`
+i.styles = n`
 			#umbhost-cloudflare-purdge-overview {
 				display: grid;
 				grid-gap: var(--uui-size-7);
@@ -85,10 +85,10 @@ i.styles = m`
 				gap: var(--uui-size-space-2);
 			}
   `;
-i = g([
-  b("umbhost-cloudflare-purge-settings-overview")
+i = d([
+  m("umbhost-cloudflare-purge-settings-overview")
 ], i);
 export {
   i as default
 };
-//# sourceMappingURL=overview-CaBDznbx.js.map
+//# sourceMappingURL=overview-BJioZ8lU.js.map

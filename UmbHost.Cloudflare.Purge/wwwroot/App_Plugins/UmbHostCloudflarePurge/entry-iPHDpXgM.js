@@ -8,7 +8,7 @@ const m = {
   name: "Cloudflare CDN Purge Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-content-tree-entity.action-FV6dMJMe.js"),
+  api: () => import("./purge-content-tree-entity.action-BtG0Tm70.js"),
   forEntityTypes: [i],
   meta: {
     icon: "icon-cloud",
@@ -26,7 +26,7 @@ const m = {
   name: "Cloudflare CDN Purge Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-media-tree-entity.action-kWSTDShf.js"),
+  api: () => import("./purge-media-tree-entity.action-D0CQkS_X.js"),
   forEntityTypes: [u],
   meta: {
     icon: "icon-cloud",
@@ -45,7 +45,7 @@ const m = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
-  element: () => import("./purge-dashboard-D_WXQ8-r.js"),
+  element: () => import("./purge-dashboard-BVtHTEEQ.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
   forEntityTypes: [i],
   weight: 15,
@@ -84,7 +84,7 @@ const m = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-overview",
   name: "Cloudflare CDN Purge Settings Overview",
-  element: () => import("./overview-CaBDznbx.js"),
+  element: () => import("./overview-BJioZ8lU.js"),
   elementName: "umbhost-cloudflare-purge-settings-overview",
   meta: {
     label: "#umbhostCloudflarePurge_settingsoverview",
@@ -101,7 +101,7 @@ const m = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-caching",
   name: "Cloudflare CDN Purge Settings Caching",
-  element: () => import("./caching-BLugEKU4.js"),
+  element: () => import("./caching-DqKoOVIt.js"),
   elementName: "umbhost-cloudflare-purge-settings-caching",
   meta: {
     label: "#umbhostCloudflarePurge_settingscaching",
@@ -170,7 +170,7 @@ const m = {
   meta: {
     culture: "en"
   },
-  js: () => import("./en-bClKMIMB.js")
+  js: () => import("./en-BrDR60BA.js")
 }, v = [
   T
 ], S = {
@@ -213,12 +213,12 @@ class a {
   constructor() {
     this._fns = [];
   }
-  eject(e) {
-    const t = this._fns.indexOf(e);
-    t !== -1 && (this._fns = [...this._fns.slice(0, t), ...this._fns.slice(t + 1)]);
+  eject(t) {
+    const e = this._fns.indexOf(t);
+    e !== -1 && (this._fns = [...this._fns.slice(0, e), ...this._fns.slice(e + 1)]);
   }
-  use(e) {
-    this._fns = [...this._fns, e];
+  use(t) {
+    this._fns = [...this._fns, t];
   }
 }
 const s = {
@@ -235,14 +235,15 @@ const s = {
     request: new a(),
     response: new a()
   }
-}, k = (o, e) => {
-  o.consumeContext(r, (t) => {
-    const n = t.getOpenApiConfiguration();
-    s.BASE = n.base, s.WITH_CREDENTIALS = n.withCredentials, s.CREDENTIALS = n.credentials, s.TOKEN = n.token;
-  }), U(e);
+}, k = (o, t) => {
+  o.consumeContext(r, (e) => {
+    if (!e) return;
+    const n = e.getOpenApiConfiguration();
+    s.BASE = n.base ?? "", s.CREDENTIALS = n.credentials ?? "same-origin", s.WITH_CREDENTIALS = n.credentials === "include", s.TOKEN = async () => await n.token() ?? "";
+  }), U(t);
 };
 export {
   s as O,
   k as o
 };
-//# sourceMappingURL=entry-xREBUgli.js.map
+//# sourceMappingURL=entry-iPHDpXgM.js.map

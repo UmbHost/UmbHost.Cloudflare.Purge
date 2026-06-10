@@ -9,7 +9,7 @@ namespace UmbHost.Cloudflare.Purge.Composers
     {
         public void Compose(IUmbracoBuilder builder)
         {
-            builder.AddNotificationHandler<UmbracoApplicationStartingNotification, RunUmbHostCloudflarePurgeUserGroupMigration>();
+            builder.AddNotificationAsyncHandler<UmbracoApplicationStartingNotification, RunUmbHostCloudflarePurgeUserGroupMigration>();
         }
     }
 }

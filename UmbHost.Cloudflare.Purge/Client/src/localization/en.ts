@@ -64,6 +64,8 @@ export default {
 		Enabling this Service will share some of your website’s information with the Internet Archive in order to make this feature functional. By enabling this Service, you agree to the <a class="underline" href="https://www.cloudflare.com/supplemental-terms/#AOBeta" target="_blank">Supplemental Terms</a> for Always Online.`,
 		alwaysonlinetoggleon: "On",
 		alwaysonlinetoggleoff: "Off",
+		selectdomain: "Select Domain",
+		selectanoption: "Select an option",
 		usermediapermissionslabel: "Purge Media Items from Cloudflare CDN",
 		usermediapermissionsdescription: "Allow user to purge Cloudflare CDN cache for media items.",
 		usercontentpermissionslabel: "Purge Content Items from Cloudflare CDN",

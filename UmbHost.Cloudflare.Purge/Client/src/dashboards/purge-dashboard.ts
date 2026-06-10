@@ -1,31 +1,32 @@
-import { css, html, customElement, ifDefined, state, property } from '@umbraco-cms/backoffice/external/lit';
+import { css, html, customElement, ifDefined, state } from '@umbraco-cms/backoffice/external/lit';
 import { UUIButtonState } from '@umbraco-cms/backoffice/external/uui';
 import { UmbLitElement } from '@umbraco-cms/backoffice/lit-element';
 import { UmbNotificationContext, UmbNotificationDefaultData, UMB_NOTIFICATION_CONTEXT, } from '@umbraco-cms/backoffice/notification';
 import { UmbModalManagerContext, UMB_CONFIRM_MODAL, UMB_MODAL_MANAGER_CONTEXT } from '@umbraco-cms/backoffice/modal'
-import { CustomData, V1Resource } from '../backend-api';
+import { UmbHostCloudflarePurgeRepository } from '../repository/purge.repository';
 
 @customElement('umbhost-cloudflare-purge-dashboard')
 export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
 
   private _notificationContext?: UmbNotificationContext;
   #modalContext?: UmbModalManagerContext;
+  #repository = new UmbHostCloudflarePurgeRepository(this);
 
   @state()
   private purgeEverythingButtonState?: UUIButtonState;
 
   @state()
   private customPurgeButtonState?: UUIButtonState;
- 
+
+  @state()
+  private purgeUrlsInput: string = '';
+
   private get purgeUrls(): string[] {
   return this.purgeUrlsInput
     .split(/\r\n|\r|\n/)
     .map(line => line.trim())
     .filter(line => line.length > 0);
   }
-
-  @property({ type: String }) 
-  private purgeUrlsInput: string = '';
 
   constructor() {
     super();
@@ -40,8 +41,6 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
   }
 
   async #handlePurgeEverything() {
-    this.purgeEverythingButtonState = 'waiting';
-
     const modalHandler = this.#modalContext?.open(this, UMB_CONFIRM_MODAL, {
       data: {
         headline: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingtitle"),
@@ -50,25 +49,31 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
         confirmLabel: this.localize.term("umbhostCloudflarePurge_confirmpurgeeverythingconfirm"),
       }
     });
-    await modalHandler?.onSubmit().then(() => {
-      const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
-      this._notificationContext?.peek('positive', { data });
 
-      V1Resource.all().then(() => {
-        this.purgeEverythingButtonState = 'success';
+    try {
+      await modalHandler?.onSubmit();
+    } catch {
+      // Modal dismissed/cancelled.
       return;
-      }).catch(() => {
-        this.purgeEverythingButtonState = 'failed';
+    }
+
+    this.purgeEverythingButtonState = 'waiting';
+
+    // Custom contextual notifications are shown below, so suppress the generic one.
+    const { error } = await this.#repository.purgeAll({ disableNotifications: true });
+    if (error) {
+      const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+      this._notificationContext?.peek('danger', { data });
+      this.purgeEverythingButtonState = 'failed';
       return;
-      });
-    }).catch(() => {
-      this.purgeEverythingButtonState = undefined;
-    });
+    }
+
+    const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
+    this._notificationContext?.peek('positive', { data });
+    this.purgeEverythingButtonState = 'success';
   }
 
   async #handleCustomPurge() {
-    this.customPurgeButtonState = 'waiting';
-
     const modalHandler = this.#modalContext?.open(this, UMB_CONFIRM_MODAL, {
       data: {
         headline: this.localize.term("umbhostCloudflarePurge_confirmcustompurgetitle"),
@@ -77,26 +82,27 @@ export class UmbHostCloudflarePurgeDashboardElement extends UmbLitElement {
         confirmLabel: this.localize.term("umbhostCloudflarePurge_confirmcustompurgeconfirm"),
       }
     });
-    await modalHandler?.onSubmit().then(() => {
-      var customPurge : CustomData = {
-        requestBody: this.purgeUrls
-      }
 
-      V1Resource.custom(customPurge).then(() => {
-        const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
-        this._notificationContext?.peek('positive', { data });
-        this.customPurgeButtonState = 'success';
-      return true;
-      }).catch(() => {
-        const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
-        this._notificationContext?.peek('danger', { data });
-        this.customPurgeButtonState = 'failed';
+    try {
+      await modalHandler?.onSubmit();
+    } catch {
+      // Modal dismissed/cancelled.
       return;
-      });
-    })
-      .catch(() => {
-        this.customPurgeButtonState = undefined;
-      });
+    }
+
+    this.customPurgeButtonState = 'waiting';
+
+    const { error } = await this.#repository.purgeCustom({ requestBody: this.purgeUrls }, { disableNotifications: true });
+    if (error) {
+      const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgeitemfailedtitle"), message: this.localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+      this._notificationContext?.peek('danger', { data });
+      this.customPurgeButtonState = 'failed';
+      return;
+    }
+
+    const data: UmbNotificationDefaultData = { headline: this.localize.term("umbhostCloudflarePurge_purgesuccesstitle"), message: this.localize.term("umbhostCloudflarePurge_purgesuccesscontent") };
+    this._notificationContext?.peek('positive', { data });
+    this.customPurgeButtonState = 'success';
   }
 
   private handleTextareaInput(e: Event) {
@@ -154,6 +160,6 @@ export default UmbHostCloudflarePurgeDashboardElement;
 
 declare global {
   interface HTMLElementTagNameMap {
-    'umbhost-cloudflare-purge-cdn-dashboard': UmbHostCloudflarePurgeDashboardElement;
+    'umbhost-cloudflare-purge-dashboard': UmbHostCloudflarePurgeDashboardElement;
   }
 }

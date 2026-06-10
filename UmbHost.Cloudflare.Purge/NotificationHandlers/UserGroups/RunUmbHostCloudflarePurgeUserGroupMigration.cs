@@ -10,7 +10,7 @@ using Umbraco.Cms.Infrastructure.Migrations.Upgrade;
 
 namespace UmbHost.Cloudflare.Purge.NotificationHandlers.UserGroups
 {
-    internal class RunUmbHostCloudflarePurgeUserGroupMigration : INotificationHandler<UmbracoApplicationStartingNotification>
+    internal class RunUmbHostCloudflarePurgeUserGroupMigration : INotificationAsyncHandler<UmbracoApplicationStartingNotification>
     {
         private readonly IMigrationPlanExecutor _migrationPlanExecutor;
         private readonly ICoreScopeProvider _coreScopeProvider;
@@ -25,7 +25,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.UserGroups
             _runtimeState = runtimeState;
         }
 
-        public void Handle(UmbracoApplicationStartingNotification notification)
+        public async Task HandleAsync(UmbracoApplicationStartingNotification notification, CancellationToken cancellationToken)
         {
             if (_runtimeState.Level < RuntimeLevel.Run)
             {
@@ -37,7 +37,7 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.UserGroups
                 .To<AddUmbHostCloudflarePurgeUserGroup>("f0c06cf3-1860-4b02-9bdb-9d45aa355770");
 
             var upgrader = new Upgrader(migrationPlan);
-            upgrader.Execute(
+            await upgrader.ExecuteAsync(
                 _migrationPlanExecutor,
                 _coreScopeProvider,
                 _keyValueService);

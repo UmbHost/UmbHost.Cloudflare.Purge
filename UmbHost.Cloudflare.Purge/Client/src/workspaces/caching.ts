@@ -1,11 +1,14 @@
-import { LitElement, html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-import { BrowserTtlOptionsResponse, V1Resource, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData, GetZonesResponse, GetCacheSettingsData } from "../backend-api"
+import { html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
+import { BrowserTtlOptionsResponse, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData, GetCacheSettingsData } from "../backend-api"
 import { UmbInputRadioButtonListElement, UmbInputToggleElement } from "@umbraco-cms/backoffice/components";
 import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
+import { UmbHostCloudflarePurgeRepository } from "../repository/purge.repository";
 
 @customElement('umbhost-cloudflare-purge-settings-caching')
-export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElementMixin(LitElement) {
+export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElement {
+
+	#repository = new UmbHostCloudflarePurgeRepository(this);
 
 	@state()
 	private firstLoad?: boolean = true;
@@ -85,122 +88,136 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		}
 	}
 
-	#onBrowserTtlSelect(event: Event) {
-
-		this.browserCacheTtlLoading = true;
+	async #onBrowserTtlSelect(event: Event) {
 		const select = event.target as HTMLSelectElement;
 		const selectedOption = this.browserCacheTtlOptions?.find(option => option.value === Number(select.value));
-		if (selectedOption) {
-			const ToggleBrowserCacheTtlData: ToggleBrowserCacheTtlData = {
-				zoneId: this.zoneId,
-				requestBody: {
-					value: selectedOption.value
-				}
-			};
+		if (!selectedOption) return;
 
-			V1Resource.toggleBrowserCacheTtl(ToggleBrowserCacheTtlData).then((data) => {
+		this.browserCacheTtlLoading = true;
+		const requestData: ToggleBrowserCacheTtlData = {
+			zoneId: this.zoneId,
+			requestBody: {
+				value: selectedOption.value
+			}
+		};
+
+		try {
+			const { data, error } = await this.#repository.toggleBrowserCacheTtl(requestData);
+			if (!error && data) {
 				this.browserCacheTtlValue = Number(data.value);
 				this.browserCacheTtlUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-			})
-			.finally(() => {
-				this.browserCacheTtlLoading = false;
-				this.dispatchEvent(new UmbChangeEvent());
-			});
+			}
+		} finally {
+			this.browserCacheTtlLoading = false;
+			this.dispatchEvent(new UmbChangeEvent());
 		}
 	}
 
-	#onAlwaysOnlineToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
+	async #onAlwaysOnlineToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
 		this.alwaysOnlineLoading = true;
 		const checked = event.target.checked;
-		const ToggleAlwaysOnlineData: ToggleAlwaysOnlineData = {
+		const requestData: ToggleAlwaysOnlineData = {
 			zoneId: this.zoneId,
 			requestBody: {
 				value: checked ? "on" : "off"
 			}
 		};
 
-		V1Resource.toggleAlwaysOnline(ToggleAlwaysOnlineData).then((data) => {
-			this.alwaysOnlineValue = data.value.toLowerCase() === "on" ? true : false;;
-			this.alwaysOnlineUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-		})
-		.finally(() => {
+		try {
+			const { data, error } = await this.#repository.toggleAlwaysOnline(requestData);
+			if (!error && data) {
+				this.alwaysOnlineValue = data.value.toLowerCase() === "on";
+				this.alwaysOnlineUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+			}
+		} finally {
 			this.alwaysOnlineLoading = false;
 			this.dispatchEvent(new UmbChangeEvent());
-		});
+		}
 	}
 
-	#onDeveloperModeToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
+	async #onDeveloperModeToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
 		this.developerModeLoading = true;
 		const checked = event.target.checked;
-		const ToggleDevelopmentModeData: ToggleDevelopmentModeData = {
+		const requestData: ToggleDevelopmentModeData = {
 			zoneId: this.zoneId,
 			requestBody: {
 				value: checked ? "on" : "off"
 			}
 		};
 
-		V1Resource.toggleDevelopmentMode(ToggleDevelopmentModeData).then((data) => {
-			this.developerModeValue = data.value.toLowerCase() === "on" ? true : false;
-			this.developerModeUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-		})
-		.finally(() => {
+		try {
+			const { data, error } = await this.#repository.toggleDevelopmentMode(requestData);
+			if (!error && data) {
+				this.developerModeValue = data.value.toLowerCase() === "on";
+				this.developerModeUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+			}
+		} finally {
 			this.developerModeLoading = false;
 			this.dispatchEvent(new UmbChangeEvent());
-		});
+		}
 	}
 
-	#onCachingLevelToggle(event: CustomEvent & { target: UmbInputRadioButtonListElement }) {
+	async #onCachingLevelToggle(event: CustomEvent & { target: UmbInputRadioButtonListElement }) {
 		this.cachingLevelLoading = true;
-		const ToggleCachingLevelData: ToggleCachingLevelData = {
+		const requestData: ToggleCachingLevelData = {
 			zoneId: this.zoneId,
 			requestBody: {
 				value: event.target.value
 			}
 		};
 
-		V1Resource.toggleCachingLevel(ToggleCachingLevelData).then((data) => {
-			this.cachingLevelValue = data?.value.toLowerCase();
-			this.cachingLevelUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-		})
-		.finally(() => {
+		try {
+			const { data, error } = await this.#repository.toggleCachingLevel(requestData);
+			if (!error && data) {
+				this.cachingLevelValue = data.value.toLowerCase();
+				this.cachingLevelUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
+			}
+		} finally {
 			this.cachingLevelLoading = false;
 			this.dispatchEvent(new UmbChangeEvent());
-		});
+		}
 	}
 
 	async #getZoneSettings(event: Event) {
-			try {
-				const select = event.target as HTMLSelectElement;
-			if (select.value) {
-			this.firstLoad = false;
-			this.loading = true;
-			this.zoneId = select.value;
-			var data : GetCacheSettingsData = {
+		const select = event.target as HTMLSelectElement;
+		if (!select.value) return;
+
+		this.firstLoad = false;
+		this.loading = true;
+		this.zoneId = select.value;
+
+		try {
+			const settingsRequest: GetCacheSettingsData = {
 				zoneId: select.value
-			}
+			};
 			const [ttlOptions, cacheSettings] = await Promise.all([
-			V1Resource.browserTtlOptions(),
-			V1Resource.getCacheSettings(data)
+				this.#repository.getBrowserTtlOptions(),
+				this.#repository.getCacheSettings(settingsRequest)
 			]);
 
-			this.browserCacheTtlOptions = ttlOptions;
-			this.browserCacheTtlValue = cacheSettings.browserCacheTtl?.value !== undefined ? Number(cacheSettings.browserCacheTtl.value) : undefined;
-			this.browserCacheTtlUpdated = cacheSettings.browserCacheTtl?.modified_on
-				? new Date(cacheSettings.browserCacheTtl.modified_on).toLocaleString()
-				: undefined;
-			this.alwaysOnlineValue = cacheSettings.alwaysOnline?.value.toLowerCase() === "on" ? true : false;
-			this.alwaysOnlineUpdated = cacheSettings.alwaysOnline?.modified_on 
-				? new Date(cacheSettings.alwaysOnline.modified_on).toLocaleString() 
-				: undefined;
-			this.developerModeValue = cacheSettings.developmentMode?.value.toLowerCase() === "on" ? true : false;
-			this.developerModeUpdated = cacheSettings.developmentMode?.modified_on 
-				? new Date(cacheSettings.developmentMode.modified_on).toLocaleString() 
-				: undefined;
-			this.cachingLevelUpdated = cacheSettings.cacheLevel?.modified_on 
-				? new Date(cacheSettings.cacheLevel.modified_on).toLocaleString() 
-				: undefined;
-			this.cachingLevelValue = cacheSettings.cacheLevel?.value.toLowerCase();
-		}
+			if (ttlOptions.data) {
+				this.browserCacheTtlOptions = ttlOptions.data;
+			}
+
+			const settings = cacheSettings.data;
+			if (settings) {
+				this.browserCacheTtlValue = settings.browserCacheTtl?.value !== undefined ? Number(settings.browserCacheTtl.value) : undefined;
+				this.browserCacheTtlUpdated = settings.browserCacheTtl?.modified_on
+					? new Date(settings.browserCacheTtl.modified_on).toLocaleString()
+					: undefined;
+				this.alwaysOnlineValue = settings.alwaysOnline?.value.toLowerCase() === "on";
+				this.alwaysOnlineUpdated = settings.alwaysOnline?.modified_on
+					? new Date(settings.alwaysOnline.modified_on).toLocaleString()
+					: undefined;
+				this.developerModeValue = settings.developmentMode?.value.toLowerCase() === "on";
+				this.developerModeUpdated = settings.developmentMode?.modified_on
+					? new Date(settings.developmentMode.modified_on).toLocaleString()
+					: undefined;
+				this.cachingLevelUpdated = settings.cacheLevel?.modified_on
+					? new Date(settings.cacheLevel.modified_on).toLocaleString()
+					: undefined;
+				this.cachingLevelValue = settings.cacheLevel?.value.toLowerCase();
+			}
 		} finally {
 			this.loading = false;
 		}
@@ -213,12 +230,11 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 	}
 
 	private async loadData() {
-
-	const zones = await V1Resource.getZones();
-			this.zones = zones?.map((zone: any) => ({
-				name: zone.domain,
-				value: zone.zoneId
-			}));
+		const { data } = await this.#repository.getZones();
+		this.zones = data?.map((zone: any) => ({
+			name: zone.domain,
+			value: zone.zoneId
+		}));
 	}
 
     render() {
@@ -226,16 +242,17 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 		<section id="umbhost-cloudflare-purdge-caching">
 			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
 				<p><umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize></p>
-				
-					<uui-label for="zone">Select Domain: </uui-label>
+
+					<uui-label for="zone">${this.localize.term("umbhostCloudflarePurge_selectdomain")}: </uui-label>
 					<uui-select id="zone"
-					required="" 
-						placeholder="Select an option"
+					required=""
+						label=${this.localize.term("umbhostCloudflarePurge_selectdomain")}
+						placeholder=${this.localize.term("umbhostCloudflarePurge_selectanoption")}
 						.options=${(this.zones ?? []) as any}
 						@change=${this.#getZoneSettings}
 						>
 					</uui-select>
-			</uui-box>  
+			</uui-box>
 
 		${this.firstLoad ? nothing : html`
 			${this.loading ? html`<uui-loader-circle></uui-loader-circle>` : nothing}
@@ -255,12 +272,12 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
-						</strong> 
+						</strong>
 						${this.developerModeUpdated ? this.developerModeUpdated : nothing}
 					</small>
 				</div>
 				`}
-			</uui-box>  
+			</uui-box>
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_cachingleveltitle")}>
 				${this.cachingLevelLoading ? html`<uui-loader></uui-loader>` : nothing}
@@ -273,12 +290,12 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
-						</strong> 
+						</strong>
 						${this.cachingLevelUpdated ? this.cachingLevelUpdated : nothing}
 					</small>
 				</div>
 				`}
-			</uui-box> 
+			</uui-box>
 
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_browsercachettltitle")}>
 				${this.browserCacheTtlLoading ? html`<uui-loader></uui-loader>` : nothing}
@@ -286,8 +303,9 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 					<div class="description">
 						<umb-localize key="umbhostCloudflarePurge_browsercachettldescription"></umb-localize>
 					</div>
-					<uui-select id="browserCacheTtl" 
-						placeholder="Select an option" 
+					<uui-select id="browserCacheTtl"
+						label=${this.localize.term("umbhostCloudflarePurge_browsercachettltitle")}
+						placeholder=${this.localize.term("umbhostCloudflarePurge_selectanoption")}
 						.options=${(this.browserCacheTtlOptions ?? []) as any}
 						@change=${this.#onBrowserTtlSelect} >
 					</uui-select>
@@ -295,14 +313,14 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 						<small>
 							<strong>
 								<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
-							</strong> 
+							</strong>
 							${this.browserCacheTtlUpdated ? this.browserCacheTtlUpdated : nothing}
 						</small>
 					</div>
 				`}
-			</uui-box>  
+			</uui-box>
 
-			
+
 			<uui-box headline=${this.localize.term("umbhostCloudflarePurge_alwaysonlinetitle")}>
 				${this.alwaysOnlineLoading ? html`<uui-loader></uui-loader>` : nothing}
 				${this.alwaysOnlineLoading ? nothing : html`
@@ -317,14 +335,14 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbElement
 					<small>
 						<strong>
 							<umb-localize key="umbhostCloudflarePurge_lastmodified"></umb-localize>:
-						</strong> 
+						</strong>
 						${this.alwaysOnlineUpdated ? this.alwaysOnlineUpdated : nothing}
 					</small>
 				</div>
 				`}
 			</uui-box>`}
 		`}
-		</section>  
+		</section>
     `
     }
 

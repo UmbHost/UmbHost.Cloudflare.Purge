@@ -1,10 +1,18 @@
-import { O as d } from "./entry-xREBUgli.js";
-class b extends Error {
+var q = (t) => {
+  throw TypeError(t);
+};
+var E = (t, e, r) => e.has(t) || q("Cannot " + r);
+var C = (t, e, r) => e.has(t) ? q("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(t) : e.set(t, r);
+var d = (t, e, r) => (E(t, e, "access private method"), r);
+import { UmbControllerBase as v } from "@umbraco-cms/backoffice/class-api";
+import { tryExecute as A } from "@umbraco-cms/backoffice/resources";
+import { O as l } from "./entry-iPHDpXgM.js";
+class w extends Error {
   constructor(e, r, o) {
     super(o), this.name = "ApiError", this.url = r.url, this.status = r.status, this.statusText = r.statusText, this.body = r.body, this.request = e;
   }
 }
-class j extends Error {
+class O extends Error {
   constructor(e) {
     super(e), this.name = "CancelError";
   }
@@ -12,7 +20,7 @@ class j extends Error {
     return !0;
   }
 }
-class w {
+class P {
   constructor(e) {
     this._isResolved = !1, this._isRejected = !1, this._isCancelled = !1, this.cancelHandlers = [], this.promise = new Promise((r, o) => {
       this._resolve = r, this._reject = o;
@@ -54,83 +62,83 @@ class w {
           console.warn("Cancellation threw an error", e);
           return;
         }
-      this.cancelHandlers.length = 0, this._reject && this._reject(new j("Request aborted"));
+      this.cancelHandlers.length = 0, this._reject && this._reject(new O("Request aborted"));
     }
   }
   get isCancelled() {
     return this._isCancelled;
   }
 }
-const h = (t) => typeof t == "string", y = (t) => h(t) && t !== "", f = (t) => t instanceof Blob, g = (t) => t instanceof FormData, C = (t) => {
+const y = (t) => typeof t == "string", b = (t) => y(t) && t !== "", T = (t) => t instanceof Blob, j = (t) => t instanceof FormData, H = (t) => {
   try {
     return btoa(t);
   } catch {
     return Buffer.from(t).toString("base64");
   }
-}, S = (t) => {
+}, I = (t) => {
   const e = [], r = (s, n) => {
     e.push(`${encodeURIComponent(s)}=${encodeURIComponent(String(n))}`);
   }, o = (s, n) => {
     n != null && (n instanceof Date ? r(s, n.toISOString()) : Array.isArray(n) ? n.forEach((a) => o(s, a)) : typeof n == "object" ? Object.entries(n).forEach(([a, i]) => o(`${s}[${a}]`, i)) : r(s, n));
   };
   return Object.entries(t).forEach(([s, n]) => o(s, n)), e.length ? `?${e.join("&")}` : "";
-}, _ = (t, e) => {
+}, N = (t, e) => {
   const r = encodeURI, o = e.url.replace("{api-version}", t.VERSION).replace(/{(.*?)}/g, (n, a) => {
     var i;
     return (i = e.path) != null && i.hasOwnProperty(a) ? r(String(e.path[a])) : n;
   }), s = t.BASE + o;
-  return e.query ? s + S(e.query) : s;
-}, E = (t) => {
+  return e.query ? s + I(e.query) : s;
+}, D = (t) => {
   if (t.formData) {
     const e = new FormData(), r = (o, s) => {
-      h(s) || f(s) ? e.append(o, s) : e.append(o, JSON.stringify(s));
+      y(s) || T(s) ? e.append(o, s) : e.append(o, JSON.stringify(s));
     };
     return Object.entries(t.formData).filter(([, o]) => o != null).forEach(([o, s]) => {
       Array.isArray(s) ? s.forEach((n) => r(o, n)) : r(o, s);
     }), e;
   }
-}, p = async (t, e) => typeof e == "function" ? e(t) : e, B = async (t, e) => {
+}, f = async (t, e) => typeof e == "function" ? e(t) : e, U = async (t, e) => {
   const [r, o, s, n] = await Promise.all([
-    p(e, t.TOKEN),
-    p(e, t.USERNAME),
-    p(e, t.PASSWORD),
-    p(e, t.HEADERS)
+    f(e, t.TOKEN),
+    f(e, t.USERNAME),
+    f(e, t.PASSWORD),
+    f(e, t.HEADERS)
   ]), a = Object.entries({
     Accept: "application/json",
     ...n,
     ...e.headers
-  }).filter(([, i]) => i != null).reduce((i, [l, c]) => ({
+  }).filter(([, i]) => i != null).reduce((i, [m, u]) => ({
     ...i,
-    [l]: String(c)
+    [m]: String(u)
   }), {});
-  if (y(r) && (a.Authorization = `Bearer ${r}`), y(o) && y(s)) {
-    const i = C(`${o}:${s}`);
+  if (b(r) && (a.Authorization = `Bearer ${r}`), b(o) && b(s)) {
+    const i = H(`${o}:${s}`);
     a.Authorization = `Basic ${i}`;
   }
-  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : f(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : h(e.body) ? a["Content-Type"] = "text/plain" : g(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
-}, A = (t) => {
+  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : T(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : y(e.body) ? a["Content-Type"] = "text/plain" : j(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
+}, x = (t) => {
   var e, r;
   if (t.body !== void 0)
-    return (e = t.mediaType) != null && e.includes("application/json") || (r = t.mediaType) != null && r.includes("+json") ? JSON.stringify(t.body) : h(t.body) || f(t.body) || g(t.body) ? t.body : JSON.stringify(t.body);
-}, v = async (t, e, r, o, s, n, a) => {
+    return (e = t.mediaType) != null && e.includes("application/json") || (r = t.mediaType) != null && r.includes("+json") ? JSON.stringify(t.body) : y(t.body) || T(t.body) || j(t.body) ? t.body : JSON.stringify(t.body);
+}, z = async (t, e, r, o, s, n, a) => {
   const i = new AbortController();
-  let l = {
+  let m = {
     headers: n,
     body: o ?? s,
     method: e.method,
     signal: i.signal
   };
-  t.WITH_CREDENTIALS && (l.credentials = t.CREDENTIALS);
-  for (const c of t.interceptors.request._fns)
-    l = await c(l);
-  return a(() => i.abort()), await fetch(r, l);
-}, P = (t, e) => {
+  t.WITH_CREDENTIALS && (m.credentials = t.CREDENTIALS);
+  for (const u of t.interceptors.request._fns)
+    m = await u(m);
+  return a(() => i.abort()), await fetch(r, m);
+}, k = (t, e) => {
   if (e) {
     const r = t.headers.get(e);
-    if (h(r))
+    if (y(r))
       return r;
   }
-}, I = async (t) => {
+}, F = async (t) => {
   if (t.status !== 204)
     try {
       const e = t.headers.get("Content-Type");
@@ -148,7 +156,7 @@ const h = (t) => typeof t == "string", y = (t) => h(t) && t !== "", f = (t) => t
     } catch (e) {
       console.error(e);
     }
-}, O = (t, e) => {
+}, L = (t, e) => {
   const o = {
     400: "Bad Request",
     401: "Unauthorized",
@@ -193,7 +201,7 @@ const h = (t) => typeof t == "string", y = (t) => h(t) && t !== "", f = (t) => t
     ...t.errors
   }[e.status];
   if (o)
-    throw new b(t, e, o);
+    throw new w(t, e, o);
   if (!e.ok) {
     const s = e.status ?? "unknown", n = e.statusText ?? "unknown", a = (() => {
       try {
@@ -202,39 +210,39 @@ const h = (t) => typeof t == "string", y = (t) => h(t) && t !== "", f = (t) => t
         return;
       }
     })();
-    throw new b(
+    throw new w(
       t,
       e,
       `Generic Error: status: ${s}; status text: ${n}; body: ${a}`
     );
   }
-}, u = (t, e) => new w(async (r, o, s) => {
+}, h = (t, e) => new P(async (r, o, s) => {
   try {
-    const n = _(t, e), a = E(e), i = A(e), l = await B(t, e);
+    const n = N(t, e), a = D(e), i = x(e), m = await U(t, e);
     if (!s.isCancelled) {
-      let c = await v(t, e, n, i, a, l, s);
-      for (const q of t.interceptors.response._fns)
-        c = await q(c);
-      const T = await I(c), R = P(c, e.responseHeader), m = {
+      let u = await z(t, e, n, i, a, m, s);
+      for (const _ of t.interceptors.response._fns)
+        u = await _(u);
+      const S = await F(u), B = k(u, e.responseHeader), R = {
         url: n,
-        ok: c.ok,
-        status: c.status,
-        statusText: c.statusText,
-        body: R ?? T
+        ok: u.ok,
+        status: u.status,
+        statusText: u.statusText,
+        body: B ?? S
       };
-      O(e, m), r(m.body);
+      L(e, R), r(R.body);
     }
   } catch (n) {
     o(n);
   }
 });
-class N {
+class g {
   /**
    * @returns unknown OK
    * @throws ApiError
    */
   static browserTtlOptions() {
-    return u(d, {
+    return h(l, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions",
       errors: {
@@ -249,7 +257,7 @@ class N {
    * @throws ApiError
    */
   static getCacheSettings(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings",
       query: {
@@ -266,7 +274,7 @@ class N {
    * @throws ApiError
    */
   static getZones() {
-    return u(d, {
+    return h(l, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getzones",
       errors: {
@@ -282,7 +290,7 @@ class N {
    * @throws ApiError
    */
   static toggleAlwaysOnline(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline",
       query: {
@@ -304,7 +312,7 @@ class N {
    * @throws ApiError
    */
   static toggleBrowserCacheTtl(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl",
       query: {
@@ -326,7 +334,7 @@ class N {
    * @throws ApiError
    */
   static toggleCachingLevel(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel",
       query: {
@@ -348,7 +356,7 @@ class N {
    * @throws ApiError
    */
   static toggleDevelopmentMode(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode",
       query: {
@@ -367,7 +375,7 @@ class N {
    * @throws ApiError
    */
   static all() {
-    return u(d, {
+    return h(l, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/all",
       responseHeader: "Umb-Notifications",
@@ -384,7 +392,7 @@ class N {
    * @throws ApiError
    */
   static custom(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/custom",
       body: e.requestBody,
@@ -403,7 +411,7 @@ class N {
    * @throws ApiError
    */
   static mediaFolder(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/mediafolder",
       body: e.requestBody,
@@ -422,7 +430,7 @@ class N {
    * @throws ApiError
    */
   static node(e = {}) {
-    return u(d, {
+    return h(l, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/node",
       body: e.requestBody,
@@ -435,7 +443,48 @@ class N {
     });
   }
 }
-export {
-  N as V
+var c, p;
+class J extends v {
+  constructor() {
+    super(...arguments);
+    C(this, c);
+  }
+  purgeAll(r) {
+    return d(this, c, p).call(this, g.all(), r);
+  }
+  purgeCustom(r, o) {
+    return d(this, c, p).call(this, g.custom(r), o);
+  }
+  purgeNode(r, o) {
+    return d(this, c, p).call(this, g.node(r), o);
+  }
+  getZones(r) {
+    return d(this, c, p).call(this, g.getZones(), r);
+  }
+  getBrowserTtlOptions(r) {
+    return d(this, c, p).call(this, g.browserTtlOptions(), r);
+  }
+  getCacheSettings(r, o) {
+    return d(this, c, p).call(this, g.getCacheSettings(r), o);
+  }
+  toggleBrowserCacheTtl(r, o) {
+    return d(this, c, p).call(this, g.toggleBrowserCacheTtl(r), o);
+  }
+  toggleAlwaysOnline(r, o) {
+    return d(this, c, p).call(this, g.toggleAlwaysOnline(r), o);
+  }
+  toggleDevelopmentMode(r, o) {
+    return d(this, c, p).call(this, g.toggleDevelopmentMode(r), o);
+  }
+  toggleCachingLevel(r, o) {
+    return d(this, c, p).call(this, g.toggleCachingLevel(r), o);
+  }
+}
+c = new WeakSet(), p = async function(r, o) {
+  const s = await A(this, r, o);
+  return s.error ? { error: s.error } : { data: s };
 };
-//# sourceMappingURL=services.gen-Ce7SQPJn.js.map
+export {
+  J as U
+};
+//# sourceMappingURL=purge.repository-Dhvy131L.js.map

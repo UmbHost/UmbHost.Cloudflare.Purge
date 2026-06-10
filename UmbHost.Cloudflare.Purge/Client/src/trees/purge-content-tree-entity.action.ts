@@ -5,13 +5,14 @@ import { UmbLocalizationController } from '@umbraco-cms/backoffice/localization-
 import { UmbDocumentItemModel, UmbDocumentItemRepository } from '@umbraco-cms/backoffice/document';
 import { UMB_ACTION_EVENT_CONTEXT } from '@umbraco-cms/backoffice/action';
 import { UMB_NOTIFICATION_CONTEXT, UmbNotificationContext, UmbNotificationDefaultData } from '@umbraco-cms/backoffice/notification';
-import { NodeData, V1Resource } from '../backend-api';
 import { UMB_APP_LANGUAGE_CONTEXT, UmbAppLanguageContext } from '@umbraco-cms/backoffice/language';
+import { UmbHostCloudflarePurgeRepository } from '../repository/purge.repository';
 
 export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
     private _notificationContext?: UmbNotificationContext;
     #modalContext?: UmbModalManagerContext;
     #localize = new UmbLocalizationController(this);
+    #repository = new UmbHostCloudflarePurgeRepository(this);
     private _languageContext?: UmbAppLanguageContext;
 
     constructor(host: UmbControllerHost, args: UmbEntityActionArgs<never>) {
@@ -34,10 +35,12 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
         const item = await this.#getDocument();
         if (!item) return;
 
+        const itemName = this.#getName(item);
+
         const modalHandler = this.#modalContext?.open(this, UMB_CONFIRM_MODAL, {
             data: {
                 headline: this.#localize.term("umbhostCloudflarePurge_confirmpurgecdnentityactiontitle"),
-                content: this.#localize.string("#umbhostCloudflarePurge_confirmpurgecdnentityactioncontent", item.name),
+                content: this.#localize.string("#umbhostCloudflarePurge_confirmpurgecdnentityactioncontent", itemName),
                 color: 'danger',
             }
         });
@@ -45,10 +48,10 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
         await modalHandler?.onSubmit().then(() => {
             this.#handPurge(item).then((result) => {
                 if (result) {
-                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
+                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
                         this._notificationContext?.peek('positive', { data });
                 }else{
-                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemfailedtitle", item.name), message: this.#localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemfailedtitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
                         this._notificationContext?.peek('danger', { data });
                 }
             });
@@ -58,6 +61,14 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
         });
     }
 
+    // In Umbraco 17 the document item name lives on the culture variants rather than
+    // directly on the item. Prefer the variant for the active app culture, else the first.
+    #getName(item: UmbDocumentItemModel): string {
+        const culture = this._languageContext?.getAppCulture();
+        const variant = item.variants.find((v) => v.culture === culture) ?? item.variants[0];
+        return variant?.name ?? '';
+    }
+
     async #handPurge(item: UmbDocumentItemModel) : Promise<boolean> {
 
         let cultureName = undefined;
@@ -65,20 +76,14 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
             cultureName = this._languageContext.getAppCulture();
         }
 
-        const nodeData: NodeData = {
-				requestBody: {
-                    unique: item.unique,
-                    culture: cultureName
-				}
-			};
+        // Contextual success/failure notifications are raised by the caller,
+        // so suppress the repository's generic notification here.
+        const { error } = await this.#repository.purgeNode(
+            { requestBody: { unique: item.unique, culture: cultureName } },
+            { disableNotifications: true }
+        );
 
-            V1Resource.node(nodeData).then(() => {
-                return true;
-            }).catch(() => {
-                return false;
-            });
-
-        return false;
+        return !error;
     }
 
     async #getDocument() {

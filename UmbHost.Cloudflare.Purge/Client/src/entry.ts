@@ -5,14 +5,15 @@ import { OpenAPI } from './backend-api/index.js';
 
 export const onInit: UmbEntryPointOnInit = (host, extensionRegistry) => {
 
-  host.consumeContext(UMB_AUTH_CONTEXT,(auth)=> {
+  host.consumeContext(UMB_AUTH_CONTEXT, (auth) => {
+      if (!auth) return;
 
       const config = auth.getOpenApiConfiguration();
 
-      OpenAPI.BASE = config.base;
-      OpenAPI.WITH_CREDENTIALS = config.withCredentials;
-      OpenAPI.CREDENTIALS = config.credentials;
-      OpenAPI.TOKEN = config.token;
+      OpenAPI.BASE = config.base ?? '';
+      OpenAPI.CREDENTIALS = config.credentials ?? 'same-origin';
+      OpenAPI.WITH_CREDENTIALS = config.credentials === 'include';
+      OpenAPI.TOKEN = async () => (await config.token()) ?? '';
 
   });
 

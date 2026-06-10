@@ -1,8 +1,8 @@
-import { LitElement, html, customElement, css } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
+import { html, customElement, css } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
 
 @customElement('umbhost-cloudflare-purge-settings-overview')
-export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbElementMixin(LitElement) {
+export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitElement {
 
     render() {
         return html`   
