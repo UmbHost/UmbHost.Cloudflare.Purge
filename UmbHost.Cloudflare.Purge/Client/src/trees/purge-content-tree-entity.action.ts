@@ -45,20 +45,23 @@ export class PurgeCdnContentEntityAction extends UmbEntityActionBase<never> {
             }
         });
 
-        await modalHandler?.onSubmit().then(() => {
-            this.#handPurge(item).then((result) => {
-                if (result) {
-                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
-                        this._notificationContext?.peek('positive', { data });
-                }else{
-                    const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemfailedtitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
-                        this._notificationContext?.peek('danger', { data });
-                }
-            });
+        try {
+            await modalHandler?.onSubmit();
+        } catch {
+            // Modal dismissed/cancelled.
+            return;
+        }
 
-                  this.#notify();
-        }).catch(() => {
-        });
+        const purged = await this.#handPurge(item);
+        if (purged) {
+            const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemsuccesstitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemsuccesscontent") };
+            this._notificationContext?.peek('positive', { data });
+        } else {
+            const data: UmbNotificationDefaultData = { headline: this.#localize.string("#umbhostCloudflarePurge_purgeitemfailedtitle", itemName), message: this.#localize.term("umbhostCloudflarePurge_purgeitemfailedcontent") };
+            this._notificationContext?.peek('danger', { data });
+        }
+
+        this.#notify();
     }
 
     // In Umbraco 17 the document item name lives on the culture variants rather than

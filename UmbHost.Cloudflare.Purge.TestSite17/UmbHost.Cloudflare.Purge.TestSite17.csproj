@@ -10,6 +10,12 @@
     <PackageReference Include="Umbraco.Cms" Version="17.4.2" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+    <!-- Provides the in-memory (InMemoryAuto) ModelsBuilder used in development.
+         In Umbraco 17 this moved out of the core package into its own dev-mode package. -->
+    <PackageReference Include="Umbraco.Cms.DevelopmentMode.Backoffice" Version="17.4.2" />
+  </ItemGroup>
+
   <ItemGroup>
     <!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
     <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />

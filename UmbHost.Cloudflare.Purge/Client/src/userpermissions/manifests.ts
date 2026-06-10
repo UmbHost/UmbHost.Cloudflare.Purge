@@ -13,6 +13,10 @@ const purgeContentTreeItems = {
     },
   }
 
+// The media purge permission is intentionally registered against the DOCUMENT entity type.
+// The backoffice has no granular media user-permission system / `Umb.Condition.UserPermission.Media`,
+// so the media verb lives in the document permission set and is enforced by the document permission
+// condition on the media entity action (see trees/manifests.ts). This is a deliberate workaround.
 const purgeMediaTreeItems = {
     type: "entityUserPermission",
     alias: "umbhost-cloudflare-purge-userpermissions-media",

@@ -4,7 +4,7 @@ const dashboardManifest = {
     type: 'dashboard',
     alias: 'umbhost-cloudflare-purge-dashboard',
     name: 'Cloudflare CDN Purge Dashboard',
-    element: () => import('./purge-dashboard'),
+    element: () => import('./purge-dashboard.element'),
     elementName: "umbhost-cloudflare-purge-dashboard",
     forEntityTypes: [UMB_DOCUMENT_ENTITY_TYPE],
     weight: 15,

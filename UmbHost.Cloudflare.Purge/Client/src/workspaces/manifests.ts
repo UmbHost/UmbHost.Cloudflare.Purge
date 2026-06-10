@@ -15,11 +15,24 @@ const settingsWorkspace = {
     ]
 }
 
+const cachingContext = {
+    type: 'workspaceContext',
+    alias: 'UmbHost.CloudflarePurge.CachingContext',
+    name: 'Cloudflare CDN Purge Caching Context',
+    api: () => import('./caching-workspace.context'),
+    conditions: [
+        {
+            alias: "Umb.Condition.WorkspaceAlias",
+            match: "umbhost-cloudflare-purge-workspace"
+        }
+    ]
+}
+
 const settingsOverview = {
     "type": "workspaceView",
     "alias": "umbhost-cloudflare-purge-settings-overview",
     "name": "Cloudflare CDN Purge Settings Overview",
-    element: () => import('./overview'),
+    element: () => import('./overview.element'),
     elementName: "umbhost-cloudflare-purge-settings-overview",
     "meta": {
         "label": "#umbhostCloudflarePurge_settingsoverview",
@@ -38,7 +51,7 @@ const settingsCaching = {
     "type": "workspaceView",
     "alias": "umbhost-cloudflare-purge-settings-caching",
     "name": "Cloudflare CDN Purge Settings Caching",
-    element: () => import('./caching'),
+    element: () => import('./caching.element'),
     elementName: "umbhost-cloudflare-purge-settings-caching",
     "meta": {
         "label": "#umbhostCloudflarePurge_settingscaching",
@@ -55,6 +68,7 @@ const settingsCaching = {
 
 export const manifests = [
     settingsWorkspace,
+    cachingContext,
     settingsOverview,
     settingsCaching
 ];

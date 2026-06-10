@@ -1,6 +1,6 @@
 import { html as s, css as n, customElement as m } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement as b } from "@umbraco-cms/backoffice/lit-element";
-var c = Object.getOwnPropertyDescriptor, d = (u, o, a, r) => {
+var c = Object.getOwnPropertyDescriptor, g = (u, o, a, r) => {
   for (var e = r > 1 ? void 0 : r ? c(o, a) : o, t = u.length - 1, l; t >= 0; t--)
     (l = u[t]) && (e = l(e) || e);
   return e;
@@ -11,7 +11,7 @@ let i = class extends b {
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
             <umb-localize key="umbhostCloudflarePurge_settingsoverviewintroduction"></umb-localize>
         </uui-box>  
-        <section id="umbhost-cloudflare-purdge-overview">
+        <section id="umbhost-cloudflare-purge-overview">
             <uui-box headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewcachingtitle")}>
                 <p>
                     <umb-localize key="umbhostCloudflarePurge_settingsoverviewcachingdescription"></umb-localize>
@@ -48,7 +48,7 @@ let i = class extends b {
   }
 };
 i.styles = n`
-			#umbhost-cloudflare-purdge-overview {
+			#umbhost-cloudflare-purge-overview {
 				display: grid;
 				grid-gap: var(--uui-size-7);
 				grid-template-columns: repeat(3, 1fr);
@@ -62,13 +62,13 @@ i.styles = n`
 			}
 
 			@media (max-width: 1200px) {
-				#umbhost-cloudflare-purdge-overview {
+				#umbhost-cloudflare-purge-overview {
 					grid-template-columns: repeat(2, 1fr);
 				}
 			}
 
 			@media (max-width: 800px) {
-				#umbhost-cloudflare-purdge-overview {
+				#umbhost-cloudflare-purge-overview {
 					grid-template-columns: repeat(1, 1fr);
 				}
 			}
@@ -85,10 +85,10 @@ i.styles = n`
 				gap: var(--uui-size-space-2);
 			}
   `;
-i = d([
+i = g([
   m("umbhost-cloudflare-purge-settings-overview")
 ], i);
 export {
   i as default
 };
-//# sourceMappingURL=overview-BJioZ8lU.js.map
+//# sourceMappingURL=overview.element-D8e49N54.js.map

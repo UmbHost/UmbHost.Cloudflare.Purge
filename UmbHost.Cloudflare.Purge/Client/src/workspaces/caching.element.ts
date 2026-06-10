@@ -1,14 +1,15 @@
 import { html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
-import { BrowserTtlOptionsResponse, ToggleBrowserCacheTtlData, ToggleAlwaysOnlineData, ToggleDevelopmentModeData, ToggleCachingLevelData, GetCacheSettingsData } from "../backend-api"
+import { BrowserTtlOptionsResponse } from "../backend-api"
 import { UmbInputRadioButtonListElement, UmbInputToggleElement } from "@umbraco-cms/backoffice/components";
 import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
-import { UmbHostCloudflarePurgeRepository } from "../repository/purge.repository";
+import { UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT, type UmbHostCloudflarePurgeCachingContext } from "./caching-workspace.context";
+import type { UmbHostCloudflarePurgeZoneOption } from "../repository/purge.repository";
 
 @customElement('umbhost-cloudflare-purge-settings-caching')
 export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElement {
 
-	#repository = new UmbHostCloudflarePurgeRepository(this);
+	#context?: UmbHostCloudflarePurgeCachingContext;
 
 	@state()
 	private firstLoad?: boolean = true;
@@ -17,10 +18,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 	private loading?: boolean = false;
 
 	@state()
-	private zones?: any[] = [];
-
-	@state()
-	private zoneId?: string = undefined;
+	private zones?: UmbHostCloudflarePurgeZoneOption[] = [];
 
 	@state()
 	private browserCacheTtlLoading?: boolean = false;
@@ -76,6 +74,32 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 		}
 	];
 
+	constructor() {
+		super();
+
+		this.consumeContext(UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT, (context) => {
+			this.#context = context;
+			if (!context) return;
+
+			this.observe(context.zones, (value) => { this.zones = value; });
+			this.observe(context.firstLoad, (value) => { this.firstLoad = value; });
+			this.observe(context.loading, (value) => { this.loading = value; });
+			this.observe(context.browserCacheTtlOptions, (value) => { this.browserCacheTtlOptions = value; });
+			this.observe(context.browserCacheTtlValue, (value) => { this.browserCacheTtlValue = value; });
+			this.observe(context.browserCacheTtlUpdated, (value) => { this.browserCacheTtlUpdated = value; });
+			this.observe(context.browserCacheTtlLoading, (value) => { this.browserCacheTtlLoading = value; });
+			this.observe(context.alwaysOnlineValue, (value) => { this.alwaysOnlineValue = value; });
+			this.observe(context.alwaysOnlineUpdated, (value) => { this.alwaysOnlineUpdated = value; });
+			this.observe(context.alwaysOnlineLoading, (value) => { this.alwaysOnlineLoading = value; });
+			this.observe(context.developerModeValue, (value) => { this.developerModeValue = value; });
+			this.observe(context.developerModeUpdated, (value) => { this.developerModeUpdated = value; });
+			this.observe(context.developerModeLoading, (value) => { this.developerModeLoading = value; });
+			this.observe(context.cachingLevelValue, (value) => { this.cachingLevelValue = value; });
+			this.observe(context.cachingLevelUpdated, (value) => { this.cachingLevelUpdated = value; });
+			this.observe(context.cachingLevelLoading, (value) => { this.cachingLevelLoading = value; });
+		});
+	}
+
 	updated(changedProps: Map<string, any>) {
 		super.updated(changedProps);
 
@@ -93,153 +117,33 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 		const selectedOption = this.browserCacheTtlOptions?.find(option => option.value === Number(select.value));
 		if (!selectedOption) return;
 
-		this.browserCacheTtlLoading = true;
-		const requestData: ToggleBrowserCacheTtlData = {
-			zoneId: this.zoneId,
-			requestBody: {
-				value: selectedOption.value
-			}
-		};
-
-		try {
-			const { data, error } = await this.#repository.toggleBrowserCacheTtl(requestData);
-			if (!error && data) {
-				this.browserCacheTtlValue = Number(data.value);
-				this.browserCacheTtlUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-			}
-		} finally {
-			this.browserCacheTtlLoading = false;
-			this.dispatchEvent(new UmbChangeEvent());
-		}
+		await this.#context?.toggleBrowserCacheTtl(selectedOption.value);
+		this.dispatchEvent(new UmbChangeEvent());
 	}
 
 	async #onAlwaysOnlineToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
-		this.alwaysOnlineLoading = true;
-		const checked = event.target.checked;
-		const requestData: ToggleAlwaysOnlineData = {
-			zoneId: this.zoneId,
-			requestBody: {
-				value: checked ? "on" : "off"
-			}
-		};
-
-		try {
-			const { data, error } = await this.#repository.toggleAlwaysOnline(requestData);
-			if (!error && data) {
-				this.alwaysOnlineValue = data.value.toLowerCase() === "on";
-				this.alwaysOnlineUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-			}
-		} finally {
-			this.alwaysOnlineLoading = false;
-			this.dispatchEvent(new UmbChangeEvent());
-		}
+		await this.#context?.toggleAlwaysOnline(event.target.checked);
+		this.dispatchEvent(new UmbChangeEvent());
 	}
 
 	async #onDeveloperModeToggle(event: CustomEvent & { target: UmbInputToggleElement }) {
-		this.developerModeLoading = true;
-		const checked = event.target.checked;
-		const requestData: ToggleDevelopmentModeData = {
-			zoneId: this.zoneId,
-			requestBody: {
-				value: checked ? "on" : "off"
-			}
-		};
-
-		try {
-			const { data, error } = await this.#repository.toggleDevelopmentMode(requestData);
-			if (!error && data) {
-				this.developerModeValue = data.value.toLowerCase() === "on";
-				this.developerModeUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-			}
-		} finally {
-			this.developerModeLoading = false;
-			this.dispatchEvent(new UmbChangeEvent());
-		}
+		await this.#context?.toggleDevelopmentMode(event.target.checked);
+		this.dispatchEvent(new UmbChangeEvent());
 	}
 
 	async #onCachingLevelToggle(event: CustomEvent & { target: UmbInputRadioButtonListElement }) {
-		this.cachingLevelLoading = true;
-		const requestData: ToggleCachingLevelData = {
-			zoneId: this.zoneId,
-			requestBody: {
-				value: event.target.value
-			}
-		};
-
-		try {
-			const { data, error } = await this.#repository.toggleCachingLevel(requestData);
-			if (!error && data) {
-				this.cachingLevelValue = data.value.toLowerCase();
-				this.cachingLevelUpdated = data.modified_on ? new Date(data.modified_on).toLocaleString() : undefined;
-			}
-		} finally {
-			this.cachingLevelLoading = false;
-			this.dispatchEvent(new UmbChangeEvent());
-		}
+		await this.#context?.toggleCachingLevel(event.target.value);
+		this.dispatchEvent(new UmbChangeEvent());
 	}
 
-	async #getZoneSettings(event: Event) {
+	#getZoneSettings(event: Event) {
 		const select = event.target as HTMLSelectElement;
-		if (!select.value) return;
-
-		this.firstLoad = false;
-		this.loading = true;
-		this.zoneId = select.value;
-
-		try {
-			const settingsRequest: GetCacheSettingsData = {
-				zoneId: select.value
-			};
-			const [ttlOptions, cacheSettings] = await Promise.all([
-				this.#repository.getBrowserTtlOptions(),
-				this.#repository.getCacheSettings(settingsRequest)
-			]);
-
-			if (ttlOptions.data) {
-				this.browserCacheTtlOptions = ttlOptions.data;
-			}
-
-			const settings = cacheSettings.data;
-			if (settings) {
-				this.browserCacheTtlValue = settings.browserCacheTtl?.value !== undefined ? Number(settings.browserCacheTtl.value) : undefined;
-				this.browserCacheTtlUpdated = settings.browserCacheTtl?.modified_on
-					? new Date(settings.browserCacheTtl.modified_on).toLocaleString()
-					: undefined;
-				this.alwaysOnlineValue = settings.alwaysOnline?.value.toLowerCase() === "on";
-				this.alwaysOnlineUpdated = settings.alwaysOnline?.modified_on
-					? new Date(settings.alwaysOnline.modified_on).toLocaleString()
-					: undefined;
-				this.developerModeValue = settings.developmentMode?.value.toLowerCase() === "on";
-				this.developerModeUpdated = settings.developmentMode?.modified_on
-					? new Date(settings.developmentMode.modified_on).toLocaleString()
-					: undefined;
-				this.cachingLevelUpdated = settings.cacheLevel?.modified_on
-					? new Date(settings.cacheLevel.modified_on).toLocaleString()
-					: undefined;
-				this.cachingLevelValue = settings.cacheLevel?.value.toLowerCase();
-			}
-		} finally {
-			this.loading = false;
-		}
-	}
-
-	connectedCallback() {
-		super.connectedCallback();
-
-		this.loadData();
-	}
-
-	private async loadData() {
-		const { data } = await this.#repository.getZones();
-		this.zones = data?.map((zone: any) => ({
-			name: zone.domain,
-			value: zone.zoneId
-		}));
+		this.#context?.selectZone(select.value);
 	}
 
     render() {
         return html`
-		<section id="umbhost-cloudflare-purdge-caching">
+		<section id="umbhost-cloudflare-purge-caching">
 			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
 				<p><umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize></p>
 
@@ -362,7 +266,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 				}
 			}
 
-			#umbhost-cloudflare-purdge-caching {
+			#umbhost-cloudflare-purge-caching {
 				padding: var(--uui-size-layout-1);
 			}
 

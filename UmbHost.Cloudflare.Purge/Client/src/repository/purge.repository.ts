@@ -1,71 +1,84 @@
 import { UmbControllerBase } from '@umbraco-cms/backoffice/class-api';
-import { tryExecute } from '@umbraco-cms/backoffice/resources';
+import type { UmbControllerHost } from '@umbraco-cms/backoffice/controller-api';
 import type { UmbTryExecuteOptions } from '@umbraco-cms/backoffice/resources';
-import {
-    V1Resource,
-    type CustomData,
-    type NodeData,
-    type GetCacheSettingsData,
-    type ToggleBrowserCacheTtlData,
-    type ToggleAlwaysOnlineData,
-    type ToggleDevelopmentModeData,
-    type ToggleCachingLevelData,
+import { UmbHostCloudflarePurgeServerDataSource } from './purge.server.data-source';
+import type {
+    CustomData,
+    NodeData,
+    GetCacheSettingsData,
+    ToggleBrowserCacheTtlData,
+    ToggleAlwaysOnlineData,
+    ToggleDevelopmentModeData,
+    ToggleCachingLevelData,
 } from '../backend-api';
+
+/** UI-ready zone model (mapped from the server `UmbHostCloudflarePurgeZone` DTO). */
+export interface UmbHostCloudflarePurgeZoneOption {
+    name: string;
+    value: string;
+}
 
 /**
  * Repository layer for the UmbHost Cloudflare Purge management API.
  *
- * UI elements and entity actions consume this instead of calling the generated
- * `V1Resource` client directly (repository pattern). Every call is wrapped in
- * `tryExecute`, which surfaces failures as backoffice notifications by default;
- * callers that show their own contextual messages pass `disableNotifications: true`.
+ * The entry point for data operations: UI elements, entity actions and the caching
+ * workspace context consume this instead of the generated client directly. It owns
+ * *what* operations exist; the data source owns *how* the data is fetched.
  */
 export class UmbHostCloudflarePurgeRepository extends UmbControllerBase {
-    async #run<T>(promise: Promise<T>, opts?: UmbTryExecuteOptions): Promise<{ data?: T; error?: unknown }> {
-        const response = await tryExecute(this, promise, opts);
-        if (response.error) {
-            return { error: response.error };
-        }
-        return { data: response as T };
+    #dataSource: UmbHostCloudflarePurgeServerDataSource;
+
+    constructor(host: UmbControllerHost) {
+        super(host);
+        this.#dataSource = new UmbHostCloudflarePurgeServerDataSource(this);
     }
 
     purgeAll(opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.all(), opts);
+        return this.#dataSource.purgeAll(opts);
     }
 
     purgeCustom(body: CustomData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.custom(body), opts);
+        return this.#dataSource.purgeCustom(body, opts);
     }
 
     purgeNode(body: NodeData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.node(body), opts);
+        return this.#dataSource.purgeNode(body, opts);
     }
 
-    getZones(opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.getZones(), opts);
+    /** Returns the configured zones mapped to UI-ready options for selects. */
+    async getZoneOptions(opts?: UmbTryExecuteOptions): Promise<{ data?: Array<UmbHostCloudflarePurgeZoneOption>; error?: unknown }> {
+        const { data, error } = await this.#dataSource.getZones(opts);
+        if (error) {
+            return { error };
+        }
+        return {
+            data: data?.map((zone) => ({ name: zone.domain, value: zone.zoneId })) ?? [],
+        };
     }
 
     getBrowserTtlOptions(opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.browserTtlOptions(), opts);
+        return this.#dataSource.getBrowserTtlOptions(opts);
     }
 
     getCacheSettings(data: GetCacheSettingsData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.getCacheSettings(data), opts);
+        return this.#dataSource.getCacheSettings(data, opts);
     }
 
     toggleBrowserCacheTtl(data: ToggleBrowserCacheTtlData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.toggleBrowserCacheTtl(data), opts);
+        return this.#dataSource.toggleBrowserCacheTtl(data, opts);
     }
 
     toggleAlwaysOnline(data: ToggleAlwaysOnlineData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.toggleAlwaysOnline(data), opts);
+        return this.#dataSource.toggleAlwaysOnline(data, opts);
     }
 
     toggleDevelopmentMode(data: ToggleDevelopmentModeData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.toggleDevelopmentMode(data), opts);
+        return this.#dataSource.toggleDevelopmentMode(data, opts);
     }
 
     toggleCachingLevel(data: ToggleCachingLevelData, opts?: UmbTryExecuteOptions) {
-        return this.#run(V1Resource.toggleCachingLevel(data), opts);
+        return this.#dataSource.toggleCachingLevel(data, opts);
     }
 }
+
+export { UmbHostCloudflarePurgeRepository as api };

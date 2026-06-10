@@ -9,7 +9,7 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitEle
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
             <umb-localize key="umbhostCloudflarePurge_settingsoverviewintroduction"></umb-localize>
         </uui-box>  
-        <section id="umbhost-cloudflare-purdge-overview">
+        <section id="umbhost-cloudflare-purge-overview">
             <uui-box headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewcachingtitle")}>
                 <p>
                     <umb-localize key="umbhostCloudflarePurge_settingsoverviewcachingdescription"></umb-localize>
@@ -46,7 +46,7 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitEle
     }
 
     static styles = css`
-			#umbhost-cloudflare-purdge-overview {
+			#umbhost-cloudflare-purge-overview {
 				display: grid;
 				grid-gap: var(--uui-size-7);
 				grid-template-columns: repeat(3, 1fr);
@@ -60,13 +60,13 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitEle
 			}
 
 			@media (max-width: 1200px) {
-				#umbhost-cloudflare-purdge-overview {
+				#umbhost-cloudflare-purge-overview {
 					grid-template-columns: repeat(2, 1fr);
 				}
 			}
 
 			@media (max-width: 800px) {
-				#umbhost-cloudflare-purdge-overview {
+				#umbhost-cloudflare-purge-overview {
 					grid-template-columns: repeat(1, 1fr);
 				}
 			}

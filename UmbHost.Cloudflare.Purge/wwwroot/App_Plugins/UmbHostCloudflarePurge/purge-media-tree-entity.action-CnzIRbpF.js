@@ -7,9 +7,9 @@ import { UmbEntityActionBase as b, UmbRequestReloadStructureForEntityEvent as x 
 import { UMB_MODAL_MANAGER_CONTEXT as T, UMB_CONFIRM_MODAL as M } from "@umbraco-cms/backoffice/modal";
 import { UmbLocalizationController as N } from "@umbraco-cms/backoffice/localization-api";
 import { UMB_ACTION_EVENT_CONTEXT as q } from "@umbraco-cms/backoffice/action";
-import { UMB_NOTIFICATION_CONTEXT as U } from "@umbraco-cms/backoffice/notification";
-import { UmbMediaItemRepository as A } from "@umbraco-cms/backoffice/media";
-import { U as O } from "./purge.repository-Dhvy131L.js";
+import { UMB_NOTIFICATION_CONTEXT as A } from "@umbraco-cms/backoffice/notification";
+import { UmbMediaItemRepository as O } from "@umbraco-cms/backoffice/media";
+import { UmbHostCloudflarePurgeRepository as P } from "./purge.repository-3zI6xOa3.js";
 var u, r, h, s, _, w, E;
 class k extends b {
   constructor(t, n) {
@@ -17,8 +17,8 @@ class k extends b {
     a(this, s);
     a(this, u);
     a(this, r, new N(this));
-    a(this, h, new O(this));
-    this.consumeContext(U, (c) => {
+    a(this, h, new P(this));
+    this.consumeContext(A, (c) => {
       this._notificationContext = c;
     }), this.consumeContext(T, (c) => {
       y(this, u, c);
@@ -58,7 +58,7 @@ u = new WeakMap(), r = new WeakMap(), h = new WeakMap(), s = new WeakSet(), _ = 
   return !n;
 }, w = async function() {
   if (!this.args.unique) throw new Error("Cannot purge an item without a unique identifier.");
-  const { data: t } = await new A(this).requestItems([this.args.unique]), n = t == null ? void 0 : t[0];
+  const { data: t } = await new O(this).requestItems([this.args.unique]), n = t == null ? void 0 : t[0];
   if (!n) throw new Error("Item not found.");
   return n;
 }, E = async function() {
@@ -75,4 +75,4 @@ export {
   k as PurgeCdnMediaEntityAction,
   k as api
 };
-//# sourceMappingURL=purge-media-tree-entity.action-D0CQkS_X.js.map
+//# sourceMappingURL=purge-media-tree-entity.action-CnzIRbpF.js.map
