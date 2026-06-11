@@ -1,4 +1,5 @@
 import { UMB_DOCUMENT_ENTITY_TYPE } from '@umbraco-cms/backoffice/document';
+import { UMBHOST_CLOUDFLARE_PURGE_IS_CONFIGURED_CONDITION } from '../conditions/manifests';
 
 const dashboardManifest = {
     type: 'dashboard',
@@ -20,6 +21,9 @@ const dashboardManifest = {
         {
             alias: "Umb.Condition.CurrentUser.GroupId",
             oneOf: ["74faa29d-d43d-44bf-b3df-e02e8b38e08f"]
+        },
+        {
+            alias: UMBHOST_CLOUDFLARE_PURGE_IS_CONFIGURED_CONDITION
         }
     ]
 };

@@ -1,14 +1,14 @@
-import { UMB_AUTH_CONTEXT as r } from "@umbraco-cms/backoffice/auth";
+import { UMB_AUTH_CONTEXT as l } from "@umbraco-cms/backoffice/auth";
 import { UMB_DOCUMENT_ENTITY_TYPE as i } from "@umbraco-cms/backoffice/document";
-import { UMB_MEDIA_ENTITY_TYPE as l } from "@umbraco-cms/backoffice/media";
-import { UMB_SETTINGS_SECTION_ALIAS as u } from "@umbraco-cms/backoffice/settings";
-const m = {
+import { UMB_MEDIA_ENTITY_TYPE as u } from "@umbraco-cms/backoffice/media";
+import { UMB_SETTINGS_SECTION_ALIAS as m } from "@umbraco-cms/backoffice/settings";
+const c = {
   type: "entityAction",
   alias: "umbhost-cloudflare-purge-cdn-entity-action-content",
   name: "Cloudflare CDN Purge Content Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-content-tree-entity.action-BrsrezYo.js"),
+  api: () => import("./purge-content-tree-entity.action-BdasRTh7.js"),
   forEntityTypes: [i],
   meta: {
     icon: "icon-cloud",
@@ -20,14 +20,14 @@ const m = {
       allOf: ["UmbHostCloudflarePurgeContent"]
     }
   ]
-}, c = {
+}, d = {
   type: "entityAction",
   alias: "umbhost-cloudflare-purge-cdn-entity-action-media",
   name: "Cloudflare CDN Purge Media Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-media-tree-entity.action-DnnjIxAC.js"),
-  forEntityTypes: [l],
+  api: () => import("./purge-media-tree-entity.action-BJA0ztfB.js"),
+  forEntityTypes: [u],
   meta: {
     icon: "icon-cloud",
     label: "#umbhostCloudflarePurge_entityactionlabel"
@@ -43,14 +43,21 @@ const m = {
       allOf: ["UmbHostCloudflarePurgeMedia"]
     }
   ]
-}, d = [
-  m,
-  c
-], g = {
+}, g = [
+  c,
+  d
+], r = "UmbHost.Cloudflare.Purge.Condition.IsConfigured", p = [
+  {
+    type: "condition",
+    name: "Cloudflare CDN Purge Is Configured Condition",
+    alias: r,
+    api: () => import("./is-configured.condition-CsBKcKEc.js")
+  }
+], f = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
-  element: () => import("./purge-dashboard.element-Dv9-x3qb.js"),
+  element: () => import("./purge-dashboard.element-CAtuHLMT.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
   forEntityTypes: [i],
   weight: 15,
@@ -66,11 +73,14 @@ const m = {
     {
       alias: "Umb.Condition.CurrentUser.GroupId",
       oneOf: ["74faa29d-d43d-44bf-b3df-e02e8b38e08f"]
+    },
+    {
+      alias: r
     }
   ]
-}, p = [
-  g
-], f = {
+}, C = [
+  f
+], b = {
   type: "workspace",
   kind: "default",
   alias: "umbhost-cloudflare-purge-workspace",
@@ -85,22 +95,22 @@ const m = {
       match: "Umb.Section.Settings"
     }
   ]
-}, C = {
+}, h = {
   type: "workspaceContext",
   alias: "UmbHost.CloudflarePurge.CachingContext",
   name: "Cloudflare CDN Purge Caching Context",
-  api: () => import("./caching-workspace.context-D8l7lY_K.js"),
+  api: () => import("./caching-workspace.context-C9ueVYU8.js"),
   conditions: [
     {
       alias: "Umb.Condition.WorkspaceAlias",
       match: "umbhost-cloudflare-purge-workspace"
     }
   ]
-}, b = {
+}, y = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-overview",
   name: "Cloudflare CDN Purge Settings Overview",
-  element: () => import("./overview.element-DlDQYsPJ.js"),
+  element: () => import("./overview.element-BAAhUCN4.js"),
   elementName: "umbhost-cloudflare-purge-settings-overview",
   meta: {
     label: "#umbhostCloudflarePurge_settingsoverview",
@@ -113,11 +123,11 @@ const m = {
       match: "umbhost-cloudflare-purge-workspace"
     }
   ]
-}, h = {
+}, P = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-caching",
   name: "Cloudflare CDN Purge Settings Caching",
-  element: () => import("./caching.element-CB9QmM9q.js"),
+  element: () => import("./caching.element-RxjtIuSY.js"),
   elementName: "umbhost-cloudflare-purge-settings-caching",
   meta: {
     label: "#umbhostCloudflarePurge_settingscaching",
@@ -130,16 +140,16 @@ const m = {
       match: "umbhost-cloudflare-purge-workspace"
     }
   ]
-}, y = [
-  f,
-  C,
+}, E = [
   b,
-  h
-], P = {
+  h,
+  y,
+  P
+], _ = {
   type: "menu",
   alias: "umbhost-cloudflare-purge-settings-menu",
   name: "Cloudflare CDN Purge Settings Menu"
-}, E = {
+}, U = {
   type: "sectionSidebarApp",
   kind: "menu",
   alias: "umbhost-cloudflare-purge-settings-sidebar-menu",
@@ -152,10 +162,10 @@ const m = {
   conditions: [
     {
       alias: "Umb.Condition.SectionAlias",
-      match: u
+      match: m
     }
   ]
-}, _ = {
+}, N = {
   type: "menuItem",
   alias: "umbhost-cloudflare-purge-settings-overview-menu-item",
   name: "Cloudflare CDN Purge Settings Overview Menu Item",
@@ -165,7 +175,7 @@ const m = {
     entityType: "umbhost-cloudflare-purge/overview",
     menus: ["umbhost-cloudflare-purge-settings-menu"]
   }
-}, U = {
+}, T = {
   type: "menuItem",
   alias: "umbhost-cloudflare-purge-settings-caching-menu-item",
   name: "Cloudflare CDN Purge Settings Caching Menu Item",
@@ -175,12 +185,12 @@ const m = {
     entityType: "umbhost-cloudflare-purge/view/caching",
     menus: ["umbhost-cloudflare-purge-settings-menu"]
   }
-}, T = [
-  P,
-  E,
+}, I = [
   _,
-  U
-], N = {
+  U,
+  N,
+  T
+], S = {
   type: "localization",
   alias: "umbhost-cloudflare-purge-localize-en",
   name: "Cloudflare CDN Purge Localization",
@@ -189,8 +199,8 @@ const m = {
   },
   js: () => import("./en-cwmCzk90.js")
 }, A = [
-  N
-], S = {
+  S
+], D = {
   type: "entityUserPermission",
   alias: "umbhost-cloudflare-purge-userpermissions-content",
   name: "Purge Content Items from Cloudflare CDN",
@@ -213,25 +223,26 @@ const m = {
     group: "UmbHost Cloudflare Purge"
   }
 }, w = [
-  S,
+  D,
   v
-], D = "UmbHost.CloudflarePurge.Repository", I = {
+], M = "UmbHost.CloudflarePurge.Repository", O = {
   type: "repository",
-  alias: D,
+  alias: M,
   name: "UmbHost Cloudflare Purge Repository",
-  api: () => import("./purge.repository-9KTWsyr2.js")
-}, M = [
-  I
+  api: () => import("./purge.repository-CdCatEKW.js")
+}, k = [
+  O
 ];
-async function O(o) {
+async function H(o) {
   o.registerMany([
-    ...M,
-    ...p,
+    ...k,
+    ...C,
     ...A,
-    ...d,
-    ...T,
-    ...y,
-    ...w
+    ...g,
+    ...I,
+    ...E,
+    ...w,
+    ...p
   ]);
 }
 class a {
@@ -260,15 +271,15 @@ const s = {
     request: new a(),
     response: new a()
   }
-}, x = (o, t) => {
-  o.consumeContext(r, (e) => {
+}, W = (o, t) => {
+  o.consumeContext(l, (e) => {
     if (!e) return;
     const n = e.getOpenApiConfiguration();
     s.BASE = n.base ?? "", s.CREDENTIALS = n.credentials ?? "same-origin", s.WITH_CREDENTIALS = n.credentials === "include", s.TOKEN = async () => await n.token() ?? "";
-  }), O(t);
+  }), H(t);
 };
 export {
   s as O,
-  x as o
+  W as o
 };
-//# sourceMappingURL=entry-Bg1nCNR0.js.map
+//# sourceMappingURL=entry-Byy6ghBR.js.map

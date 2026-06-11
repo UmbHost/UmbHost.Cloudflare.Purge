@@ -5,6 +5,7 @@ import { manifests as menus } from "./menus/manifests";
 import { manifests as localizations } from "./localization/manifests";
 import { manifests as userpermissions } from "./userpermissions/manifests";
 import { manifests as repository } from "./repository/manifests";
+import { manifests as conditions } from "./conditions/manifests";
 import { UmbBackofficeExtensionRegistry } from "@umbraco-cms/backoffice/extension-registry";
 
 export async function registerManifest(registry : UmbBackofficeExtensionRegistry) {
@@ -15,6 +16,7 @@ export async function registerManifest(registry : UmbBackofficeExtensionRegistry
   ...trees,
   ...menus,
   ...workspaces,
-  ...userpermissions
+  ...userpermissions,
+  ...conditions
   ]);
 }

@@ -84,8 +84,6 @@ export type UmbHostCloudflarePurgeZone = {
 
 export type BrowserTtlOptionsResponse = Array<(EnumDescription)>;
 
-export type GetConfigurationStatusResponse = ConfigurationStatus;
-
 export type GetCacheSettingsData = {
     zoneId?: string;
 };
@@ -122,6 +120,8 @@ export type ToggleDevelopmentModeData = {
 
 export type ToggleDevelopmentModeResponse = DevelopmentMode;
 
+export type GetConfigurationStatusResponse = ConfigurationStatus;
+
 export type AllResponse = unknown;
 
 export type CustomData = {
@@ -150,20 +150,6 @@ export type $OpenApiTs = {
                  * OK
                  */
                 200: Array<(EnumDescription)>;
-                /**
-                 * The resource is protected and requires an authentication token
-                 */
-                401: unknown;
-            };
-        };
-    };
-    '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/configurationstatus': {
-        get: {
-            res: {
-                /**
-                 * OK
-                 */
-                200: ConfigurationStatus;
                 /**
                  * The resource is protected and requires an authentication token
                  */
@@ -273,6 +259,20 @@ export type $OpenApiTs = {
                  * Bad Request
                  */
                 400: string;
+                /**
+                 * The resource is protected and requires an authentication token
+                 */
+                401: unknown;
+            };
+        };
+    };
+    '/umbraco/umbhostcloudflarepurge/v1.0/configuration/status': {
+        get: {
+            res: {
+                /**
+                 * OK
+                 */
+                200: ConfigurationStatus;
                 /**
                  * The resource is protected and requires an authentication token
                  */

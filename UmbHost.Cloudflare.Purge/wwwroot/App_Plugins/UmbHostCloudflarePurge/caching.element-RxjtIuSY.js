@@ -1,8 +1,8 @@
 import { nothing as o, html as r, css as $, state as s, customElement as O } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement as P } from "@umbraco-cms/backoffice/lit-element";
-import "./config-status-alert.element-vi97avF-.js";
+import "./config-status-alert.element-D98q-Vp6.js";
 import { UmbChangeEvent as b } from "@umbraco-cms/backoffice/event";
-import { UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT as T } from "./caching-workspace.context-D8l7lY_K.js";
+import { UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT as T } from "./caching-workspace.context-C9ueVYU8.js";
 var U = Object.defineProperty, M = Object.getOwnPropertyDescriptor, w = (l) => {
   throw TypeError(l);
 }, a = (l, e, i, u) => {
@@ -306,4 +306,4 @@ t = a([
 export {
   t as default
 };
-//# sourceMappingURL=caching.element-CB9QmM9q.js.map
+//# sourceMappingURL=caching.element-RxjtIuSY.js.map

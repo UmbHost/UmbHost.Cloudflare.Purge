@@ -24,5 +24,26 @@ namespace UmbHost.Cloudflare.Purge.Models
 
         /// <summary>An email address has been supplied.</summary>
         public bool HasEmail { get; set; }
+
+        /// <summary>
+        /// Builds a status from the bound configuration, without ever copying the secret values.
+        /// </summary>
+        public static ConfigurationStatus Create(UmbHostCloudflarePurge configuration)
+        {
+            var hasAuthKey = !string.IsNullOrWhiteSpace(configuration.AuthKey);
+            var hasZones = configuration.Zones.Length > 0;
+            var requiresEmail = configuration.AuthType == Enums.AuthTypeEnum.Global;
+            var hasEmail = !string.IsNullOrWhiteSpace(configuration.EmailAddress);
+
+            return new ConfigurationStatus
+            {
+                IsDisabled = configuration.Disabled,
+                HasAuthKey = hasAuthKey,
+                HasZones = hasZones,
+                RequiresEmail = requiresEmail,
+                HasEmail = hasEmail,
+                IsConfigured = hasAuthKey && hasZones && (!requiresEmail || hasEmail)
+            };
+        }
     }
 }

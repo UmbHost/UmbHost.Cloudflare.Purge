@@ -3,7 +3,7 @@
 import type { CancelablePromise } from './core/CancelablePromise';
 import { OpenAPI } from './core/OpenAPI';
 import { request as __request } from './core/request';
-import type { BrowserTtlOptionsResponse, GetConfigurationStatusResponse, GetCacheSettingsData, GetCacheSettingsResponse, GetZonesResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
+import type { BrowserTtlOptionsResponse, GetCacheSettingsData, GetCacheSettingsResponse, GetZonesResponse, ToggleAlwaysOnlineData, ToggleAlwaysOnlineResponse, ToggleBrowserCacheTtlData, ToggleBrowserCacheTtlResponse, ToggleCachingLevelData, ToggleCachingLevelResponse, ToggleDevelopmentModeData, ToggleDevelopmentModeResponse, GetConfigurationStatusResponse, AllResponse, CustomData, CustomResponse, MediaFolderData, MediaFolderResponse, NodeData, NodeResponse } from './types.gen';
 
 export class V1Resource {
     /**
@@ -14,20 +14,6 @@ export class V1Resource {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions',
-            errors: {
-                401: 'The resource is protected and requires an authentication token'
-            }
-        });
-    }
-    
-    /**
-     * @returns unknown OK
-     * @throws ApiError
-     */
-    public static getConfigurationStatus(): CancelablePromise<GetConfigurationStatusResponse> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/configurationstatus',
             errors: {
                 401: 'The resource is protected and requires an authentication token'
             }
@@ -155,6 +141,20 @@ export class V1Resource {
             mediaType: 'application/json',
             errors: {
                 400: 'Bad Request',
+                401: 'The resource is protected and requires an authentication token'
+            }
+        });
+    }
+    
+    /**
+     * @returns unknown OK
+     * @throws ApiError
+     */
+    public static getConfigurationStatus(): CancelablePromise<GetConfigurationStatusResponse> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/umbraco/umbhostcloudflarepurge/v1.0/configuration/status',
+            errors: {
                 401: 'The resource is protected and requires an authentication token'
             }
         });
