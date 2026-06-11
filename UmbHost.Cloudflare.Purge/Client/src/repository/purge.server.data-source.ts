@@ -48,6 +48,10 @@ export class UmbHostCloudflarePurgeServerDataSource extends UmbControllerBase {
         return this.#run(V1Resource.getZones(), opts);
     }
 
+    getConfigurationStatus(opts?: UmbTryExecuteOptions) {
+        return this.#run(V1Resource.getConfigurationStatus(), opts);
+    }
+
     getBrowserTtlOptions(opts?: UmbTryExecuteOptions) {
         return this.#run(V1Resource.browserTtlOptions(), opts);
     }

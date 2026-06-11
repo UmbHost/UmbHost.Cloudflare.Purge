@@ -1,13 +1,15 @@
-import { html as s, css as n, customElement as m } from "@umbraco-cms/backoffice/external/lit";
-import { UmbLitElement as b } from "@umbraco-cms/backoffice/lit-element";
-var c = Object.getOwnPropertyDescriptor, g = (u, o, a, r) => {
-  for (var e = r > 1 ? void 0 : r ? c(o, a) : o, t = u.length - 1, l; t >= 0; t--)
+import { html as s, css as m, customElement as n } from "@umbraco-cms/backoffice/external/lit";
+import { UmbLitElement as c } from "@umbraco-cms/backoffice/lit-element";
+import "./config-status-alert.element-vi97avF-.js";
+var g = Object.getOwnPropertyDescriptor, b = (u, o, a, r) => {
+  for (var e = r > 1 ? void 0 : r ? g(o, a) : o, t = u.length - 1, l; t >= 0; t--)
     (l = u[t]) && (e = l(e) || e);
   return e;
 };
-let i = class extends b {
+let i = class extends c {
   render() {
-    return s`   
+    return s`
+        <umbhost-cloudflare-purge-config-status-alert></umbhost-cloudflare-purge-config-status-alert>
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
             <umb-localize key="umbhostCloudflarePurge_settingsoverviewintroduction"></umb-localize>
         </uui-box>  
@@ -47,7 +49,7 @@ let i = class extends b {
     `;
   }
 };
-i.styles = n`
+i.styles = m`
 			#umbhost-cloudflare-purge-overview {
 				display: grid;
 				grid-gap: var(--uui-size-7);
@@ -73,6 +75,11 @@ i.styles = n`
 				}
 			}
 
+            umbhost-cloudflare-purge-config-status-alert {
+                display: block;
+                margin: var(--uui-size-layout-1) var(--uui-size-layout-1) 0;
+            }
+
             .introduction {
                 margin-top: var(--uui-size-layout-1);
                 margin-left: var(--uui-size-layout-1);
@@ -85,10 +92,10 @@ i.styles = n`
 				gap: var(--uui-size-space-2);
 			}
   `;
-i = g([
-  m("umbhost-cloudflare-purge-settings-overview")
+i = b([
+  n("umbhost-cloudflare-purge-settings-overview")
 ], i);
 export {
   i as default
 };
-//# sourceMappingURL=overview.element-D8e49N54.js.map
+//# sourceMappingURL=overview.element-DlDQYsPJ.js.map

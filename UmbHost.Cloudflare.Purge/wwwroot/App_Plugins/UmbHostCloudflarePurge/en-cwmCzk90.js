@@ -69,10 +69,17 @@ const t = {
     usercontentpermissionslabel: "Purge Content Items from Cloudflare CDN",
     usercontentpermissionsdescription: "Allow user to purge Cloudflare CDN cache for content items.",
     purgeitemsuccesstitle: (e) => `${e} purged successfully`,
-    purgeitemsuccesscontent: "Please allow 30 seconds to propagate globally"
+    purgeitemsuccesscontent: "Please allow 30 seconds to propagate globally",
+    confignotconfiguredtitle: "Cloudflare is not configured",
+    confignotconfiguredintro: "The Cloudflare CDN Purge package cannot connect to Cloudflare until the following is added to your configuration:",
+    confignotconfiguredauthkey: "An API token or Global API key",
+    confignotconfiguredemail: "The account email address (required when using the Global API key)",
+    confignotconfiguredzones: "At least one zone (domain and zone ID)",
+    configdisabledtitle: "Cloudflare CDN Purge is disabled",
+    configdisabledcontent: "The package has been disabled in configuration. Purging and cache settings are unavailable until it is re-enabled."
   }
 };
 export {
   t as default
 };
-//# sourceMappingURL=en-BrDR60BA.js.map
+//# sourceMappingURL=en-cwmCzk90.js.map

@@ -1,11 +1,13 @@
 import { html, customElement, css } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
+import "../components/config-status-alert.element";
 
 @customElement('umbhost-cloudflare-purge-settings-overview')
 export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitElement {
 
     render() {
-        return html`   
+        return html`
+        <umbhost-cloudflare-purge-config-status-alert></umbhost-cloudflare-purge-config-status-alert>
         <uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_settingsoverviewtitle")}>
             <umb-localize key="umbhostCloudflarePurge_settingsoverviewintroduction"></umb-localize>
         </uui-box>  
@@ -70,6 +72,11 @@ export default class UmbHostCloudflarePurgeOverviewViewElement extends UmbLitEle
 					grid-template-columns: repeat(1, 1fr);
 				}
 			}
+
+            umbhost-cloudflare-purge-config-status-alert {
+                display: block;
+                margin: var(--uui-size-layout-1) var(--uui-size-layout-1) 0;
+            }
 
             .introduction {
                 margin-top: var(--uui-size-layout-1);

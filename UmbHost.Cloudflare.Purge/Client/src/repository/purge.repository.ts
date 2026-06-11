@@ -60,6 +60,11 @@ export class UmbHostCloudflarePurgeRepository extends UmbControllerBase {
         return this.#dataSource.getBrowserTtlOptions(opts);
     }
 
+    /** Reports whether the package is configured (no secret values are returned). */
+    getConfigurationStatus(opts?: UmbTryExecuteOptions) {
+        return this.#dataSource.getConfigurationStatus(opts);
+    }
+
     getCacheSettings(data: GetCacheSettingsData, opts?: UmbTryExecuteOptions) {
         return this.#dataSource.getCacheSettings(data, opts);
     }

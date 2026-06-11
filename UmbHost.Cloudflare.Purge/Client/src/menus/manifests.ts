@@ -11,7 +11,7 @@ const settingsMenu = {
     kind: 'menu',
     alias: 'umbhost-cloudflare-purge-settings-sidebar-menu',
     name: 'Cloudflare CDN Purge Settings Menu',
-    weight: -100,
+    weight: 1000,
     meta: {
         label: '#umbhostCloudflarePurge_cloudflare',
         menu: 'umbhost-cloudflare-purge-settings-menu',

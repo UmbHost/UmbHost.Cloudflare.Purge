@@ -1,5 +1,6 @@
 import { html, customElement, css, state, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement } from "@umbraco-cms/backoffice/lit-element";
+import "../components/config-status-alert.element";
 import { BrowserTtlOptionsResponse } from "../backend-api"
 import { UmbInputRadioButtonListElement, UmbInputToggleElement } from "@umbraco-cms/backoffice/components";
 import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
@@ -147,6 +148,9 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 			<uui-box class="introduction" headline=${this.localize.term("umbhostCloudflarePurge_cachingtitle")}>
 				<p><umb-localize key="umbhostCloudflarePurge_cachingintroduction"></umb-localize></p>
 
+				<umbhost-cloudflare-purge-config-status-alert></umbhost-cloudflare-purge-config-status-alert>
+
+				${this.zones && this.zones.length > 0 ? html`
 					<uui-label for="zone">${this.localize.term("umbhostCloudflarePurge_selectdomain")}: </uui-label>
 					<uui-select id="zone"
 					required=""
@@ -156,6 +160,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 						@change=${this.#getZoneSettings}
 						>
 					</uui-select>
+				` : nothing}
 			</uui-box>
 
 		${this.firstLoad ? nothing : html`

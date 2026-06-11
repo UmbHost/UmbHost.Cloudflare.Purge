@@ -128,6 +128,31 @@ namespace UmbHost.Cloudflare.Purge.Controllers.Api
             return new JsonResult(_configuration.Zones);
         }
 
+        [HttpGet("configurationstatus")]
+        [MapToApiVersion("1.0")]
+        [ProducesResponseType<ConfigurationStatus>(StatusCodes.Status200OK)]
+        public IActionResult GetConfigurationStatus()
+        {
+            // Deliberately does not short-circuit on Disabled: reporting the
+            // disabled (and unconfigured) state is the whole point of this endpoint.
+            var hasAuthKey = !string.IsNullOrWhiteSpace(_configuration.AuthKey);
+            var hasZones = _configuration.Zones.Length > 0;
+            var requiresEmail = _configuration.AuthType == Enums.AuthTypeEnum.Global;
+            var hasEmail = !string.IsNullOrWhiteSpace(_configuration.EmailAddress);
+
+            var status = new ConfigurationStatus
+            {
+                IsDisabled = _configuration.Disabled,
+                HasAuthKey = hasAuthKey,
+                HasZones = hasZones,
+                RequiresEmail = requiresEmail,
+                HasEmail = hasEmail,
+                IsConfigured = hasAuthKey && hasZones && (!requiresEmail || hasEmail)
+            };
+
+            return new JsonResult(status);
+        }
+
         private static string GetEnumDescription(Enum value)
         {
             var field = value.GetType().GetField(value.ToString());

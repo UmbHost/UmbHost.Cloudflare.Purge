@@ -1,17 +1,17 @@
 var j = (r) => {
   throw TypeError(r);
 };
-var R = (r, e, t) => e.has(r) || j("Cannot " + t);
-var d = (r, e, t) => (R(r, e, "read from private field"), t ? t.call(r) : e.get(r)), C = (r, e, t) => e.has(r) ? j("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(r) : e.set(r, t), B = (r, e, t, o) => (R(r, e, "write to private field"), o ? o.call(r, t) : e.set(r, t), t), h = (r, e, t) => (R(r, e, "access private method"), t);
+var C = (r, e, t) => e.has(r) || j("Cannot " + t);
+var l = (r, e, t) => (C(r, e, "read from private field"), t ? t.call(r) : e.get(r)), R = (r, e, t) => e.has(r) ? j("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(r) : e.set(r, t), v = (r, e, t, o) => (C(r, e, "write to private field"), o ? o.call(r, t) : e.set(r, t), t), d = (r, e, t) => (C(r, e, "access private method"), t);
 import { UmbControllerBase as A } from "@umbraco-cms/backoffice/class-api";
-import { tryExecute as H } from "@umbraco-cms/backoffice/resources";
-import { O as g } from "./entry-KojBnExs.js";
-class v extends Error {
+import { tryExecute as I } from "@umbraco-cms/backoffice/resources";
+import { O as h } from "./entry-Bg1nCNR0.js";
+class B extends Error {
   constructor(e, t, o) {
     super(o), this.name = "ApiError", this.url = t.url, this.status = t.status, this.statusText = t.statusText, this.body = t.body, this.request = e;
   }
 }
-class I extends Error {
+class D extends Error {
   constructor(e) {
     super(e), this.name = "CancelError";
   }
@@ -19,7 +19,7 @@ class I extends Error {
     return !0;
   }
 }
-class N {
+class H {
   constructor(e) {
     this._isResolved = !1, this._isRejected = !1, this._isCancelled = !1, this.cancelHandlers = [], this.promise = new Promise((t, o) => {
       this._resolve = t, this._reject = o;
@@ -61,14 +61,14 @@ class N {
           console.warn("Cancellation threw an error", e);
           return;
         }
-      this.cancelHandlers.length = 0, this._reject && this._reject(new I("Request aborted"));
+      this.cancelHandlers.length = 0, this._reject && this._reject(new D("Request aborted"));
     }
   }
   get isCancelled() {
     return this._isCancelled;
   }
 }
-const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r instanceof Blob, O = (r) => r instanceof FormData, D = (r) => {
+const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r instanceof Blob, E = (r) => r instanceof FormData, N = (r) => {
   try {
     return btoa(r);
   } catch {
@@ -81,7 +81,7 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
     n != null && (n instanceof Date ? t(s, n.toISOString()) : Array.isArray(n) ? n.forEach((a) => o(s, a)) : typeof n == "object" ? Object.entries(n).forEach(([a, i]) => o(`${s}[${a}]`, i)) : t(s, n));
   };
   return Object.entries(r).forEach(([s, n]) => o(s, n)), e.length ? `?${e.join("&")}` : "";
-}, U = (r, e) => {
+}, k = (r, e) => {
   const t = encodeURI, o = e.url.replace("{api-version}", r.VERSION).replace(/{(.*?)}/g, (n, a) => {
     var i;
     return (i = e.path) != null && i.hasOwnProperty(a) ? t(String(e.path[a])) : n;
@@ -96,7 +96,7 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
       Array.isArray(s) ? s.forEach((n) => t(o, n)) : t(o, s);
     }), e;
   }
-}, T = async (r, e) => typeof e == "function" ? e(r) : e, k = async (r, e) => {
+}, T = async (r, e) => typeof e == "function" ? e(r) : e, U = async (r, e) => {
   const [t, o, s, n] = await Promise.all([
     T(e, r.TOKEN),
     T(e, r.USERNAME),
@@ -106,19 +106,19 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
     Accept: "application/json",
     ...n,
     ...e.headers
-  }).filter(([, i]) => i != null).reduce((i, [f, l]) => ({
+  }).filter(([, i]) => i != null).reduce((i, [f, m]) => ({
     ...i,
-    [f]: String(l)
+    [f]: String(m)
   }), {});
   if (q(t) && (a.Authorization = `Bearer ${t}`), q(o) && q(s)) {
-    const i = D(`${o}:${s}`);
+    const i = N(`${o}:${s}`);
     a.Authorization = `Basic ${i}`;
   }
-  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : w(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : b(e.body) ? a["Content-Type"] = "text/plain" : O(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
+  return e.body !== void 0 && (e.mediaType ? a["Content-Type"] = e.mediaType : w(e.body) ? a["Content-Type"] = e.body.type || "application/octet-stream" : b(e.body) ? a["Content-Type"] = "text/plain" : E(e.body) || (a["Content-Type"] = "application/json")), new Headers(a);
 }, L = (r) => {
   var e, t;
   if (r.body !== void 0)
-    return (e = r.mediaType) != null && e.includes("application/json") || (t = r.mediaType) != null && t.includes("+json") ? JSON.stringify(r.body) : b(r.body) || w(r.body) || O(r.body) ? r.body : JSON.stringify(r.body);
+    return (e = r.mediaType) != null && e.includes("application/json") || (t = r.mediaType) != null && t.includes("+json") ? JSON.stringify(r.body) : b(r.body) || w(r.body) || E(r.body) ? r.body : JSON.stringify(r.body);
 }, F = async (r, e, t, o, s, n, a) => {
   const i = new AbortController();
   let f = {
@@ -128,8 +128,8 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
     signal: i.signal
   };
   r.WITH_CREDENTIALS && (f.credentials = r.CREDENTIALS);
-  for (const l of r.interceptors.request._fns)
-    f = await l(f);
+  for (const m of r.interceptors.request._fns)
+    f = await m(f);
   return a(() => i.abort()), await fetch(t, f);
 }, $ = (r, e) => {
   if (e) {
@@ -200,7 +200,7 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
     ...r.errors
   }[e.status];
   if (o)
-    throw new v(r, e, o);
+    throw new B(r, e, o);
   if (!e.ok) {
     const s = e.status ?? "unknown", n = e.statusText ?? "unknown", a = (() => {
       try {
@@ -209,25 +209,25 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
         return;
       }
     })();
-    throw new v(
+    throw new B(
       r,
       e,
       `Generic Error: status: ${s}; status text: ${n}; body: ${a}`
     );
   }
-}, p = (r, e) => new N(async (t, o, s) => {
+}, g = (r, e) => new H(async (t, o, s) => {
   try {
-    const n = U(r, e), a = z(e), i = L(e), f = await k(r, e);
+    const n = k(r, e), a = z(e), i = L(e), f = await U(r, e);
     if (!s.isCancelled) {
-      let l = await F(r, e, n, i, a, f, s);
+      let m = await F(r, e, n, i, a, f, s);
       for (const P of r.interceptors.response._fns)
-        l = await P(l);
-      const _ = await M(l), E = $(l, e.responseHeader), S = {
+        m = await P(m);
+      const O = await M(m), _ = $(m, e.responseHeader), S = {
         url: n,
-        ok: l.ok,
-        status: l.status,
-        statusText: l.statusText,
-        body: E ?? _
+        ok: m.ok,
+        status: m.status,
+        statusText: m.statusText,
+        body: _ ?? O
       };
       G(e, S), t(S.body);
     }
@@ -241,9 +241,22 @@ class y {
    * @throws ApiError
    */
   static browserTtlOptions() {
-    return p(g, {
+    return g(h, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions",
+      errors: {
+        401: "The resource is protected and requires an authentication token"
+      }
+    });
+  }
+  /**
+   * @returns unknown OK
+   * @throws ApiError
+   */
+  static getConfigurationStatus() {
+    return g(h, {
+      method: "GET",
+      url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/configurationstatus",
       errors: {
         401: "The resource is protected and requires an authentication token"
       }
@@ -256,7 +269,7 @@ class y {
    * @throws ApiError
    */
   static getCacheSettings(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getcachesettings",
       query: {
@@ -273,7 +286,7 @@ class y {
    * @throws ApiError
    */
   static getZones() {
-    return p(g, {
+    return g(h, {
       method: "GET",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/getzones",
       errors: {
@@ -289,7 +302,7 @@ class y {
    * @throws ApiError
    */
   static toggleAlwaysOnline(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline",
       query: {
@@ -311,7 +324,7 @@ class y {
    * @throws ApiError
    */
   static toggleBrowserCacheTtl(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl",
       query: {
@@ -333,7 +346,7 @@ class y {
    * @throws ApiError
    */
   static toggleCachingLevel(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel",
       query: {
@@ -355,7 +368,7 @@ class y {
    * @throws ApiError
    */
   static toggleDevelopmentMode(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode",
       query: {
@@ -370,14 +383,13 @@ class y {
     });
   }
   /**
-   * @returns string Accepted
+   * @returns unknown Accepted
    * @throws ApiError
    */
   static all() {
-    return p(g, {
+    return g(h, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/all",
-      responseHeader: "Umb-Notifications",
       errors: {
         400: "Bad Request",
         401: "The resource is protected and requires an authentication token"
@@ -387,16 +399,15 @@ class y {
   /**
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns string Accepted
+   * @returns unknown Accepted
    * @throws ApiError
    */
   static custom(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/custom",
       body: e.requestBody,
       mediaType: "application/json",
-      responseHeader: "Umb-Notifications",
       errors: {
         400: "Bad Request",
         401: "The resource is protected and requires an authentication token"
@@ -406,16 +417,15 @@ class y {
   /**
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns string Accepted
+   * @returns unknown Accepted
    * @throws ApiError
    */
   static mediaFolder(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/mediafolder",
       body: e.requestBody,
       mediaType: "application/json",
-      responseHeader: "Umb-Notifications",
       errors: {
         400: "Bad Request",
         401: "The resource is protected and requires an authentication token"
@@ -425,16 +435,15 @@ class y {
   /**
    * @param data The data for the request.
    * @param data.requestBody
-   * @returns string Accepted
+   * @returns unknown Accepted
    * @throws ApiError
    */
   static node(e = {}) {
-    return p(g, {
+    return g(h, {
       method: "POST",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/purge/node",
       body: e.requestBody,
       mediaType: "application/json",
-      responseHeader: "Umb-Notifications",
       errors: {
         400: "Bad Request",
         401: "The resource is protected and requires an authentication token"
@@ -442,87 +451,94 @@ class y {
     });
   }
 }
-var u, m;
+var u, p;
 class V extends A {
   constructor() {
     super(...arguments);
-    C(this, u);
+    R(this, u);
   }
   purgeAll(t) {
-    return h(this, u, m).call(this, y.all(), t);
+    return d(this, u, p).call(this, y.all(), t);
   }
   purgeCustom(t, o) {
-    return h(this, u, m).call(this, y.custom(t), o);
+    return d(this, u, p).call(this, y.custom(t), o);
   }
   purgeNode(t, o) {
-    return h(this, u, m).call(this, y.node(t), o);
+    return d(this, u, p).call(this, y.node(t), o);
   }
   getZones(t) {
-    return h(this, u, m).call(this, y.getZones(), t);
+    return d(this, u, p).call(this, y.getZones(), t);
+  }
+  getConfigurationStatus(t) {
+    return d(this, u, p).call(this, y.getConfigurationStatus(), t);
   }
   getBrowserTtlOptions(t) {
-    return h(this, u, m).call(this, y.browserTtlOptions(), t);
+    return d(this, u, p).call(this, y.browserTtlOptions(), t);
   }
   getCacheSettings(t, o) {
-    return h(this, u, m).call(this, y.getCacheSettings(t), o);
+    return d(this, u, p).call(this, y.getCacheSettings(t), o);
   }
   toggleBrowserCacheTtl(t, o) {
-    return h(this, u, m).call(this, y.toggleBrowserCacheTtl(t), o);
+    return d(this, u, p).call(this, y.toggleBrowserCacheTtl(t), o);
   }
   toggleAlwaysOnline(t, o) {
-    return h(this, u, m).call(this, y.toggleAlwaysOnline(t), o);
+    return d(this, u, p).call(this, y.toggleAlwaysOnline(t), o);
   }
   toggleDevelopmentMode(t, o) {
-    return h(this, u, m).call(this, y.toggleDevelopmentMode(t), o);
+    return d(this, u, p).call(this, y.toggleDevelopmentMode(t), o);
   }
   toggleCachingLevel(t, o) {
-    return h(this, u, m).call(this, y.toggleCachingLevel(t), o);
+    return d(this, u, p).call(this, y.toggleCachingLevel(t), o);
   }
 }
-u = new WeakSet(), m = async function(t, o) {
-  const s = await H(this, t, o), n = s == null ? void 0 : s.error;
+u = new WeakSet(), p = async function(t, o) {
+  const s = await I(this, t, o), n = s == null ? void 0 : s.error;
   return n ? { error: n } : { data: s };
 };
 var c;
 class Q extends A {
   constructor(t) {
     super(t);
-    C(this, c);
-    B(this, c, new V(this));
+    R(this, c);
+    v(this, c, new V(this));
   }
   purgeAll(t) {
-    return d(this, c).purgeAll(t);
+    return l(this, c).purgeAll(t);
   }
   purgeCustom(t, o) {
-    return d(this, c).purgeCustom(t, o);
+    return l(this, c).purgeCustom(t, o);
   }
   purgeNode(t, o) {
-    return d(this, c).purgeNode(t, o);
+    return l(this, c).purgeNode(t, o);
   }
   /** Returns the configured zones mapped to UI-ready options for selects. */
   async getZoneOptions(t) {
-    const { data: o, error: s } = await d(this, c).getZones(t);
+    const { data: o, error: s } = await l(this, c).getZones(t);
     return s ? { error: s } : {
       data: (o == null ? void 0 : o.map((n) => ({ name: n.domain, value: n.zoneId }))) ?? []
     };
   }
   getBrowserTtlOptions(t) {
-    return d(this, c).getBrowserTtlOptions(t);
+    return l(this, c).getBrowserTtlOptions(t);
+  }
+  /** Reports whether the package is configured (no secret values are returned). */
+  getConfigurationStatus(t) {
+    return l(this, c).getConfigurationStatus(t);
   }
   getCacheSettings(t, o) {
-    return d(this, c).getCacheSettings(t, o);
+    return l(this, c).getCacheSettings(t, o);
   }
   toggleBrowserCacheTtl(t, o) {
-    return d(this, c).toggleBrowserCacheTtl(t, o);
+    return l(this, c).toggleBrowserCacheTtl(t, o);
   }
   toggleAlwaysOnline(t, o) {
-    return d(this, c).toggleAlwaysOnline(t, o);
+    return l(this, c).toggleAlwaysOnline(t, o);
   }
   toggleDevelopmentMode(t, o) {
-    return d(this, c).toggleDevelopmentMode(t, o);
+    return l(this, c).toggleDevelopmentMode(t, o);
   }
   toggleCachingLevel(t, o) {
-    return d(this, c).toggleCachingLevel(t, o);
+    return l(this, c).toggleCachingLevel(t, o);
   }
 }
 c = new WeakMap();
@@ -530,4 +546,4 @@ export {
   Q as UmbHostCloudflarePurgeRepository,
   Q as api
 };
-//# sourceMappingURL=purge.repository-3zI6xOa3.js.map
+//# sourceMappingURL=purge.repository-9KTWsyr2.js.map

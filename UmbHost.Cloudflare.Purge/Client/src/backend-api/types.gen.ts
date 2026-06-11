@@ -32,6 +32,15 @@ export type CacheLevel = {
 
 export type CacheLevelEnum = 'aggressive' | 'basic' | 'simplified';
 
+export type ConfigurationStatus = {
+    isConfigured: boolean;
+    isDisabled: boolean;
+    hasAuthKey: boolean;
+    hasZones: boolean;
+    requiresEmail: boolean;
+    hasEmail: boolean;
+};
+
 export type DevelopmentMode = {
     id: string;
     value: SettingsValueEnum;
@@ -44,8 +53,6 @@ export type EnumDescription = {
     value: number;
     name: string;
 };
-
-export type EventMessageTypeModel = 'Default' | 'Info' | 'Error' | 'Success' | 'Warning';
 
 export type NewAlwaysOnline = {
     value: string;
@@ -63,12 +70,6 @@ export type NewDevelopmentMode = {
     value: string;
 };
 
-export type NotificationHeaderModel = {
-    message: string;
-    category: string;
-    type: EventMessageTypeModel;
-};
-
 export type SettingsValueEnum = 'on' | 'off' | 'lossless' | 'lossy';
 
 export type TreePurge = {
@@ -82,6 +83,8 @@ export type UmbHostCloudflarePurgeZone = {
 };
 
 export type BrowserTtlOptionsResponse = Array<(EnumDescription)>;
+
+export type GetConfigurationStatusResponse = ConfigurationStatus;
 
 export type GetCacheSettingsData = {
     zoneId?: string;
@@ -119,25 +122,25 @@ export type ToggleDevelopmentModeData = {
 
 export type ToggleDevelopmentModeResponse = DevelopmentMode;
 
-export type AllResponse = string;
+export type AllResponse = unknown;
 
 export type CustomData = {
     requestBody?: Array<(string)>;
 };
 
-export type CustomResponse = string;
+export type CustomResponse = unknown;
 
 export type MediaFolderData = {
     requestBody?: number;
 };
 
-export type MediaFolderResponse = string;
+export type MediaFolderResponse = unknown;
 
 export type NodeData = {
     requestBody?: TreePurge;
 };
 
-export type NodeResponse = string;
+export type NodeResponse = unknown;
 
 export type $OpenApiTs = {
     '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/browserttloptions': {
@@ -147,6 +150,20 @@ export type $OpenApiTs = {
                  * OK
                  */
                 200: Array<(EnumDescription)>;
+                /**
+                 * The resource is protected and requires an authentication token
+                 */
+                401: unknown;
+            };
+        };
+    };
+    '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/configurationstatus': {
+        get: {
+            res: {
+                /**
+                 * OK
+                 */
+                200: ConfigurationStatus;
                 /**
                  * The resource is protected and requires an authentication token
                  */
@@ -269,11 +286,11 @@ export type $OpenApiTs = {
                 /**
                  * Accepted
                  */
-                202: string;
+                202: unknown;
                 /**
                  * Bad Request
                  */
-                400: string;
+                400: unknown;
                 /**
                  * The resource is protected and requires an authentication token
                  */
@@ -288,11 +305,11 @@ export type $OpenApiTs = {
                 /**
                  * Accepted
                  */
-                202: string;
+                202: unknown;
                 /**
                  * Bad Request
                  */
-                400: string;
+                400: unknown;
                 /**
                  * The resource is protected and requires an authentication token
                  */
@@ -307,11 +324,11 @@ export type $OpenApiTs = {
                 /**
                  * Accepted
                  */
-                202: string;
+                202: unknown;
                 /**
                  * Bad Request
                  */
-                400: string;
+                400: unknown;
                 /**
                  * The resource is protected and requires an authentication token
                  */
@@ -326,11 +343,11 @@ export type $OpenApiTs = {
                 /**
                  * Accepted
                  */
-                202: string;
+                202: unknown;
                 /**
                  * Bad Request
                  */
-                400: string;
+                400: unknown;
                 /**
                  * The resource is protected and requires an authentication token
                  */

@@ -10,7 +10,7 @@ import { UmbDocumentItemRepository as q } from "@umbraco-cms/backoffice/document
 import { UMB_ACTION_EVENT_CONTEXT as O } from "@umbraco-cms/backoffice/action";
 import { UMB_NOTIFICATION_CONTEXT as M } from "@umbraco-cms/backoffice/notification";
 import { UMB_APP_LANGUAGE_CONTEXT as v } from "@umbraco-cms/backoffice/language";
-import { UmbHostCloudflarePurgeRepository as I } from "./purge.repository-3zI6xOa3.js";
+import { UmbHostCloudflarePurgeRepository as I } from "./purge.repository-9KTWsyr2.js";
 var m, u, g, r, w, x, E, N;
 class S extends A {
   constructor(t, n) {
@@ -86,4 +86,4 @@ export {
   S as PurgeCdnContentEntityAction,
   S as api
 };
-//# sourceMappingURL=purge-content-tree-entity.action-DDd_EN1D.js.map
+//# sourceMappingURL=purge-content-tree-entity.action-BrsrezYo.js.map
