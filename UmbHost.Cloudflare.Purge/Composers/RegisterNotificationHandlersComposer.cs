@@ -10,9 +10,12 @@ namespace UmbHost.Cloudflare.Purge.Composers
     {
         public void Compose(IUmbracoBuilder builder)
         {
+            builder.AddNotificationAsyncHandler<ContentPublishingNotification, ContentPublishingNotificationHandler>();
             builder.AddNotificationAsyncHandler<ContentPublishedNotification, ContentPublishedNotificationHandler>();
             builder.AddNotificationAsyncHandler<ContentUnpublishedNotification, ContentUnpublishedNotificationHandler>();
             builder.AddNotificationAsyncHandler<ContentDeletedNotification, ContentDeletedNotificationHandler>();
+            builder.AddNotificationAsyncHandler<ContentMovingNotification, ContentMovingNotificationHandler>();
+            builder.AddNotificationAsyncHandler<ContentMovedNotification, ContentMovedNotificationHandler>();
             builder.AddNotificationAsyncHandler<MediaSavedNotification, MediaSavedNotificationHandler>();
             builder.AddNotificationAsyncHandler<MediaDeletedNotification, MediaDeletedNotificationHandler>();
         }

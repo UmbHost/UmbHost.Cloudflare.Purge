@@ -13,6 +13,7 @@ namespace UmbHost.Cloudflare.Purge.Composers
         {
             builder.Services.Configure<UmbHostCloudflarePurge>(builder.Config.GetSection(Constants.PackageName));
             builder.Services.AddTransient<ICloudflareService, CloudflareService>();
+            builder.Services.AddTransient<ICloudflarePurgeUrlService, CloudflarePurgeUrlService>();
         }
     }
 }

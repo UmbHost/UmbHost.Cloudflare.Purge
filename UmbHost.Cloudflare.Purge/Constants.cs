@@ -11,6 +11,12 @@ namespace UmbHost.Cloudflare.Purge
 
         public const string PackageName = "UmbHostCloudflarePurge";
 
+        /// <summary>
+        /// Shared <see cref="Umbraco.Cms.Core.Notifications.StatefulNotification.State"/> key used to carry the
+        /// previous (pre-change) absolute URLs captured in a "-ing" handler through to its paired "-ed" handler.
+        /// </summary>
+        internal const string UrlChangeOldUrlsStateKey = "UmbHostCloudflarePurge:UrlChangeOldUrls";
+
         public const string CloudflareApiUrl = "https://api.cloudflare.com/";
         public const string CloudflareApiVersion = "v4";
 

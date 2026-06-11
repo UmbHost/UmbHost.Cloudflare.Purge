@@ -30,6 +30,16 @@ namespace UmbHost.Cloudflare.Purge.NotificationHandlers.Content
 
                 await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = urlsToPurge.ToArray() });
             }
+
+            // Purge the old self+descendant URLs captured by ContentPublishingNotificationHandler
+            // when this publish changed the node's URL segment.
+            if (_configuration is { Disabled: false, NotificationHandlers.ContentUrlChangePurgeEnabled: true }
+                && notification.State.TryGetValue(Constants.UrlChangeOldUrlsStateKey, out var stored)
+                && stored is IReadOnlyCollection<string> oldUrls
+                && oldUrls.Count > 0)
+            {
+                await cloudflareService.CustomPurge(new PurgeFilesRequest { Files = oldUrls.ToArray() });
+            }
         }
     }
 }

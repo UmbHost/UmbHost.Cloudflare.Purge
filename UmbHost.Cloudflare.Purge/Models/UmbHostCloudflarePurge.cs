@@ -19,6 +19,18 @@ namespace UmbHost.Cloudflare.Purge.Models
         public bool ContentUnpublishedNotificationEnabled { get; set; } = true;
         public bool MediaDeletedNotificationEnabled { get; set; } = true;
         public bool MediaSavedNotificationEnabled { get; set; } = true;
+
+        /// <summary>
+        /// When a published node's URL segment changes, also purge the previous (now-stale)
+        /// absolute URLs of that node and all of its published descendants.
+        /// </summary>
+        public bool ContentUrlChangePurgeEnabled { get; set; } = true;
+
+        /// <summary>
+        /// When a node is moved, purge the previous (now-stale) absolute URLs of that node
+        /// and all of its published descendants.
+        /// </summary>
+        public bool ContentMovedNotificationEnabled { get; set; } = true;
     }
 
     public class UmbHostCloudflarePurgeZone
