@@ -2,9 +2,9 @@ name: Package up Release.
 
 on:
   push:
-    branches:
-      - master
-    
+    tags:
+      - 'v*'
+
 jobs:
 
   build:
@@ -30,7 +30,6 @@ jobs:
       uses: actions/checkout@v3
       with:
         fetch-depth: 0
-        ref: master
     
     - name: Retrieve cache
       uses: actions/cache@v3
