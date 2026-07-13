@@ -1,10 +1,3 @@
-using Asp.Versioning;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using Umbraco.Cms.Api.Common.OpenApi;
 using Umbraco.Cms.Api.Management.OpenApi;
 using Umbraco.Cms.Core.Composing;
@@ -16,41 +9,22 @@ namespace UmbHost.Cloudflare.Purge.Composers
     {
         public void Compose(IUmbracoBuilder builder)
         {
-
-            builder.Services.AddSingleton<IOperationIdHandler, CustomOperationHandler>();
-
-            builder.Services.Configure<SwaggerGenOptions>(opt =>
-            {
-                opt.SwaggerDoc(Constants.ApiName, new OpenApiInfo
-                {
-                    Title = Constants.ApiTitle,
-                    Description = Constants.ApiDescription,
-                    Version = Constants.ApiVersion,
-                });
-                opt.OperationFilter<UmbHostCloudflarePurgeOperationSecurityFilter>();
-            });
-        }
-
-        public class UmbHostCloudflarePurgeOperationSecurityFilter : BackOfficeSecurityRequirementsOperationFilterBase
-        {
-            protected override string ApiName => Constants.ApiName;
-        }
-
-        // This is used to generate nice operation IDs in our swagger json file
-        // So that the gnerated TypeScript client has nice method names and not too verbose
-        // https://docs.umbraco.com/umbraco-cms/tutorials/creating-a-backoffice-api/umbraco-schema-and-operation-ids#operation-ids
-        public class CustomOperationHandler : OperationIdHandler
-        {
-            public CustomOperationHandler(IOptions<ApiVersioningOptions> apiVersioningOptions) : base(apiVersioningOptions)
-            {
-            }
-
-            protected override bool CanHandle(ApiDescription apiDescription, ControllerActionDescriptor controllerActionDescriptor)
-            {
-                return controllerActionDescriptor.ControllerTypeInfo.Namespace?.StartsWith("UmbHost.Cloudflare.Purge.Controllers", comparisonType: StringComparison.InvariantCultureIgnoreCase) is true;
-            }
-
-            public override string Handle(ApiDescription apiDescription) => $"{apiDescription.ActionDescriptor.RouteValues["action"]}";
+            // Umbraco 18 replaced the Swashbuckle-based OpenAPI setup with the native
+            // Microsoft.AspNetCore.OpenApi pipeline. AddBackOfficeOpenApiDocument applies Umbraco's
+            // defaults (MapToApi filtering, operation IDs via UmbracoOperationIdTransformer, schema
+            // naming, tagging and UI registration); WithBackOfficeAuthentication adds the back office
+            // security requirements that the old BackOfficeSecurityRequirementsOperationFilterBase did.
+            builder.AddBackOfficeOpenApiDocument(
+                Constants.ApiName,
+                document => document
+                    .WithTitle(Constants.ApiTitle)
+                    .WithBackOfficeAuthentication()
+                    .ConfigureOpenApiOptions(options => options.AddDocumentTransformer((doc, _, _) =>
+                    {
+                        doc.Info.Description = Constants.ApiDescription;
+                        doc.Info.Version = Constants.ApiVersion;
+                        return Task.CompletedTask;
+                    })));
         }
     }
 }
