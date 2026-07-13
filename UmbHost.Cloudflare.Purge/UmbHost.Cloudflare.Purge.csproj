@@ -10,7 +10,24 @@
     <PackageId>UmbHost.Cloudflare.Purge</PackageId>
     <Product>UmbHost.Cloudflare.Purge</Product>
     <Title>UmbHost.Cloudflare.Purge</Title>
+    <Authors>UmbHost Limited</Authors>
+    <Company>UmbHost Limited</Company>
+    <Copyright>(c) $([System.DateTime]::Now.ToString(`yyyy`)) UmbHost Limited</Copyright>
+    <Description>Purge the Cloudflare CDN from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items</Description>
+    <PackageProjectUrl>https://umbhost.net</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/UmbHost/UmbHost.Cloudflare.Purge</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>umbraco-marketplace;umbraco;cloudflare;cache;purge</PackageTags>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
 
 
   <ItemGroup>

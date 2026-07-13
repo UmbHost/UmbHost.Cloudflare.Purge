@@ -1,6 +1,6 @@
 # UmbHost.Cloudflare.Purge
 
-Purge the Cloudflare CDN on from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items
+Purge the Cloudflare CDN from the Tree, Dashboard and on Publish, Unpublish and Delete of Content and Media items
 
 ## Getting started
 
@@ -8,7 +8,7 @@ Only long term support (LTS) versions for Umbraco are officially supported.
 
 Community contributions for short term support versions (STS) are welcome.
 
-Currently it has been officially tested against Umbraco v13.
+Currently it has been officially tested against Umbraco v17 (LTS).
 
 ## Installation
 
@@ -29,6 +29,6 @@ This project is maintained by [UmbHost Limited](https://umbhost.net) and contrib
 
 ## License
 
-Copyright &copy; 2024 [UmbHost Limited](https://umbhost.net), and other contributors
+Copyright &copy; 2026 [UmbHost Limited](https://umbhost.net), and other contributors
 
 Licensed under the MIT license
