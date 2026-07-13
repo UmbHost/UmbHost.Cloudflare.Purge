@@ -10,7 +10,7 @@ namespace UmbHost.Cloudflare.Purge.Models.Settings
         [JsonPropertyName("value")]
         public SettingsValueEnum Value { get; set; }
         [JsonPropertyName("modified_on")]
-        public DateTime ModifiedOn { get; set; }
+        public DateTime? ModifiedOn { get; set; }
         [JsonPropertyName("time_remaining")]
         public int TimeRemaining { get; set; }
         [JsonPropertyName("editable")]
