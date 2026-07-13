@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+      - '!v*-*'   # exclude pre-release tags (e.g. v2.1.0-beta1) — handled by the prerelease workflow
 
 jobs:
 
