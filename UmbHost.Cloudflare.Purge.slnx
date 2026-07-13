@@ -4,6 +4,6 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="UmbHost.Cloudflare.Purge.TestSite17/UmbHost.Cloudflare.Purge.TestSite17.csproj" />
+  <Project Path="UmbHost.Cloudflare.Purge.TestSite18/UmbHost.Cloudflare.Purge.TestSite18.csproj" />
   <Project Path="UmbHost.Cloudflare.Purge/UmbHost.Cloudflare.Purge.csproj" />
 </Solution>
