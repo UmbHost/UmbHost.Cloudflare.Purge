@@ -1,7 +1,7 @@
 assembly-versioning-scheme: MajorMinorPatch
 mode: ContinuousDeployment  # Global mode for automatic versioning
 
-next-version: 1.2.1  # Base version for the project
+next-version: 2.0.0  # Base version for the Umbraco 17 (v17) line
 branches:
   main:
     regex: ^main$
