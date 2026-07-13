@@ -1,8 +1,8 @@
 import { nothing as o, html as r, css as $, state as s, customElement as O } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement as P } from "@umbraco-cms/backoffice/lit-element";
-import "./config-status-alert.element-D98q-Vp6.js";
+import "./config-status-alert.element-CZGOBUqV.js";
 import { UmbChangeEvent as b } from "@umbraco-cms/backoffice/event";
-import { UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT as T } from "./caching-workspace.context-C9ueVYU8.js";
+import { UMB_HOST_CLOUDFLARE_PURGE_CACHING_CONTEXT as T } from "./caching-workspace.context-DW9kdMPe.js";
 var U = Object.defineProperty, M = Object.getOwnPropertyDescriptor, w = (l) => {
   throw TypeError(l);
 }, a = (l, e, i, u) => {
@@ -188,7 +188,7 @@ h = /* @__PURE__ */ new WeakSet();
 C = async function(l) {
   var u, d;
   const e = l.target, i = (u = this.browserCacheTtlOptions) == null ? void 0 : u.find((c) => c.value === Number(e.value));
-  i && (await ((d = p(this, n)) == null ? void 0 : d.toggleBrowserCacheTtl(i.value)), this.dispatchEvent(new b()));
+  i && (await ((d = p(this, n)) == null ? void 0 : d.toggleBrowserCacheTtl(Number(i.value))), this.dispatchEvent(new b()));
 };
 y = async function(l) {
   var e;
@@ -306,4 +306,4 @@ t = a([
 export {
   t as default
 };
-//# sourceMappingURL=caching.element-RxjtIuSY.js.map
+//# sourceMappingURL=caching.element-_tu1dzKe.js.map

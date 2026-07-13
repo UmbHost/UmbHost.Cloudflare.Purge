@@ -1,6 +1,6 @@
 import { css as C, state as p, customElement as z, nothing as h, html as u } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement as w } from "@umbraco-cms/backoffice/lit-element";
-import { UmbHostCloudflarePurgeRepository as y } from "./purge.repository-CdCatEKW.js";
+import { UmbHostCloudflarePurgeRepository as y } from "./purge.repository-C5lnV6pv.js";
 var P = Object.defineProperty, k = Object.getOwnPropertyDescriptor, m = (e) => {
   throw TypeError(e);
 }, c = (e, r, t, i) => {
@@ -91,4 +91,4 @@ c([
 o = c([
   z("umbhost-cloudflare-purge-config-status-alert")
 ], o);
-//# sourceMappingURL=config-status-alert.element-D98q-Vp6.js.map
+//# sourceMappingURL=config-status-alert.element-CZGOBUqV.js.map

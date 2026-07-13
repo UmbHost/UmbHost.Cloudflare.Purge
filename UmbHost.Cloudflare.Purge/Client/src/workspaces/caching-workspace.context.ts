@@ -96,7 +96,7 @@ export class UmbHostCloudflarePurgeCachingContext extends UmbContextBase {
                 alwaysOnlineUpdated: this.#formatDate(settings?.alwaysOnline?.modified_on),
                 developerModeValue: settings?.developmentMode?.value.toLowerCase() === 'on',
                 developerModeUpdated: this.#formatDate(settings?.developmentMode?.modified_on),
-                cachingLevelValue: settings?.cacheLevel?.value.toLowerCase(),
+                cachingLevelValue: settings?.cacheLevel?.value?.toLowerCase(),
                 cachingLevelUpdated: this.#formatDate(settings?.cacheLevel?.modified_on),
             });
         } finally {
@@ -155,7 +155,7 @@ export class UmbHostCloudflarePurgeCachingContext extends UmbContextBase {
             const { data, error } = await this.#repository.toggleCachingLevel({ zoneId: this.#state.getValue().zoneId, requestBody: { value } });
             if (!error && data) {
                 this.#state.update({
-                    cachingLevelValue: data.value.toLowerCase(),
+                    cachingLevelValue: data.value?.toLowerCase(),
                     cachingLevelUpdated: this.#formatDate(data.modified_on),
                 });
             }

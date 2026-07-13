@@ -82,22 +82,22 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 			this.#context = context;
 			if (!context) return;
 
-			this.observe(context.zones, (value) => { this.zones = value; });
-			this.observe(context.firstLoad, (value) => { this.firstLoad = value; });
-			this.observe(context.loading, (value) => { this.loading = value; });
-			this.observe(context.browserCacheTtlOptions, (value) => { this.browserCacheTtlOptions = value; });
-			this.observe(context.browserCacheTtlValue, (value) => { this.browserCacheTtlValue = value; });
-			this.observe(context.browserCacheTtlUpdated, (value) => { this.browserCacheTtlUpdated = value; });
-			this.observe(context.browserCacheTtlLoading, (value) => { this.browserCacheTtlLoading = value; });
-			this.observe(context.alwaysOnlineValue, (value) => { this.alwaysOnlineValue = value; });
-			this.observe(context.alwaysOnlineUpdated, (value) => { this.alwaysOnlineUpdated = value; });
-			this.observe(context.alwaysOnlineLoading, (value) => { this.alwaysOnlineLoading = value; });
-			this.observe(context.developerModeValue, (value) => { this.developerModeValue = value; });
-			this.observe(context.developerModeUpdated, (value) => { this.developerModeUpdated = value; });
-			this.observe(context.developerModeLoading, (value) => { this.developerModeLoading = value; });
-			this.observe(context.cachingLevelValue, (value) => { this.cachingLevelValue = value; });
-			this.observe(context.cachingLevelUpdated, (value) => { this.cachingLevelUpdated = value; });
-			this.observe(context.cachingLevelLoading, (value) => { this.cachingLevelLoading = value; });
+			this.observe(context.zones, (value: UmbHostCloudflarePurgeZoneOption[] | undefined) => { this.zones = value; });
+			this.observe(context.firstLoad, (value: boolean | undefined) => { this.firstLoad = value; });
+			this.observe(context.loading, (value: boolean | undefined) => { this.loading = value; });
+			this.observe(context.browserCacheTtlOptions, (value: BrowserTtlOptionsResponse | undefined) => { this.browserCacheTtlOptions = value; });
+			this.observe(context.browserCacheTtlValue, (value: number | undefined) => { this.browserCacheTtlValue = value; });
+			this.observe(context.browserCacheTtlUpdated, (value: string | undefined) => { this.browserCacheTtlUpdated = value; });
+			this.observe(context.browserCacheTtlLoading, (value: boolean | undefined) => { this.browserCacheTtlLoading = value; });
+			this.observe(context.alwaysOnlineValue, (value: boolean | undefined) => { this.alwaysOnlineValue = value; });
+			this.observe(context.alwaysOnlineUpdated, (value: string | undefined) => { this.alwaysOnlineUpdated = value; });
+			this.observe(context.alwaysOnlineLoading, (value: boolean | undefined) => { this.alwaysOnlineLoading = value; });
+			this.observe(context.developerModeValue, (value: boolean | undefined) => { this.developerModeValue = value; });
+			this.observe(context.developerModeUpdated, (value: string | undefined) => { this.developerModeUpdated = value; });
+			this.observe(context.developerModeLoading, (value: boolean | undefined) => { this.developerModeLoading = value; });
+			this.observe(context.cachingLevelValue, (value: string | undefined) => { this.cachingLevelValue = value; });
+			this.observe(context.cachingLevelUpdated, (value: string | undefined) => { this.cachingLevelUpdated = value; });
+			this.observe(context.cachingLevelLoading, (value: boolean | undefined) => { this.cachingLevelLoading = value; });
 		});
 	}
 
@@ -118,7 +118,7 @@ export default class UmbHostCloudflarePurgeCachingViewElement extends UmbLitElem
 		const selectedOption = this.browserCacheTtlOptions?.find(option => option.value === Number(select.value));
 		if (!selectedOption) return;
 
-		await this.#context?.toggleBrowserCacheTtl(selectedOption.value);
+		await this.#context?.toggleBrowserCacheTtl(Number(selectedOption.value));
 		this.dispatchEvent(new UmbChangeEvent());
 	}
 

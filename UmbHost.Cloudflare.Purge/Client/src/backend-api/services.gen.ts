@@ -7,7 +7,7 @@ import type { BrowserTtlOptionsResponse, GetCacheSettingsData, GetCacheSettingsR
 
 export class V1Resource {
     /**
-     * @returns unknown OK
+     * @returns EnumDescription OK
      * @throws ApiError
      */
     public static browserTtlOptions(): CancelablePromise<BrowserTtlOptionsResponse> {
@@ -23,7 +23,7 @@ export class V1Resource {
     /**
      * @param data The data for the request.
      * @param data.zoneId
-     * @returns unknown OK
+     * @returns AllSettings OK
      * @throws ApiError
      */
     public static getCacheSettings(data: GetCacheSettingsData = {}): CancelablePromise<GetCacheSettingsResponse> {
@@ -41,7 +41,7 @@ export class V1Resource {
     }
     
     /**
-     * @returns unknown OK
+     * @returns UmbHostCloudflarePurgeZone OK
      * @throws ApiError
      */
     public static getZones(): CancelablePromise<GetZonesResponse> {
@@ -56,12 +56,12 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
-     * @param data.zoneId
      * @param data.requestBody
-     * @returns unknown OK
+     * @param data.zoneId
+     * @returns AlwaysOnline OK
      * @throws ApiError
      */
-    public static toggleAlwaysOnline(data: ToggleAlwaysOnlineData = {}): CancelablePromise<ToggleAlwaysOnlineResponse> {
+    public static toggleAlwaysOnline(data: ToggleAlwaysOnlineData): CancelablePromise<ToggleAlwaysOnlineResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline',
@@ -79,12 +79,12 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
-     * @param data.zoneId
      * @param data.requestBody
-     * @returns unknown OK
+     * @param data.zoneId
+     * @returns BrowserCacheTtl OK
      * @throws ApiError
      */
-    public static toggleBrowserCacheTtl(data: ToggleBrowserCacheTtlData = {}): CancelablePromise<ToggleBrowserCacheTtlResponse> {
+    public static toggleBrowserCacheTtl(data: ToggleBrowserCacheTtlData): CancelablePromise<ToggleBrowserCacheTtlResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl',
@@ -102,12 +102,12 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
-     * @param data.zoneId
      * @param data.requestBody
-     * @returns unknown OK
+     * @param data.zoneId
+     * @returns CacheLevel OK
      * @throws ApiError
      */
-    public static toggleCachingLevel(data: ToggleCachingLevelData = {}): CancelablePromise<ToggleCachingLevelResponse> {
+    public static toggleCachingLevel(data: ToggleCachingLevelData): CancelablePromise<ToggleCachingLevelResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel',
@@ -125,12 +125,12 @@ export class V1Resource {
     
     /**
      * @param data The data for the request.
-     * @param data.zoneId
      * @param data.requestBody
-     * @returns unknown OK
+     * @param data.zoneId
+     * @returns DevelopmentMode OK
      * @throws ApiError
      */
-    public static toggleDevelopmentMode(data: ToggleDevelopmentModeData = {}): CancelablePromise<ToggleDevelopmentModeResponse> {
+    public static toggleDevelopmentMode(data: ToggleDevelopmentModeData): CancelablePromise<ToggleDevelopmentModeResponse> {
         return __request(OpenAPI, {
             method: 'PATCH',
             url: '/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode',
@@ -147,7 +147,7 @@ export class V1Resource {
     }
     
     /**
-     * @returns unknown OK
+     * @returns ConfigurationStatus OK
      * @throws ApiError
      */
     public static getConfigurationStatus(): CancelablePromise<GetConfigurationStatusResponse> {

@@ -1,7 +1,7 @@
 import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
-  input: 'https://localhost:44383/umbraco/swagger/umbhostcloudflarepurge/swagger.json',
+  input: 'https://localhost:44383/umbraco/openapi/umbhostcloudflarepurge.json',
   output: 'src/backend-api',
   //format : false,
   //enums : 'javascript', // Typescript not recommended https://heyapi.vercel.app/openapi-ts/configuration.html#enums

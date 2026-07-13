@@ -5,7 +5,7 @@ var C = (r, e, t) => e.has(r) || j("Cannot " + t);
 var l = (r, e, t) => (C(r, e, "read from private field"), t ? t.call(r) : e.get(r)), R = (r, e, t) => e.has(r) ? j("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(r) : e.set(r, t), v = (r, e, t, o) => (C(r, e, "write to private field"), o ? o.call(r, t) : e.set(r, t), t), d = (r, e, t) => (C(r, e, "access private method"), t);
 import { UmbControllerBase as A } from "@umbraco-cms/backoffice/class-api";
 import { tryExecute as I } from "@umbraco-cms/backoffice/resources";
-import { O as h } from "./entry-Byy6ghBR.js";
+import { O as h } from "./entry-KJZMdg1U.js";
 class B extends Error {
   constructor(e, t, o) {
     super(o), this.name = "ApiError", this.url = t.url, this.status = t.status, this.statusText = t.statusText, this.body = t.body, this.request = e;
@@ -237,7 +237,7 @@ const b = (r) => typeof r == "string", q = (r) => b(r) && r !== "", w = (r) => r
 });
 class y {
   /**
-   * @returns unknown OK
+   * @returns EnumDescription OK
    * @throws ApiError
    */
   static browserTtlOptions() {
@@ -252,7 +252,7 @@ class y {
   /**
    * @param data The data for the request.
    * @param data.zoneId
-   * @returns unknown OK
+   * @returns AllSettings OK
    * @throws ApiError
    */
   static getCacheSettings(e = {}) {
@@ -269,7 +269,7 @@ class y {
     });
   }
   /**
-   * @returns unknown OK
+   * @returns UmbHostCloudflarePurgeZone OK
    * @throws ApiError
    */
   static getZones() {
@@ -283,12 +283,12 @@ class y {
   }
   /**
    * @param data The data for the request.
-   * @param data.zoneId
    * @param data.requestBody
-   * @returns unknown OK
+   * @param data.zoneId
+   * @returns AlwaysOnline OK
    * @throws ApiError
    */
-  static toggleAlwaysOnline(e = {}) {
+  static toggleAlwaysOnline(e) {
     return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglealwaysonline",
@@ -305,12 +305,12 @@ class y {
   }
   /**
    * @param data The data for the request.
-   * @param data.zoneId
    * @param data.requestBody
-   * @returns unknown OK
+   * @param data.zoneId
+   * @returns BrowserCacheTtl OK
    * @throws ApiError
    */
-  static toggleBrowserCacheTtl(e = {}) {
+  static toggleBrowserCacheTtl(e) {
     return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglebrowsercachettl",
@@ -327,12 +327,12 @@ class y {
   }
   /**
    * @param data The data for the request.
-   * @param data.zoneId
    * @param data.requestBody
-   * @returns unknown OK
+   * @param data.zoneId
+   * @returns CacheLevel OK
    * @throws ApiError
    */
-  static toggleCachingLevel(e = {}) {
+  static toggleCachingLevel(e) {
     return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/togglecachinglevel",
@@ -349,12 +349,12 @@ class y {
   }
   /**
    * @param data The data for the request.
-   * @param data.zoneId
    * @param data.requestBody
-   * @returns unknown OK
+   * @param data.zoneId
+   * @returns DevelopmentMode OK
    * @throws ApiError
    */
-  static toggleDevelopmentMode(e = {}) {
+  static toggleDevelopmentMode(e) {
     return g(h, {
       method: "PATCH",
       url: "/umbraco/umbhostcloudflarepurge/v1.0/cache-settings/toggledevelopmentmode",
@@ -370,7 +370,7 @@ class y {
     });
   }
   /**
-   * @returns unknown OK
+   * @returns ConfigurationStatus OK
    * @throws ApiError
    */
   static getConfigurationStatus() {
@@ -546,4 +546,4 @@ export {
   Q as UmbHostCloudflarePurgeRepository,
   Q as api
 };
-//# sourceMappingURL=purge.repository-CdCatEKW.js.map
+//# sourceMappingURL=purge.repository-C5lnV6pv.js.map
