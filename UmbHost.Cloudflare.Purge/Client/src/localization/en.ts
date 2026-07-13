@@ -79,5 +79,11 @@ export default {
 		confignotconfiguredzones: "At least one zone (domain and zone ID)",
 		configdisabledtitle: "Cloudflare CDN Purge is disabled",
 		configdisabledcontent: "The package has been disabled in configuration. Purging and cache settings are unavailable until it is re-enabled.",
-	}
+	},
+	// Localizes the permission group heading shown in the user-group editor. The backoffice
+	// resolves an entityUserPermission's `group` via #actionCategories_<group>; this area
+	// merges with the core actionCategories dictionary.
+	actionCategories: {
+		umbHostCloudflarePurge: "Cloudflare CDN Purge",
+	},
 } as UmbLocalizationDictionary;

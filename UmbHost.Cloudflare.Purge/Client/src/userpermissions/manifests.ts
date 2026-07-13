@@ -9,7 +9,7 @@ const purgeContentTreeItems = {
       verbs: ["UmbHostCloudflarePurgeContent"],
       label: "#umbhostCloudflarePurge_usercontentpermissionslabel",
       description: "#umbhostCloudflarePurge_usercontentpermissionsdescription",
-      group: "UmbHost Cloudflare Purge",
+      group: "umbHostCloudflarePurge",
     },
   }
 
@@ -26,7 +26,7 @@ const purgeMediaTreeItems = {
       verbs: ["UmbHostCloudflarePurgeMedia"],
       label: "#umbhostCloudflarePurge_usermediapermissionslabel",
       description: "#umbhostCloudflarePurge_usermediapermissionsdescription",
-      group: "UmbHost Cloudflare Purge",
+      group: "umbHostCloudflarePurge",
     },
   }
 

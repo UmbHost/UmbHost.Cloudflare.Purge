@@ -9,7 +9,7 @@ import { UmbLocalizationController as N } from "@umbraco-cms/backoffice/localiza
 import { UMB_ACTION_EVENT_CONTEXT as q } from "@umbraco-cms/backoffice/action";
 import { UMB_NOTIFICATION_CONTEXT as A } from "@umbraco-cms/backoffice/notification";
 import { UmbMediaItemRepository as O } from "@umbraco-cms/backoffice/media";
-import { UmbHostCloudflarePurgeRepository as P } from "./purge.repository-CdCatEKW.js";
+import { UmbHostCloudflarePurgeRepository as P } from "./purge.repository-Dor1msDS.js";
 var u, r, h, s, _, w, E;
 class k extends b {
   constructor(t, n) {
@@ -75,4 +75,4 @@ export {
   k as PurgeCdnMediaEntityAction,
   k as api
 };
-//# sourceMappingURL=purge-media-tree-entity.action-BJA0ztfB.js.map
+//# sourceMappingURL=purge-media-tree-entity.action-CXpF9OpE.js.map

@@ -5,7 +5,7 @@ var C = (r, e, t) => e.has(r) || j("Cannot " + t);
 var l = (r, e, t) => (C(r, e, "read from private field"), t ? t.call(r) : e.get(r)), R = (r, e, t) => e.has(r) ? j("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(r) : e.set(r, t), v = (r, e, t, o) => (C(r, e, "write to private field"), o ? o.call(r, t) : e.set(r, t), t), d = (r, e, t) => (C(r, e, "access private method"), t);
 import { UmbControllerBase as A } from "@umbraco-cms/backoffice/class-api";
 import { tryExecute as I } from "@umbraco-cms/backoffice/resources";
-import { O as h } from "./entry-Byy6ghBR.js";
+import { O as h } from "./entry-C8BXjPez.js";
 class B extends Error {
   constructor(e, t, o) {
     super(o), this.name = "ApiError", this.url = t.url, this.status = t.status, this.statusText = t.statusText, this.body = t.body, this.request = e;
@@ -546,4 +546,4 @@ export {
   Q as UmbHostCloudflarePurgeRepository,
   Q as api
 };
-//# sourceMappingURL=purge.repository-CdCatEKW.js.map
+//# sourceMappingURL=purge.repository-Dor1msDS.js.map

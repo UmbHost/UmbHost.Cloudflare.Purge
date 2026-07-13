@@ -1,6 +1,6 @@
-import { UMB_AUTH_CONTEXT as l } from "@umbraco-cms/backoffice/auth";
+import { UMB_AUTH_CONTEXT as u } from "@umbraco-cms/backoffice/auth";
 import { UMB_DOCUMENT_ENTITY_TYPE as i } from "@umbraco-cms/backoffice/document";
-import { UMB_MEDIA_ENTITY_TYPE as u } from "@umbraco-cms/backoffice/media";
+import { UMB_MEDIA_ENTITY_TYPE as l } from "@umbraco-cms/backoffice/media";
 import { UMB_SETTINGS_SECTION_ALIAS as m } from "@umbraco-cms/backoffice/settings";
 const c = {
   type: "entityAction",
@@ -8,7 +8,7 @@ const c = {
   name: "Cloudflare CDN Purge Content Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-content-tree-entity.action-BdasRTh7.js"),
+  api: () => import("./purge-content-tree-entity.action-BX7qPGR2.js"),
   forEntityTypes: [i],
   meta: {
     icon: "icon-cloud",
@@ -26,8 +26,8 @@ const c = {
   name: "Cloudflare CDN Purge Media Entity Action",
   kind: "default",
   weight: 50,
-  api: () => import("./purge-media-tree-entity.action-BJA0ztfB.js"),
-  forEntityTypes: [u],
+  api: () => import("./purge-media-tree-entity.action-CXpF9OpE.js"),
+  forEntityTypes: [l],
   meta: {
     icon: "icon-cloud",
     label: "#umbhostCloudflarePurge_entityactionlabel"
@@ -51,13 +51,13 @@ const c = {
     type: "condition",
     name: "Cloudflare CDN Purge Is Configured Condition",
     alias: r,
-    api: () => import("./is-configured.condition-CsBKcKEc.js")
+    api: () => import("./is-configured.condition-CXR6f7C4.js")
   }
 ], f = {
   type: "dashboard",
   alias: "umbhost-cloudflare-purge-dashboard",
   name: "Cloudflare CDN Purge Dashboard",
-  element: () => import("./purge-dashboard.element-CAtuHLMT.js"),
+  element: () => import("./purge-dashboard.element-EJoWbqUN.js"),
   elementName: "umbhost-cloudflare-purge-dashboard",
   forEntityTypes: [i],
   weight: 15,
@@ -99,7 +99,7 @@ const c = {
   type: "workspaceContext",
   alias: "UmbHost.CloudflarePurge.CachingContext",
   name: "Cloudflare CDN Purge Caching Context",
-  api: () => import("./caching-workspace.context-C9ueVYU8.js"),
+  api: () => import("./caching-workspace.context-D2RzgKG7.js"),
   conditions: [
     {
       alias: "Umb.Condition.WorkspaceAlias",
@@ -110,7 +110,7 @@ const c = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-overview",
   name: "Cloudflare CDN Purge Settings Overview",
-  element: () => import("./overview.element-BAAhUCN4.js"),
+  element: () => import("./overview.element-DFyYM-xs.js"),
   elementName: "umbhost-cloudflare-purge-settings-overview",
   meta: {
     label: "#umbhostCloudflarePurge_settingsoverview",
@@ -127,7 +127,7 @@ const c = {
   type: "workspaceView",
   alias: "umbhost-cloudflare-purge-settings-caching",
   name: "Cloudflare CDN Purge Settings Caching",
-  element: () => import("./caching.element-RxjtIuSY.js"),
+  element: () => import("./caching.element-CbXKK6l1.js"),
   elementName: "umbhost-cloudflare-purge-settings-caching",
   meta: {
     label: "#umbhostCloudflarePurge_settingscaching",
@@ -197,7 +197,7 @@ const c = {
   meta: {
     culture: "en"
   },
-  js: () => import("./en-cwmCzk90.js")
+  js: () => import("./en-BOsW8X14.js")
 }, A = [
   S
 ], D = {
@@ -209,7 +209,7 @@ const c = {
     verbs: ["UmbHostCloudflarePurgeContent"],
     label: "#umbhostCloudflarePurge_usercontentpermissionslabel",
     description: "#umbhostCloudflarePurge_usercontentpermissionsdescription",
-    group: "UmbHost Cloudflare Purge"
+    group: "umbHostCloudflarePurge"
   }
 }, v = {
   type: "entityUserPermission",
@@ -220,7 +220,7 @@ const c = {
     verbs: ["UmbHostCloudflarePurgeMedia"],
     label: "#umbhostCloudflarePurge_usermediapermissionslabel",
     description: "#umbhostCloudflarePurge_usermediapermissionsdescription",
-    group: "UmbHost Cloudflare Purge"
+    group: "umbHostCloudflarePurge"
   }
 }, w = [
   D,
@@ -229,7 +229,7 @@ const c = {
   type: "repository",
   alias: M,
   name: "UmbHost Cloudflare Purge Repository",
-  api: () => import("./purge.repository-CdCatEKW.js")
+  api: () => import("./purge.repository-Dor1msDS.js")
 }, k = [
   O
 ];
@@ -272,7 +272,7 @@ const s = {
     response: new a()
   }
 }, W = (o, t) => {
-  o.consumeContext(l, (e) => {
+  o.consumeContext(u, (e) => {
     if (!e) return;
     const n = e.getOpenApiConfiguration();
     s.BASE = n.base ?? "", s.CREDENTIALS = n.credentials ?? "same-origin", s.WITH_CREDENTIALS = n.credentials === "include", s.TOKEN = async () => await n.token() ?? "";
@@ -282,4 +282,4 @@ export {
   s as O,
   W as o
 };
-//# sourceMappingURL=entry-Byy6ghBR.js.map
+//# sourceMappingURL=entry-C8BXjPez.js.map
