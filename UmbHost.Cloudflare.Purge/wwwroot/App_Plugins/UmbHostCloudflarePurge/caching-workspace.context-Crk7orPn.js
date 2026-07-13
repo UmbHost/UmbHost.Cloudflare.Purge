@@ -6,7 +6,7 @@ var a = (l, i, o) => (v(l, i, "read from private field"), o ? o.call(l) : i.get(
 import { UmbContextBase as U } from "@umbraco-cms/backoffice/class-api";
 import { UmbContextToken as P } from "@umbraco-cms/backoffice/context-api";
 import { UmbObjectState as V } from "@umbraco-cms/backoffice/observable-api";
-import { UmbHostCloudflarePurgeRepository as M } from "./purge.repository-C5lnV6pv.js";
+import { UmbHostCloudflarePurgeRepository as M } from "./purge.repository-NmZ86NGk.js";
 const _ = {
   zones: [],
   firstLoad: !0,
@@ -118,4 +118,4 @@ export {
   H as UmbHostCloudflarePurgeCachingContext,
   H as api
 };
-//# sourceMappingURL=caching-workspace.context-DW9kdMPe.js.map
+//# sourceMappingURL=caching-workspace.context-Crk7orPn.js.map

@@ -1,6 +1,6 @@
 import { html as s, css as m, customElement as n } from "@umbraco-cms/backoffice/external/lit";
 import { UmbLitElement as c } from "@umbraco-cms/backoffice/lit-element";
-import "./config-status-alert.element-CZGOBUqV.js";
+import "./config-status-alert.element-BXW7LxhI.js";
 var g = Object.getOwnPropertyDescriptor, b = (u, o, a, r) => {
   for (var e = r > 1 ? void 0 : r ? g(o, a) : o, t = u.length - 1, l; t >= 0; t--)
     (l = u[t]) && (e = l(e) || e);
@@ -98,4 +98,4 @@ i = b([
 export {
   i as default
 };
-//# sourceMappingURL=overview.element-CZ6dGGOi.js.map
+//# sourceMappingURL=overview.element-CLWzRGXo.js.map

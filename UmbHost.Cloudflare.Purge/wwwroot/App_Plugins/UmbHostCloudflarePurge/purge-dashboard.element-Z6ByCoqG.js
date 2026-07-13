@@ -2,7 +2,7 @@ import { ifDefined as f, html as y, css as z, state as g, customElement as w } f
 import { UmbLitElement as x } from "@umbraco-cms/backoffice/lit-element";
 import { UMB_NOTIFICATION_CONTEXT as U } from "@umbraco-cms/backoffice/notification";
 import { UMB_MODAL_MANAGER_CONTEXT as E, UMB_CONFIRM_MODAL as b } from "@umbraco-cms/backoffice/modal";
-import { UmbHostCloudflarePurgeRepository as S } from "./purge.repository-C5lnV6pv.js";
+import { UmbHostCloudflarePurgeRepository as S } from "./purge.repository-NmZ86NGk.js";
 var B = Object.defineProperty, k = Object.getOwnPropertyDescriptor, v = (t) => {
   throw TypeError(t);
 }, h = (t, e, r, i) => {
@@ -139,4 +139,4 @@ export {
   s as UmbHostCloudflarePurgeDashboardElement,
   N as default
 };
-//# sourceMappingURL=purge-dashboard.element-C8rutBhL.js.map
+//# sourceMappingURL=purge-dashboard.element-Z6ByCoqG.js.map
